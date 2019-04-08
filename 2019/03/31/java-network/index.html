@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>网络 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="概述 网络ip地址 1234567891011121314151.获取主机的一个ip(二进制)InetAddress address=InetAddress.getByName(&amp;quot;host&amp;quot;)byte[] addressBytes=address.getAddress()2.获取本地主机ipInetAddress address=InetAddress.getLocalHost">
+  <meta name="description" content="概述 网络ip地址1234567891011121314151.获取主机的一个ip(二进制)InetAddress address=InetAddress.getByName(&amp;quot;host&amp;quot;)byte[] addressBytes=address.getAddress()2.获取本地主机ipInetAddress address=InetAddress.getLocalHost(">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络">
 <meta property="og:url" content="http://yoursite.com/2019/03/31/java-network/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="概述 网络ip地址 1234567891011121314151.获取主机的一个ip(二进制)InetAddress address=InetAddress.getByName(&amp;quot;host&amp;quot;)byte[] addressBytes=address.getAddress()2.获取本地主机ipInetAddress address=InetAddress.getLocalHost">
+<meta property="og:description" content="概述 网络ip地址1234567891011121314151.获取主机的一个ip(二进制)InetAddress address=InetAddress.getByName(&amp;quot;host&amp;quot;)byte[] addressBytes=address.getAddress()2.获取本地主机ipInetAddress address=InetAddress.getLocalHost(">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/java_network.gif">
 <meta property="og:image" content="http://yoursite.com/images/liunx_epoll_datastruct.png">
 <meta property="og:image" content="http://yoursite.com/images/java_network_序列化.png">
-<meta property="og:updated_time" content="2019-04-03T05:57:46.953Z">
+<meta property="og:updated_time" content="2019-04-08T15:01:23.249Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络">
-<meta name="twitter:description" content="概述 网络ip地址 1234567891011121314151.获取主机的一个ip(二进制)InetAddress address=InetAddress.getByName(&amp;quot;host&amp;quot;)byte[] addressBytes=address.getAddress()2.获取本地主机ipInetAddress address=InetAddress.getLocalHost">
+<meta name="twitter:description" content="概述 网络ip地址1234567891011121314151.获取主机的一个ip(二进制)InetAddress address=InetAddress.getByName(&amp;quot;host&amp;quot;)byte[] addressBytes=address.getAddress()2.获取本地主机ipInetAddress address=InetAddress.getLocalHost(">
 <meta name="twitter:image" content="http://yoursite.com/images/java_network.gif">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
@@ -180,9 +180,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><ul>
-<li><p>网络ip地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.获取主机的一个ip(二进制)</span><br><span class="line">InetAddress address=InetAddress.getByName(&quot;host&quot;)</span><br><span class="line">byte[] addressBytes=address.getAddress()</span><br><span class="line"></span><br><span class="line">2.获取本地主机ip</span><br><span class="line">InetAddress address=InetAddress.getLocalHost() //获取本机ip类似ipconfig</span><br><span class="line"></span><br><span class="line">3.获取主机所有地址</span><br><span class="line">InetAddress[] addresses=InetAddress.getAllByName(&quot;host&quot;)</span><br><span class="line"></span><br><span class="line">4.获取主机名</span><br><span class="line">String host=address.getHostName()</span><br><span class="line"></span><br><span class="line">5.获取十进制ip</span><br><span class="line">String ip=address.getHostAddress()</span><br></pre></td></tr></table></figure>
+<li>网络ip地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.获取主机的一个ip(二进制)</span><br><span class="line">InetAddress address=InetAddress.getByName(&quot;host&quot;)</span><br><span class="line">byte[] addressBytes=address.getAddress()</span><br><span class="line"></span><br><span class="line">2.获取本地主机ip</span><br><span class="line">InetAddress address=InetAddress.getLocalHost() //获取本机ip类似ipconfig</span><br><span class="line"></span><br><span class="line">3.获取主机所有地址</span><br><span class="line">InetAddress[] addresses=InetAddress.getAllByName(&quot;host&quot;)</span><br><span class="line"></span><br><span class="line">4.获取主机名</span><br><span class="line">String host=address.getHostName()</span><br><span class="line"></span><br><span class="line">5.获取十进制ip</span><br><span class="line">String ip=address.getHostAddress()</span><br></pre></td></tr></table></figure>
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li><p>实现客户端<br>telnet客户端。在网络编程中，只要编写号服务器端。使用telnet来作为客户端连接服务器进行测试。<br>比如telent hostname port即可测试</p>
 </li>
 <li><p>实现服务端</p>

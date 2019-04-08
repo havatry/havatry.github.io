@@ -152,20 +152,20 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-spring-source-container" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-designmode-state" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-container/">Spring ApplicationContext容器</a>
+      <a class="article-title" href="/2019/03/31/designmode-state/">状态模式</a>
     </h1>
   
 
         
-        <a href="/2019/03/29/spring-source-container/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:59:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
+        <a href="/2019/03/31/designmode-state/" class="archive-article-date">
+  	<time datetime="2019-03-31T07:20:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
 </a>
         
       </header>
@@ -173,626 +173,32 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>1.环境准备，对系统属性和环境变量的初始化以及验证<ul>
-<li>初始化属性资源（子类需要覆盖的方法），如getEnvironment().setRequiredProperties(“ABC”);</li>
-<li>验证环境中需要验证的变量，如”ABC”</li>
-</ul>
-</li>
-<li>2.获取beanFactory，实现其所有功能<ul>
-<li>2.1初始化beanFactory,进行xml文件读取并记录在当前属性中<ul>
-<li>2.1.1创建defaultListableBeanFactoy,因为该类是容器的基础，首先初始化</li>
-<li>2.2设置序列化id号</li>
-<li>2.3定制beanFactory<ul>
-<li>2.3.1 依据条件设置是否允许同名的不同定义的对象覆盖</li>
-<li>2.3.2 依据条件设置是否允许bean之间存在循环依赖</li>
-<li>2.3.3 提供支持@Autowired和@Qualifier的支持</li>
-</ul>
-</li>
-<li>2.4加载beanDefinition<ul>
-<li>2.4.1 初始化xmlbeandefinitionreader</li>
-<li>2.4.2 对beandefinitionreader进行一些设置</li>
-<li>2.4.3 加载beanDefinition实现<ul>
-<li>2.4.3.1 加载资源文件的beanDefinitions</li>
-<li>2.4.3.2 加载路径文件的beanDefinitions</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>2.5将beanFactory设置为全局变量</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>3.填充beanfactory的功能<ul>
-<li>3.1设置beanfactory的表达式语言的支持spel(这会在bean创建时候的属性填充那里，应用属性值填充到bean的时候会使用解析器来调用spel的解析)</li>
-<li>3.2设置beanfactory的属性编辑器的支持propertyeditorregistrar(1.继承propertyeditorsupport重写setAsText方法，并注册到customeditorconfigurer对象的customeditors属性中;2.实现propertyeditorregistrar接口，实现registercustomeditors方法，注册到customeditorconfigurer对象的propertyeditorregistrars属性中)</li>
-<li>这在创建bean的时候调用createbeaninstance方法，调用初始化bean，调用initwrapper方法后注册的。使用是在为bean填充属性的时候</li>
-<li>3.3.添加applicationcontextawareprocessor处理器，bean后处理器<ul>
-<li>3.3.1 postProcesseforeInitialization,bean初始化处理前<ul>
-<li>3.3.1.1 处理实现aware接口的bean<ul>
-<li>3.3.1.1.1 为这些bean设置资源</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>3.3.1.2 postProcesseforeInitialization,bean初始化处理后</li>
-</ul>
-</li>
-<li>3.4忽略为3.3中的bean设置依赖</li>
-<li>3.5注册3.3中的bean依赖</li>
-</ul>
-</li>
-<li>4.子类需要覆盖的方法</li>
-<li>5.激活beanFactory后处理器（激活是调用beanFactoryPostProcessor的postProcessBeanFactory方法）<ul>
-<li>5.1 如果是BeanDefintionRegistry类型的beanFactory,则处理</li>
-<li>5.2对于硬编码注册的后处理器<ul>
-<li>5.2.1 如果是BeanDefintionRegistryPostProcessor类型，则调用器postProcessBeanDefinitionRegistry方法，记录在registryPostProcessors中</li>
-<li>5.2.2 否则是普通的，记录在regularPostProcessors中</li>
-</ul>
-</li>
-<li>5.3对于配置文件注册的后处理器（排序）<ul>
-<li>5.3.1调用器postPrrocessBeanDefinitionRegisrt方法</li>
-</ul>
-</li>
-<li>5.4激活5.2和5.3中的beanFactory后处理器</li>
-<li>5.5按照优先级排序后激活</li>
-<li>5.6按照order属性排序后激活</li>
-<li>5.7无序激活</li>
-</ul>
-</li>
-<li>6.注册BeanPostProcessors<ul>
-<li>6.1遍历postProcessor的名称</li>
-<li>6.2如果是按照优先级顺序则加入priorityorderedPostProcessors和internalPostProcessors中;如果是order顺序则加入orderedPostProcessorName；否则加入nonOrderedPostProcessorNames中</li>
-<li>6.3排序优先级顺序的后处理器注册</li>
-<li>6.4遍历Ordered的BeanPostProcessor，将其中具有合并属性的bean加入到internalPostProcessors中</li>
-<li>6.5排序Orderd顺序的后处理器注册</li>
-<li>6.6排序无序的后处理器注册</li>
-<li>6.7排序合并的处理器注册</li>
-<li>6.8添加ApplicationListenerDetector监听探测器</li>
-</ul>
-</li>
-<li>7.初始化消息资源<ul>
-<li>7.1如果在配置文件中含有id为messagesource的bean，则获取。否则使用delegatingMessageSource</li>
-</ul>
-</li>
-<li>8.初始化ApplicationEventMulticast广播器<ul>
-<li>8.1如果在配置文件含有id围殴指定bean，则获取.否则使用默认的SimpleApplicationEventMulticaster广播器</li>
-<li>广播器中含有multicastEvent方法，用来广播给ApplicationListener类型的监听器，触发他们的onApllicationEvent方法</li>
-</ul>
-</li>
-<li>9.子类需要覆盖的方法</li>
-<li>10.注册监听器<ul>
-<li>9.1向广播器中添加监听器</li>
-</ul>
-</li>
-<li>11.初始化非延迟加载的单例（**)</li>
-<li>12.最终刷新<ul>
-<li>12.1初始化lifecycleProcessor,与所有声明的bean的周期做状态更新。如果配置文件中包含指定id的bean，将该bean作为lifecycleProcessor。否则使用默认的defaultcycleprocessor。</li>
-<li>12.2启动所有实现了lifecycle接口的bean</li>
-<li>12.3发布事件，ApplicationContext初始化完成</li>
-</ul>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-container/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring-source-label" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-label/">Spring 标签解析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/29/spring-source-label/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:44:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>1.importBeanDefinitionResource</p>
+<li><p>概述</p>
 <ul>
-<li>1.不存在resource属性，不处理</li>
-<li>2.解析其中的环境变量</li>
-<li>3.判断resource对应的是不是绝对路径</li>
-<li>4.考虑这两种情况进行加载beanDefinition</li>
-<li>5.通知监听器</li>
-</ul>
+<li><p>1.定义<br>又称状态对象模式<br>当一个对象内在状态改变时候允许改变行为，这个对象看起来像是改变了其类型。</p>
 </li>
-<li><p>2.processAliasRegistration</p>
-<ul>
-<li>1.找到beanName</li>
-<li>2.找到alias</li>
-<li>3.判断beanName和alias非空</li>
-<li>4.将beanName和alias注册<ul>
-<li>4.1 如果beanName和alias重名，删除对应的alias</li>
-<li>4.2 否则找出alias对应的已经注册的beanName,如果存在而且不允许覆盖，则抛出异常</li>
-<li>4.3 检查alias的循环依赖问题</li>
-<li>4.4 如果不存在循环依赖，则进行注册</li>
-</ul>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象状态角色:封装环境对象到一个特定状态所对应的行为</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">State</span></span>&#123;</span><br><span class="line">	<span class="keyword">protected</span> Context context;<span class="comment">//环境角色</span></span><br><span class="line">	<span class="comment">//忽略set方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体状态角色:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteState1</span> <span class="keyword">extends</span> <span class="title">State</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//处理行为</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//环境角色:定义客户端的接口，负责具体状态的切换</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Context</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> State STATE1=<span class="keyword">new</span> ConcreteState1();</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> State STATE2=<span class="keyword">new</span> ConcreteState2();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> State currentState;<span class="comment">//当前状态</span></span><br><span class="line">	<span class="comment">//set和get方法忽略</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle1</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//切换状态1</span></span><br><span class="line">		setCurrentState(STATE1);</span><br><span class="line">		currentState.handle();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle2</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//切换状态2</span></span><br><span class="line">		setCurrentState(STATE2);</span><br><span class="line">		currentState.handle();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>5.通知监听器</li>
-</ul>
-</li>
-<li><p>3.processBeanDefinition</p>
-<ul>
-<li>1.获取BeanDefinitionHolder</li>
-<li>2.对该beanDefinition进行装饰<ul>
-<li>2.1遍历所有属性，看看是否有适用于修饰的属性</li>
-<li>2.2遍历所有子节点，看看是否适用于修饰的属性<ul>
-<li>2.2.2 如果是默认的命名空间则不处理，因为到这里默认命名空间的已经处理完成了。<br>否则依据命名空间找到对应的处理器。如果能找到处理器，则使用它进行装饰</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>3.注册beanDefinition<ul>
-<li>3.1 获取beanName作为标识进行注册<ul>
-<li>3.1.1 如果bean是AbstractBeanDefinition类型的beanDefinition,则需要进行校验。比如bean属性中的methodOverrides是否与工厂方法并存，或者指向的方法不存在</li>
-<li>3.1.2 如果该beanDefinition已经注册了如果不允许覆盖则抛出异常。</li>
-<li>3.1.3 如果没有注册,记录下beanName，统一注册</li>
-<li>3.1.4 清空解析前留下的beanName缓存</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.通知监听器</li>
-</ul>
-</li>
-<li><p>4.doRegisterBeanDefinitions<br>  嵌套bean情况</p>
-</li>
-<li><p>5.自定义标签</p>
-<ul>
-<li>1.依据元素来获取命名空间</li>
-<li>2.根据命名空间找对应的处理器<ul>
-<li>2.1获取所有已经配置的handlerMapings<ul>
-<li>2.1.1 如果handlerMappings为空，从META-INF/Spring.handlers中获取properties填充到handlerMappings中</li>
-<li>2.1.2 如果不为空，直接返回（缓存）</li>
-</ul>
-</li>
-<li>2.2依据命名空间获取其中的handlerOrClassName</li>
-<li>2.3如果handlerOrClassName是handler，则直接返回。否则是字符串，则使用反射转换为类。调用该类对象的init()方法<br>将该类记录在handlerMappings中</li>
-</ul>
-</li>
-<li>3.1获取元素的解析器<ul>
-<li>3.1.1 获取元素名称为user</li>
-<li>3.1.2 从parses中获取对应已经使用init()方法注册的自定义解析器</li>
-</ul>
-</li>
-<li>3.2 使用自定义解析器来进行解析<ul>
-<li>3.2.1 调用parseInternal方法<ul>
-<li>3.2.1.1 设置beanClass,scope,lazyInit等属性</li>
-<li>3.2.1.2 调用自定义解析的doParse方法（模板方法）</li>
-</ul>
-</li>
-<li>3.2.2 将解析后的AbstractBeanDefinition转换为BeanDefinitionHolder并注册</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-label/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring-source-createBean" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>1.转换name获取beanName(别名或者FactoryBean)</li>
-<li>2.依据beanName找出单例的bean，在缓存中情况 getSingleton()<ul>
-<li>2.1如果允许提前曝光，则从singleFactories(beanName-&gt;ObjectFactory)中获取ObjectFactory</li>
-<li>2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getObject方法</li>
-<li>2.3将提前曝光的beanName和ObjectFactory(产生该bean的Factory)保存到earlySingleObjects(beanName-&gt;bean)中</li>
-<li>2.4删除singletonFactories中的beanName记录(互斥，因为首先从earlySingleObjects查找)</li>
-</ul>
-</li>
-<li>3.获取对应实例 getObjectForBeanInstance()<ul>
-<li>3.1如果是name是工厂name(带&amp;)，但是该bean又不是FactoryBean实例，抛出异常</li>
-<li>3.2如果想获取工厂实例或者不是FactroyBean类型，那么直接返回</li>
-<li>3.3否则从工厂bean中获取对象(getObjectForBeanInstance)<ul>
-<li>3.3.1 权限验证</li>
-<li>3.3.2 直接调用factory的getObject方法获取bean(**)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.如果单例bean不存在缓存中，则从头开始加载bean getSingle(…)<ul>
-<li>4.1检查bean是否已经加载</li>
-<li>4.2如果没有加载，记录beanName处于正在加载状态的map中singletonsCurrentlyICreation进行单例bean初始化</li>
-<li>4.3 调用createBean方法<ul>
-<li>4.3.1.1 验证以及准备覆盖的方法<ul>
-<li>4.3.1.1.1 遍历beandefinition的方法覆盖</li>
-<li>4.3.1.1.2 获取对应类中的方法名个数</li>
-<li>4.3.1.1.3 如果该方法个数为0，抛出异常。为1，设置方法没有覆盖，提前验证</li>
-</ul>
-</li>
-<li>4.3.1.2 实例化的前置处理<ul>
-<li>4.3.1.2.1 实例化前应用处理器<ul>
-<li>4.3.1.2.1.1 遍历处理器，如果是InstantiationAwareBeanPostProcessor类型，则调用其postProcessBeforeInstantiation方法</li>
-</ul>
-</li>
-<li>4.3.1.2.2 在实例化后应用处理器<ul>
-<li>4.3.1.2.2.1 遍历bean后处理器，调用其postProcessAfterInitialization方法</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.3.1.3 如果上一步的返回bean不为空，直接返回。否则进行常规的bean创建<ul>
-<li>4.3.1.3.1如果是单例bean，则先清除缓存</li>
-<li>4.3.1.3.2使用对应策略创建新的实例，如工厂方法，构造函数等<ul>
-<li>4.3.1.3.2.1 如果工厂方法不为空，使用工厂方法初始化</li>
-<li>4.3.1.3.2.2 否则使用构造函数初始化</li>
-<li>4.3.1.3.2.3 如果构造函数有多个，且以及解析过了，那么使用解析好的构造函数(**略)</li>
-<li>4.3.1.3.2.4 如果没有解析过，则需要依据参数先解析构造函数，再使用构造函数解析</li>
-</ul>
-</li>
-<li>4.3.1.3.3 bean合并处理，Autowired注解通过此实现类型预解析</li>
-<li>4.3.1.3.4 处理循环依赖问题<ul>
-<li>4.3.1.3.4.1判断是否需要提前曝光（单例，允许循环依赖，当前bean正在创建）</li>
-<li>4.3.1.3.4.2将该bean的ObjectFactory加入到singleFatories中（AOP)<ul>
-<li>4.3.1.3.4.2.1 ObjectFactory的getObject方法返回getEarlyBeanReference，保证属性地址一样，解决了循环依赖问题</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.3.1.3.5 属性注入<ul>
-<li>4.3.1.3.5.1 如果处理器是InstantiationAwareBeanPostProcessors类型，则调用其postProcessAfterInstantiation方法。</li>
-<li>4.3.1.3.5.2 如果有Autowireby，则依据名称自动注入或者依据类型自动注入(**略)</li>
-</ul>
-</li>
-<li>4.3.1.3.6 应用属性值，将获取的属性应用到实例化bean中</li>
-<li>4.3.1.3.7 初始化bean<ul>
-<li>4.3.1.3.7.1 为实现BeanNameAware，BeanClassLoaderAware,BeanFactoryAware类型的bean设置资源</li>
-<li>4.3.1.3.7.2 调用bean后处理器的postProccessBeforeInitialization方法</li>
-<li>4.3.1.3.7.3 如果bean实现了initializingBean接口，则调用其afterPropertiesSet方法。如果还有init-method属性，则调用其对应的方法</li>
-<li>4.3.1.3.7.4 注册DisposableBean</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>5.类型转换</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-createBean/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-sed进阶" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/sed进阶/">sed进阶</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/27/sed进阶/" class="archive-article-date">
-  	<time datetime="2019-03-27T03:18:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-table th:nth-of-type(1) {
-    width: 400px;
-}
-table th:nth-of-type(2) {
-    width: 600px;
-}
-</style>
-
-<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>sed编辑器的基本功能是处理数据流中的文不，下面介绍下关于sed编辑器的高级特性。</p>
+<li><p>3.优缺点</p>
 <blockquote>
-<p><a href="#1">多行命令</a><br><a href="#2">保持空间</a><br><a href="#3">排除命令</a><br><a href="#4">改变流</a><br><a href="#5">模式替换</a><br><a href="#6">其他技巧</a></p>
+<p>优点:结构清晰<br>  遵循设计原则<br>  封装性好<br>缺点: 子类太多不易管理，需要对每个状态设置一个类<br>效果:每个状态包装在类中，避免过程式处理方式，以及不用使用条件转移语句<br>  不用担心修改属性的问题<br>  核心是多态</p>
 </blockquote>
-<h4 id="多行命令"><a href="#多行命令" class="headerlink" title="多行命令"></a><a name="1">多行命令</a></h4><ul>
-<li><p>next命令<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;告诉sed编辑器移动到数据流的下一个文本行中，不用重新回到命令的最开始再执行一遍。next命令改变了在移动到下一行文本前执行完所有定义的命令，而是联合下一行处理。</p>
-<ul>
-<li><p>单行n</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/header/&#123;n ; d&#125;'</span> data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先匹配到/header/行，然后执行{}中的命令列表。n表示将下一行移动到模式空间中,d是用来删除模式空间内容。</p>
 </li>
-<li><p>合并N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrator group meeting will be held.</span><br><span class="line">All System Administrators should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'N ; s/System Administrator/Desktop User/'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrators group meeting will be held.</span><br><span class="line">All Desktop Users should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先查找含有first的那行文不，然后N将下一行合并到那行，使用s进行替换。N表示将下一行追加到模式空间中,s是用来替换模式空间的内容。适合用来查找分散在两行中的文不短语等。<br><strong>注意:</strong>当匹配行在数据流的最后一行，N会错过，因为没有其他行可以读入模式空间中。这样需要将该命令放到N的前面处理。</p>
-</li>
-<li><p>删除N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data5.txt</span><br><span class="line"></span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/^$/&#123;N ; /header/D&#125;'</span> data5.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先找到空行,然后将下一行合并到模式空间后，匹配以header开头的模式空间内容，匹配到则删除模式空间中的第一行。D是删除空间中的第一行，d是删除空间中的所有行。</p>
-</li>
-<li><p>打印N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">'N ; /System\nAdministrator/P'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先将下一追加到模式空间，然后进行匹配模式打印，将打印空间中的第一行内容。</p>
+<li><p>4.应用场景</p>
+<blockquote>
+<p>行为随状态而改变的场景<br>在某个方法中有多重条件转移语句</p>
+</blockquote>
 </li>
 </ul>
 </li>
-</ul>
-<h4 id="保持空间"><a href="#保持空间" class="headerlink" title="保持空间"></a><a name="2">保持空间</a></h4><p>模式空间是一块活跃的缓冲区，是会保存待检查的文本。<br>保持空间是临时保存一些行的空间，初始是一个空白行。保存空间的命令如下。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">命令</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">h</td>
-<td style="text-align:center">模式空间复制到保持空间</td>
-</tr>
-<tr>
-<td style="text-align:center">H</td>
-<td style="text-align:center">模式空间追加到保持空间</td>
-</tr>
-<tr>
-<td style="text-align:center">g</td>
-<td style="text-align:center">保持空间复制到模式空间</td>
-</tr>
-<tr>
-<td style="text-align:center">G</td>
-<td style="text-align:center">保持空间附加到模式空间</td>
-</tr>
-<tr>
-<td style="text-align:center">x</td>
-<td style="text-align:center">交换两个空间的内容</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat data2.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is the first data line.</span><br><span class="line">This is the second data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed -n <span class="string">'/first/ &#123;h ; p ; n ; p ; g ; p &#125;'</span> data2.txt</span><br><span class="line">This is the first data line.</span><br><span class="line">This is the second data line.</span><br><span class="line">This is the first data line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先匹配含有first的行，当出现该行的时候，h命令将该行放到保持空间，p命令打印模式空间中的内容，n命令式提取数据流中的下一行数据放到模式空间中，p命令打印模式空间中的内容，g命令将保持空间中的内容放回到模式空间中并替换当前文本，p命令打印模式空间的当前内容。</p>
-<h4 id="排除命令"><a href="#排除命令" class="headerlink" title="排除命令"></a><a name="3">排除命令</a></h4><p>使用!来排除命令，就是让原本会起作用的命令不起作用。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">'$!N;</span></span><br><span class="line"><span class="string">&gt; s/System\nAdministrator/Desktop\nUser/</span></span><br><span class="line"><span class="string">&gt; s/System Administrator/Desktop User/</span></span><br><span class="line"><span class="string">&gt; '</span> data4.txt</span><br><span class="line">On Tuesday, the Linux Desktop</span><br><span class="line">Users group meeting will be held.</span><br><span class="line">All Desktop Users should attend.</span><br><span class="line">$</span><br></pre></td></tr></table></figure></p>
-<p>$!N;表示到最后一行的时候不进行N操作，也就是不读取下一行文本。</p>
-<h4 id="改变流"><a href="#改变流" class="headerlink" title="改变流"></a><a name="4">改变流</a></h4><ul>
-<li><p>分支命令</p>
-<ul>
-<li><p>sed除了使用!来排除作用在某行上的命令，还可以基于地址、地址模式或地址区间来排除一块命令实现命令跳转功能。格式[address] b [label]。其中address是匹配的行区间,label是要跳转到的标签位置，类似goto。当没有指定address默认是对所有行，当没有指定label则默认是末尾。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">'&#123;/first/b jump1 ; s/This is the/No jump on/</span></span><br><span class="line"><span class="string">&gt; :jump1</span></span><br><span class="line"><span class="string">&gt; s/This is the/Jump here on/&#125;'</span> data2.txt</span><br><span class="line">No jump on header line</span><br><span class="line">Jump here on first data line</span><br><span class="line">No jump on second data line</span><br><span class="line">No jump on last line</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>如果出现了first的行，则跳转到:jump1下面的命令执行，也就是执行s/This is the/Jump here on/,否则从s/This is the/No jump on/开始执行，直到命令结尾</p>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Channel</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CCTV1</span> <span class="keyword">implements</span> <span class="title">Channel</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"CCTV1 新闻联播"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CCTV2</span> <span class="keyword">implements</span> <span class="title">Channel</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"CCTV2 经济半小时"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CCTV3</span> <span class="keyword">implements</span> <span class="title">Channel</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"CCTV3 非常6+1"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TV</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Channel CCTV1=<span class="keyword">new</span> CCTV1();</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Channel CCTV2=<span class="keyword">new</span> CCTV2();</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> Channel CCTV3=<span class="keyword">new</span> CCTV3();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Channel channel;<span class="comment">//当前频道</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChannel</span><span class="params">(Channel channel)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.channel=channel;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">disCCTV1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		setChannel(CCTV1);</span><br><span class="line">		channel.display();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">disCCTV2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		setChannel(CCTV2);</span><br><span class="line">		channel.display();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">disCCTV3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		setChannel(CCTV3);</span><br><span class="line">		channel.display();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.TV;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StateDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试状态模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		TV tv=<span class="keyword">new</span> TV();</span><br><span class="line">		<span class="comment">//换台</span></span><br><span class="line">		tv.disCCTV1();</span><br><span class="line">		tv.disCCTV2();</span><br><span class="line">		tv.disCCTV3();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CCTV1 新闻联播</span><br><span class="line">CCTV2 经济半小时</span><br><span class="line">CCTV3 非常6+1</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</li>
-<li><p>测试命令</p>
-<ul>
-<li><p>测试命令会依据替换命令的结果进行跳转，而不是依据地址跳转。格式 [address] t [label]</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"This, is, a, test1, to, remove, commas. "</span> | sed -n <span class="string">'&#123;</span></span><br><span class="line"><span class="string">&gt; :start</span></span><br><span class="line"><span class="string">&gt; s/,//1p</span></span><br><span class="line"><span class="string">&gt; t start</span></span><br><span class="line"><span class="string">&gt; &#125;'</span></span><br><span class="line">This is, a, test1, to, remove, commas.</span><br><span class="line">This is a, test1, to, remove, commas.</span><br><span class="line">This is a test1, to, remove, commas.</span><br><span class="line">This is a test1 to, remove, commas.</span><br><span class="line">This is a test1 to remove, commas.</span><br><span class="line">This is a test1 to remove commas.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>如果替换成功，则测试命令进行跳转。否则继续不进行跳转，执行接下来的命令。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="模式替换"><a href="#模式替换" class="headerlink" title="模式替换"></a><a name="5">模式替换</a></h4><ul>
-<li><p>&amp;符号</p>
-<ul>
-<li>使用该符合可以替换命令中的匹配模式。不管模式是什么样的文本，可以使用&amp;符合老匹配任何单词。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"The cat sleeps in his hat."</span> | sed <span class="string">'s/.at/"&amp;"/g'</span></span><br><span class="line">The <span class="string">"cat"</span> sleeps <span class="keyword">in</span> his <span class="string">"hat"</span>.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>\符号</p>
-<ul>
-<li>sed编辑器会给第一个模式分配字符\1,给第二个模式分配字符\2,依次类推<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"That furry cat is pretty"</span> | sed <span class="string">'s/furry \(.at\)/\1/'</span></span><br><span class="line">That cat is pretty</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="其他技巧"><a href="#其他技巧" class="headerlink" title="其他技巧"></a><a name="6">其他技巧</a></h4><ul>
-<li><p>倒序输出文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat reverse.sh</span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Shell wrapper for sed editor script.</span></span><br><span class="line"><span class="comment"># to reverse text file lines.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">sed -n <span class="string">'&#123; 1!G ; h ; $p &#125;'</span> <span class="variable">$1</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>数字分隔</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"1234567"</span> | sed <span class="string">'&#123;</span></span><br><span class="line"><span class="string">&gt; :start</span></span><br><span class="line"><span class="string">&gt; s/\(.*[0-9]\)\([0-9]\&#123;3\&#125;\)/\1,\2/</span></span><br><span class="line"><span class="string">&gt; t start</span></span><br><span class="line"><span class="string">&gt; &#125;'</span></span><br><span class="line">1,234,567</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>插入空白行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">'/^$/d ; $!G'</span> data6.txt</span><br><span class="line">This is line one.</span><br><span class="line">This is line two.</span><br><span class="line">This is line three.</span><br><span class="line">This is line four.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>保持空间默认内容是一个空白行,/^$/d首先对原文件中的空白行删除</p>
-<ul>
-<li>添加行号<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">'='</span> data2.txt | sed <span class="string">'N; s/\n/ /'</span></span><br><span class="line">1 This is the header line.</span><br><span class="line">2 This is the first data line.</span><br><span class="line">3 This is the second data line.</span><br><span class="line">4 This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>=是将一个行号，只是行号在该行的上一行。N是进行合并两行操作。</p>
-<ul>
-<li>输出末尾n行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">'&#123;</span></span><br><span class="line"><span class="string">&gt; :start</span></span><br><span class="line"><span class="string">&gt; $q ; N ; 11,$D</span></span><br><span class="line"><span class="string">&gt; b start</span></span><br><span class="line"><span class="string">&gt; &#125;'</span> data7.txt</span><br><span class="line">This is line 6.</span><br><span class="line">This is line 7.</span><br><span class="line">This is line 8.</span><br><span class="line">This is line 9.</span><br><span class="line">This is line 10.</span><br><span class="line">This is line 11.</span><br><span class="line">This is line 12.</span><br><span class="line">This is line 13.</span><br><span class="line">This is line 14.</span><br><span class="line">This is line 15.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>$q是到末尾的时候退出循环(label)。11,$是指行在第10行之后，开始删模式空间中第一行，形成一个滑动窗口的效果，窗口大小为10。</p>
-<ul>
-<li>删除末尾空行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data10.txt</span><br><span class="line">This is the first line.</span><br><span class="line">This is the second line.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ sed <span class="string">'&#123;</span></span><br><span class="line"><span class="string">&gt; :start</span></span><br><span class="line"><span class="string">&gt; /^\n*$/&#123;$d ; N ; b start &#125;</span></span><br><span class="line"><span class="string">&gt; &#125;'</span> data10.txt</span><br><span class="line">This is the first line.</span><br><span class="line">This is the second line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>d删除当前模式空间内容（不在传到标准输出）并放弃之后的命令，读取新内容重新执行sed。当匹配到倒数第二个空行，则将下一行内容加入模式空间。继续执行start,模式空间依然匹配上，继续加下一行…直到最后一行的时候，删除模式空间。<br>每执行完后输出，当最后删除模式空间后没有内容输出，因此实现了删除末尾空行。</p>
 
       
 
@@ -806,7 +212,7 @@ table th:nth-of-type(2) {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
         		</li>
       		
 		</ul>
@@ -816,7 +222,7 @@ table th:nth-of-type(2) {
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/27/sed进阶/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/03/31/designmode-state/">展开全文 >></a>
         </p>
       
 
@@ -846,112 +252,53 @@ table th:nth-of-type(2) {
 
 
   
-    <article id="post-redis数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-designmode-build" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/25/redis数据类型/">redis数据类型</a>
+      <a class="article-title" href="/2019/03/31/designmode-build/">建造者模式</a>
     </h1>
   
 
         
-        <a href="/2019/03/25/redis数据类型/" class="archive-article-date">
-  	<time datetime="2019-03-25T04:26:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-25</time>
+        <a href="/2019/03/31/designmode-build/" class="archive-article-date">
+  	<time datetime="2019-03-31T07:09:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <style>
-table {
-    display: block;
-    overflow-x: auto;  //显示滚动条
-    white-space: nowrap; //表格内容强制不换行
-}
-</style>
-
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>设置值</th>
-<th>获取值</th>
-<th>删除值</th>
-<th>查看值</th>
-<th>存在值</th>
-<th>运算</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>string</td>
-<td>set,mset,append</td>
-<td>get,mget</td>
-<td>setrange</td>
-<td></td>
-<td></td>
-<td>strlen</td>
-</tr>
-<tr>
-<td>list</td>
-<td>lpush,rpush,linsert</td>
-<td>lindex</td>
-<td>lpop,rpop,ltrim,brpop,blpop</td>
-<td>lrange</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>hash</td>
-<td>hset,hmset</td>
-<td>hget,hmget</td>
-<td>hdel</td>
-<td>hgetall,hscan</td>
-<td>hexists</td>
-<td></td>
-</tr>
-<tr>
-<td>set</td>
-<td>sadd</td>
-<td></td>
-<td>srem</td>
-<td>sscan,scard</td>
-<td>sismember</td>
-<td>sunion,sunionstore,sinter,sinterstore,sdiff,sdiffstore</td>
-</tr>
-<tr>
-<td>zset</td>
-<td>zadd</td>
-<td></td>
-<td>zrem</td>
-<td>zrevrange,zrevrank,zscore,zscan,zcard</td>
-<td></td>
-<td>zunionstore,zinterstore,zdiffstore</td>
-</tr>
-<tr>
-<td>HLL</td>
-<td>pfadd</td>
-<td></td>
-<td></td>
-<td>pfcount</td>
-<td></td>
-<td>pfmerge</td>
-</tr>
-<tr>
-<td>Geo</td>
-<td>geoadd,zadd</td>
-<td>geopos</td>
-<td>zrem</td>
-<td>zrevrange,zrevrank,zscore,zscan,zcard</td>
-<td></td>
-<td>georadius,geodist,georadiusbymemeber,zunionstore,zinterstore,zdiffstore</td>
-</tr>
-</tbody>
-</table>
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>将一个复杂的对象构建和它的表示分离，使得同样的构建过程可以创建不同的表示</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象建造者：规范产品的各个组成部分，进行抽象，独立于应用程序的逻辑，提供流程</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">setPart1</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">setPart2</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">setPart3</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="comment">//其他部件</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Produce <span class="title">builderProduct</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体建造者:是上面的实现</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//产品:建造中的复杂对象。分为抽象和具体。</span></span><br><span class="line"><span class="comment">//导演者:负责安排已有模块的顺序，复制依据流程创建产品</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Director</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Builder builder=<span class="keyword">new</span> ConcreteBuilder();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Product <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">		builder.setPart1();</span><br><span class="line">		builder.setPart2();</span><br><span class="line">		builder.setPart3();</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">		<span class="keyword">return</span> builder.builderProduct();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点</p>
+<blockquote>
+<p>优点:封装性<br>  建造者独立，容易可以在<br>  控制细节风险</p>
+</blockquote>
+</li>
+<li><p>4.使用场景</p>
+<blockquote>
+<p>相同的方法，不同的执行顺序，产生不同的结果时<br>多个部件或者零件，都可以装配到一个对象中，但是运行的结果不相同时<br>产品类非常复杂，或者产品类中的方法调用顺序不同产生了不同的效能<br>对象创建过程中用到系统其他对象<br><strong>备注</strong>:建造者模式与工厂方法模式最大的区别在于后者关注的是零件类型和装配工艺顺序</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//计算机抽象类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Computer</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String type;<span class="comment">//型号</span></span><br><span class="line">	<span class="keyword">private</span> String cpu;</span><br><span class="line">	<span class="keyword">private</span> String ram;</span><br><span class="line">	<span class="keyword">private</span> String hardDisk;</span><br><span class="line">	<span class="keyword">private</span> String monitor;<span class="comment">//显示器</span></span><br><span class="line">	<span class="keyword">private</span> String os;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> type;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setType</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.type = type;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getCpu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> cpu;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCpu</span><span class="params">(String cpu)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.cpu = cpu;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getRam</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> ram;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRam</span><span class="params">(String ram)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.ram = ram;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getHardDisk</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> hardDisk;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHardDisk</span><span class="params">(String hardDisk)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.hardDisk = hardDisk;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMonitor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> monitor;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMonitor</span><span class="params">(String monitor)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.monitor = monitor;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getOs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> os;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOs</span><span class="params">(String os)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.os = os;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="comment">//构建计算机</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComputerDirector</span> </span>&#123;</span><br><span class="line">	ComputerBuilder builder;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> T410 <span class="title">constructT410</span><span class="params">()</span></span>&#123;</span><br><span class="line">		builder=<span class="keyword">new</span> T410Builder();</span><br><span class="line">		builder.buildCpu();</span><br><span class="line">		builder.buildRam();</span><br><span class="line">		builder.buildHardDisk();</span><br><span class="line">		builder.buildGraphicCard();</span><br><span class="line">		builder.buildMonitor();</span><br><span class="line">		builder.buildOs();</span><br><span class="line">		<span class="keyword">return</span> (T410) builder.getResult();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> X201 <span class="title">constructX201</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		builder=<span class="keyword">new</span> X201Builder();</span><br><span class="line">		builder.buildCpu();</span><br><span class="line">		builder.buildRam();</span><br><span class="line">		builder.buildHardDisk();</span><br><span class="line">		builder.buildMonitor();</span><br><span class="line">		builder.buildOs();</span><br><span class="line">		<span class="keyword">return</span> (X201) builder.getResult();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ComputerBuilder</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">buildCpu</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">buildRam</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">buildHardDisk</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">buildGraphicCard</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">buildMonitor</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">buildOs</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function">Computer <span class="title">getResult</span><span class="params">()</span></span>;<span class="comment">//获取建造好的计算机</span></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">T410Builder</span> <span class="keyword">implements</span> <span class="title">ComputerBuilder</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> T410 computer=<span class="keyword">new</span> T410();</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildCpu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setCpu(<span class="string">"i5-450"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildRam</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setRam(<span class="string">"4GB 1333MHz"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildHardDisk</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setHardDisk(<span class="string">"500GB 7200转"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildGraphicCard</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setGraphicCard(<span class="string">"Nnidia NVS 3100M"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildMonitor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setMonitor(<span class="string">"14英寸 1280*800"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildOs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setOs(<span class="string">"Windows 7 旗舰版"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Computer <span class="title">getResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> computer;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">X201Builder</span> <span class="keyword">implements</span> <span class="title">ComputerBuilder</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> X201 computer=<span class="keyword">new</span> X201();</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildCpu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setCpu(<span class="string">"i3-350"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildRam</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setRam(<span class="string">"2GB 1333MHz"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildHardDisk</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setHardDisk(<span class="string">"250GB 5400转"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildGraphicCard</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="comment">//无显卡</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildMonitor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setMonitor(<span class="string">"12英寸 1280*800"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildOs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		computer.setOs(<span class="string">"Windows 7 Home版"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Computer <span class="title">getResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> computer;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Computer;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.ComputerDirector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BuildDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试建造者模式/生成器模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		ComputerDirector director=<span class="keyword">new</span> ComputerDirector();</span><br><span class="line">		Computer t410=director.constructT410();</span><br><span class="line">		System.out.println(t410);</span><br><span class="line">		System.out.println();</span><br><span class="line">		Computer x201=director.constructX201();</span><br><span class="line">		System.out.println(x201);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">型号: 	ThinkPad T410i</span><br><span class="line">CPU: 	i5-450</span><br><span class="line">内存: 	4GB 1333MHz</span><br><span class="line">硬盘: 	500GB 7200转</span><br><span class="line">显卡: 	Nnidia NVS 3100M</span><br><span class="line">显示器: 	14英寸 1280*800</span><br><span class="line">操作系统: 	Windows 7 旗舰版</span><br><span class="line"></span><br><span class="line">型号: 	ThinkPad X201i</span><br><span class="line">CPU: 	i3-350</span><br><span class="line">内存: 	2GB 1333MHz</span><br><span class="line">硬盘: 	250GB 5400转</span><br><span class="line">显示器: 	12英寸 1280*800</span><br><span class="line">操作系统: 	Windows 7 Home版</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
       
 
@@ -965,7 +312,7 @@ table {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
         		</li>
       		
 		</ul>
@@ -975,7 +322,301 @@ table {
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/25/redis数据类型/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/03/31/designmode-build/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-designmode-bridge" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/31/designmode-bridge/">桥梁模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/31/designmode-bridge/" class="archive-article-date">
+  	<time datetime="2019-03-31T06:57:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>将抽象和实现分离，使两者独立变化</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象化: 给出定义，保存一个对实现化对象的引用</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Abstraction</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Implementor imp;<span class="comment">//对实现化角色的引用</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Abstraction</span><span class="params">(Implementor imp)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.imp=imp</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//业务</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现化: 给出实现化接口，没有具体实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Implementor</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationImp</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//修正抽象化: 用实现化角色对抽象化角色进行修正</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RefinedAbstraction</span> <span class="keyword">extends</span> <span class="title">Abstraction</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">RefinedAbstraction</span><span class="params">(Implementor imp)</span></span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(imp);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//修正父类方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体实现化: 对实现化角色接口中的方法进行具体实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteImplementor</span> <span class="keyword">implements</span> <span class="title">Implementor</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">opertionImp</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//业务</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点</p>
+<blockquote>
+<p>优点:抽象和实现分离，解决了继承的缺点<br>  对客户端透明<br>  提高灵活性和可扩展性</p>
+</blockquote>
+</li>
+<li><p>4.使用场景</p>
+<blockquote>
+<p>在抽象化角色和具体化角色之间增加更多灵活性时<br>实现化角色的改变对客户端透明时<br>动态耦合时<br>不希望使用继承时，因为继承是侵入式的。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractShape</span> </span>&#123;</span><br><span class="line">	Color color;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">AbstractShape</span><span class="params">(Color color)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.color=color;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Color</span> </span>&#123;</span><br><span class="line">	<span class="function">String <span class="title">getColor</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Green</span> <span class="keyword">implements</span> <span class="title">Color</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getColor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="string">"绿色"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Red</span> <span class="keyword">implements</span> <span class="title">Color</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getColor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="string">"红色"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">extends</span> <span class="title">AbstractShape</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Square</span><span class="params">(Color color)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(color);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"使用"</span>+color.getColor()+<span class="string">"画正方形"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BridgeDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试桥梁模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Color color=<span class="keyword">new</span> Green();</span><br><span class="line">		AbstractShape shape=<span class="keyword">new</span> Square(color);</span><br><span class="line">		shape.draw();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用绿色画正方形</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/31/designmode-bridge/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-designmode-factory" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/31/designmode-factory/">工厂方法模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/31/designmode-factory/" class="archive-article-date">
+  	<time datetime="2019-03-31T06:42:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>定义一个用于创建对象的接口，让子类决定实例化哪个类。工厂方法使一个类的实例化延迟到其子类。</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//工厂方法模式分为四个角色。</span></span><br><span class="line"><span class="comment">//抽象工厂角色:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Creator</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Product&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体工厂角色：</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreateCreator</span> <span class="keyword">implements</span> <span class="title">Creator</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Product&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span></span>&#123;</span><br><span class="line">		Product product=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			product=(Produce)Class.forName(c.getName()).newIntance();<span class="comment">//CORE</span></span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> (T) product;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//抽象产品角色:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Product</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> method1;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> method2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体产品角色：</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteProduct</span> <span class="keyword">implements</span> <span class="title">Product</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//应用:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryMethodDemo</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		Creator creator=<span class="keyword">new</span> ConcreteCreator();</span><br><span class="line">		Product product=creator.factory(ConcreteProduct.class);</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点</p>
+<blockquote>
+<p>优点:<br>  良好的封装性，代码结构清晰。<br>  优秀的可扩展性。<br>  屏蔽产品类。<br>  典型的解耦模块。</p>
+</blockquote>
+</li>
+<li><p>4.应用场景</p>
+<blockquote>
+<p>需要生成对象的地方使用<br>需要灵活、可扩展的框架<br>使用异构项目，与其他语言交互<br>使用测试驱动开发的框架中</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FruitGardenerCommon</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Fruit&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactoryCommon</span> <span class="keyword">implements</span> <span class="title">FruitGardenerCommon</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Fruit&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		Fruit fruit=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			fruit=(Fruit)Class.forName(c.getName()).newInstance();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> (T)fruit;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Fruit</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span></span>;<span class="comment">//生长</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harvest</span><span class="params">()</span></span>;<span class="comment">//收获</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span></span>;<span class="comment">//栽种</span></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> treeAge;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"苹果正在生长"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harvest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"收获苹果"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"栽种苹果"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTreeAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> treeAge;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTreeAge</span><span class="params">(<span class="keyword">int</span> treeAge)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.treeAge = treeAge;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Grape</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">boolean</span> seedless;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"葡萄正在生长"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harvest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"收获葡萄"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"栽种葡萄"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSeedless</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> seedless;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSeedless</span><span class="params">(<span class="keyword">boolean</span> seedless)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.seedless = seedless;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="comment">//水果园丁</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FruitGardener</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Fruit <span class="title">factory</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppleGardener</span> <span class="keyword">implements</span> <span class="title">FruitGardener</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Fruit <span class="title">factory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Apple();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GrapeGardener</span> <span class="keyword">implements</span> <span class="title">FruitGardener</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Fruit <span class="title">factory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Grape();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Apple;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.AppleGardener;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.ConcreteFactoryCommon;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Fruit;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.FruitGardener;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.FruitGardenerCommon;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Grape;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.GrapeGardener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试工厂方法模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//苹果园丁工厂</span></span><br><span class="line">		FruitGardener fruitGardener=<span class="keyword">new</span> AppleGardener();</span><br><span class="line">		<span class="comment">//通过工厂生成苹果</span></span><br><span class="line">		Fruit apple=fruitGardener.factory();</span><br><span class="line">		apple.plant();</span><br><span class="line">		apple.grow();</span><br><span class="line">		apple.harvest();</span><br><span class="line">		<span class="comment">//葡萄园丁工厂</span></span><br><span class="line">		fruitGardener=<span class="keyword">new</span> GrapeGardener();</span><br><span class="line">		<span class="comment">//通过工厂生产葡萄</span></span><br><span class="line">		Fruit grape=fruitGardener.factory();</span><br><span class="line">		grape.plant();</span><br><span class="line">		grape.grow();</span><br><span class="line">		grape.harvest();</span><br><span class="line">		System.out.println();</span><br><span class="line">		<span class="comment">//测试另一种</span></span><br><span class="line">		FruitGardenerCommon fruitGardenerCommon=<span class="keyword">new</span> ConcreteFactoryCommon();</span><br><span class="line">		Fruit apple2=fruitGardenerCommon.factory(Apple.class);</span><br><span class="line">		apple2.plant();</span><br><span class="line">		apple2.grow();</span><br><span class="line">		apple2.harvest();</span><br><span class="line">		Fruit grape2=fruitGardenerCommon.factory(Grape.class);</span><br><span class="line">		grape2.plant();</span><br><span class="line">		grape2.grow();</span><br><span class="line">		grape2.harvest();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">栽种苹果</span><br><span class="line">苹果正在生长</span><br><span class="line">收获苹果</span><br><span class="line">栽种葡萄</span><br><span class="line">葡萄正在生长</span><br><span class="line">收获葡萄</span><br><span class="line"></span><br><span class="line">栽种苹果</span><br><span class="line">苹果正在生长</span><br><span class="line">收获苹果</span><br><span class="line">栽种葡萄</span><br><span class="line">葡萄正在生长</span><br><span class="line">收获葡萄</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/31/designmode-factory/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-designmode-facade" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/31/designmode-facade/">外观模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/31/designmode-facade/" class="archive-article-date">
+  	<time datetime="2019-03-31T06:29:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>也称门面模式。子系统的外部与其内部的通信必须通过一个统一的对象进行。</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//外观: 客户端调用外观角色的方法，该角色知晓子系统的功能。相当于一个委托类。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Facade</span></span>&#123;</span><br><span class="line">	<span class="comment">//被委托的对象</span></span><br><span class="line">	<span class="keyword">private</span> ClassA a=<span class="keyword">new</span> ClassA();</span><br><span class="line">	<span class="keyword">private</span> ClassB b=<span class="keyword">new</span> ClassB();</span><br><span class="line">	<span class="keyword">private</span> ClassC c=<span class="keyword">new</span> ClassC();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//提供给外界方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodA</span><span class="params">()</span></span>&#123;</span><br><span class="line">		a.methodA();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodB</span><span class="params">()</span></span>&#123;</span><br><span class="line">		b.methodB();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodC</span><span class="params">()</span></span>&#123;</span><br><span class="line">		c.methodC();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//子系统:类的集合，对于子系统而言，外观角色不可见</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassA</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodA</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassB</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodB</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassC</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodC</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点<br>优点:减少系统的相互依赖，所有的依赖都是对Facade对象的依赖，与子系统无关<br>提供灵活性，子系统内部的变化对外影响小<br>提高安全性，Facade对象没有提供的方法，外界无法访问<br>缺点:部分开闭原则，因为修改后需要在外观类中增加或者移除子系统的类引用，虽然修改很少。</p>
+</li>
+<li><p>4.应用场景<br>提供对外访问接口<br>黑箱操作<br>预防风险扩散</p>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Secretary</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Chauffeur chauffeur=<span class="keyword">new</span> Chauffeur();</span><br><span class="line">	<span class="keyword">private</span> Hotel hotel=<span class="keyword">new</span> Hotel();</span><br><span class="line">	<span class="keyword">private</span> Restaurant restaurant=<span class="keyword">new</span> Restaurant();</span><br><span class="line">	<span class="keyword">private</span> Airport airport=<span class="keyword">new</span> Airport();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//安排出行</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trip</span><span class="params">(String to,<span class="keyword">int</span> days)</span> </span>&#123;</span><br><span class="line">		airport.bookTicket(<span class="string">"青岛"</span>, to);</span><br><span class="line">		chauffeur.drive(<span class="string">"机场"</span>);</span><br><span class="line">		hotel.reserve(days);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//安排饭局</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">repast</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">		restaurant.reserve(num);</span><br><span class="line">		chauffeur.drive(<span class="string">"酒店"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chauffeur</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">(String to)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"司机开车去"</span>+to);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hotel</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reserve</span><span class="params">(<span class="keyword">int</span> days)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"订了"</span>+days+<span class="string">"天的房间"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Restaurant</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reserve</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"订了一桌"</span>+num+<span class="string">"个人的酒席"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Airport</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bookTicket</span><span class="params">(String from,String to)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"订购了从"</span>+from+<span class="string">"到"</span>+to+<span class="string">"的机票"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FacadeDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试外观模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Secretary s=<span class="keyword">new</span> Secretary();</span><br><span class="line">		System.out.println(<span class="string">"老板告诉秘书要到上海出差10天"</span>);</span><br><span class="line">		s.trip(<span class="string">"上海"</span>, <span class="number">10</span>);</span><br><span class="line">		System.out.println(<span class="string">"老板告诉秘书要请8个人吃饭"</span>);</span><br><span class="line">		s.repast(<span class="number">8</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">老板告诉秘书要到上海出差10天</span><br><span class="line">订购了从青岛到上海的机票</span><br><span class="line">司机开车去机场</span><br><span class="line">订了10天的房间</span><br><span class="line">老板告诉秘书要请8个人吃饭</span><br><span class="line">订了一桌8个人的酒席</span><br><span class="line">司机开车去酒店</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/31/designmode-facade/">展开全文 >></a>
         </p>
       
 
@@ -1007,7 +648,7 @@ table {
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 

@@ -56,7 +56,7 @@
 <meta property="og:image" content="http://yoursite.com/images/源码分析/JdkDynamicAopProxy_invoke2.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/JdkDynamicAopProxy_invoke3.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/ReflectiveMethodInvocation_proceed.png">
-<meta property="og:updated_time" content="2019-04-08T14:32:17.880Z">
+<meta property="og:updated_time" content="2019-04-08T14:59:47.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring AOP源码分析">
 <meta name="twitter:description" content="概述 SpringAop有动态代理和静态代理两种，本文主要分析动态代理的过程。SpringAOP是将业务代码和系统代码进行解耦，主要用于数据库，日志和安全等方面。SpringAop主要采用AspectJ框架来实现。主要是如下步骤:解析自定义标签&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;自定义标签&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;解析入口函数&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;">
@@ -221,10 +221,8 @@
 </blockquote>
 <p><br></p>
 <h2 id="解析自定义标签"><a href="#解析自定义标签" class="headerlink" title="解析自定义标签"></a><a name="1">解析自定义标签</a></h2><ul>
-<li><a name="11">自定义标签</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在AopnamespaceHandler类中为声明的注解定义对应的解析器。<br><img src="/images/源码分析/AopNamespaceHandler_init.png" alt="自定义标签"></li>
-</ul>
-<p><br></p>
-<ul>
+<li><a name="11">自定义标签</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在AopnamespaceHandler类中为声明的注解定义对应的解析器。<br><img src="/images/源码分析/AopNamespaceHandler_init.png" alt="自定义标签"><a id="more"></a>
+<br></li>
 <li><p><a name="12">解析入口函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所有的解析器实现了BeanDefinitionParser接口，入口函数为parse()<br><img src="/images/源码分析/AspectJAutoProxyBeanDefinitionParser_parse.png" alt="解析入口函数"></p>
 <p>  <br></p>
 <ul>
