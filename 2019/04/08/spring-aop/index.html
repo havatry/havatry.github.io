@@ -16,51 +16,51 @@
 <meta property="og:site_name" content="Havatry">
 <meta property="og:description" content="概述 SpringAop有动态代理和静态代理两种，本文主要分析动态代理的过程。SpringAOP是将业务代码和系统代码进行解耦，主要用于数据库，日志和安全等方面。SpringAop主要采用AspectJ框架来实现。主要是如下步骤:解析自定义标签&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;自定义标签&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;解析入口函数&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AopNamespaceHandler_init.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AspectJAutoProxyBeanDefinitionParser_parse.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AopConfighUtils_registerAspectJAnnotationAutoProxyCreatorIfNecessary.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AopConfigUtils_registerOfEscalateApcAsRequired.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AopNamespaceUtils_useClassProxyingIfNecessary.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AnnotationAwareAspectJAutoProxyCreator_class.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAutoProxyCreator_postProcessAfterInitialization.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAutoProxyCreator_wrapIfNecessary.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAdvisorAutoProxyCreator_getAdvicesAndAdisorsForBean.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAdvisorAutoProxyCreator_findEligibleAdvisors.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AnnotationAwareAspectJAutoProxyCreator_findCandidateAdvisors.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvisors.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/RefletiveAspectJAdvisorFactory_getAdvisor.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/RefletiveAspectJAdvisorFactory_getPonitcut.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/InstantiationModelAwarePointcutAdvisorImpl_construct.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/InstantiationModelAwarePointcutAdvisorImpl_instantiateAdvice.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvice1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvice2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvice3.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/MethodBeforeAdviceInterceptor_invoke.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AspectJMethodBeforeAdvice_before.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAspectJAdive_invokeAdviceMethod.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AspectJAfterAdive_invoke.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/ReflectiveAspectJAdvisorFactory_SyntheticInstantiationAdvisor.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AopUtils_findAdvisorsThatCanApply.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AopUtils_canApply0.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AopUtils_canApply.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAutoProxyCreatory_createProxy.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAutoProxyCreator_buildAdvisors.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/DefaultAdvisorAdapterRegistry_wrap.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/ProxyFactroy_getProxy.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/AbstractAutoProxyCreatory_createProxy.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/DefaultAopProxyFactory_createAopProxy.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/JdkDynamicAopProxy_getProxy.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/JdkDynamicAopProxy_invoke1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/JdkDynamicAopProxy_invoke2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/JdkDynamicAopProxy_invoke3.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/ReflectiveMethodInvocation_proceed.png">
-<meta property="og:updated_time" content="2019-04-08T14:59:47.744Z">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AopNamespaceHandler_init.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AspectJAutoProxyBeanDefinitionParser_parse.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AopConfighUtils_registerAspectJAnnotationAutoProxyCreatorIfNecessary.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AopConfigUtils_registerOfEscalateApcAsRequired.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AopNamespaceUtils_useClassProxyingIfNecessary.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AnnotationAwareAspectJAutoProxyCreator_class.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAutoProxyCreator_postProcessAfterInitialization.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAutoProxyCreator_wrapIfNecessary.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAdvisorAutoProxyCreator_getAdvicesAndAdisorsForBean.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAdvisorAutoProxyCreator_findEligibleAdvisors.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AnnotationAwareAspectJAutoProxyCreator_findCandidateAdvisors.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors1.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors2.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvisors.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/RefletiveAspectJAdvisorFactory_getAdvisor.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/RefletiveAspectJAdvisorFactory_getPonitcut.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/InstantiationModelAwarePointcutAdvisorImpl_construct.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/InstantiationModelAwarePointcutAdvisorImpl_instantiateAdvice.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvice1.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvice2.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvice3.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/MethodBeforeAdviceInterceptor_invoke.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AspectJMethodBeforeAdvice_before.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAspectJAdive_invokeAdviceMethod.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AspectJAfterAdive_invoke.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_SyntheticInstantiationAdvisor.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AopUtils_findAdvisorsThatCanApply.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AopUtils_canApply0.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AopUtils_canApply.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAutoProxyCreatory_createProxy.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAutoProxyCreator_buildAdvisors.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/DefaultAdvisorAdapterRegistry_wrap.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/ProxyFactroy_getProxy.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/AbstractAutoProxyCreatory_createProxy.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/DefaultAopProxyFactory_createAopProxy.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/JdkDynamicAopProxy_getProxy.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/JdkDynamicAopProxy_invoke1.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/JdkDynamicAopProxy_invoke2.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/JdkDynamicAopProxy_invoke3.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/ReflectiveMethodInvocation_proceed.png">
+<meta property="og:updated_time" content="2019-04-09T11:21:28.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring AOP源码分析">
 <meta name="twitter:description" content="概述 SpringAop有动态代理和静态代理两种，本文主要分析动态代理的过程。SpringAOP是将业务代码和系统代码进行解耦，主要用于数据库，日志和安全等方面。SpringAop主要采用AspectJ框架来实现。主要是如下步骤:解析自定义标签&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;自定义标签&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;解析入口函数&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;">
-<meta name="twitter:image" content="http://yoursite.com/images/源码分析/AopNamespaceHandler_init.png">
+<meta name="twitter:image" content="http://yoursite.com/images/源码分析/spring/AopNamespaceHandler_init.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -221,69 +221,72 @@
 </blockquote>
 <p><br></p>
 <h2 id="解析自定义标签"><a href="#解析自定义标签" class="headerlink" title="解析自定义标签"></a><a name="1">解析自定义标签</a></h2><ul>
-<li><a name="11">自定义标签</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在AopnamespaceHandler类中为声明的注解定义对应的解析器。<br><img src="/images/源码分析/AopNamespaceHandler_init.png" alt="自定义标签"><a id="more"></a>
-<br></li>
-<li><p><a name="12">解析入口函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所有的解析器实现了BeanDefinitionParser接口，入口函数为parse()<br><img src="/images/源码分析/AspectJAutoProxyBeanDefinitionParser_parse.png" alt="解析入口函数"></p>
+<li><a name="11">自定义标签</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在AopnamespaceHandler类中为声明的注解定义对应的解析器。<br><img src="/images/源码分析/spring/AopNamespaceHandler_init.png" alt="自定义标签"></li>
+</ul>
+<a id="more"></a>
+<p><br></p>
+<ul>
+<li><p><a name="12">解析入口函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所有的解析器实现了BeanDefinitionParser接口，入口函数为parse()<br><img src="/images/源码分析/spring/AspectJAutoProxyBeanDefinitionParser_parse.png" alt="解析入口函数"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="121">注册AnnotationAwareAspectJAutoProxyCreator</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AOP的实现基本是是由AnnotationAwareAspectJAutoProxyCreator去完成的。其可以依据@Point注解切点来自动代理匹配的bean。<br><img src="/images/源码分析/AopConfighUtils_registerAspectJAnnotationAutoProxyCreatorIfNecessary.png" alt="注册AnnotationAwareAspectJAutoProxyCreator"><br><img src="/images/源码分析/AopConfigUtils_registerOfEscalateApcAsRequired.png" alt="注册AnnotationAwareAspectJAutoProxyCreator"></p>
+<li><p><a name="121">注册AnnotationAwareAspectJAutoProxyCreator</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AOP的实现基本是是由AnnotationAwareAspectJAutoProxyCreator去完成的。其可以依据@Point注解切点来自动代理匹配的bean。<br><img src="/images/源码分析/spring/AopConfighUtils_registerAspectJAnnotationAutoProxyCreatorIfNecessary.png" alt="注册AnnotationAwareAspectJAutoProxyCreator"><br><img src="/images/源码分析/spring/AopConfigUtils_registerOfEscalateApcAsRequired.png" alt="注册AnnotationAwareAspectJAutoProxyCreator"></p>
 <p><br></p>
 </li>
-<li><a name="122">对proxy-target-class和expose-proxy属性处理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target-class是强制使用CGLIB代理<br><img src="/images/源码分析/AopNamespaceUtils_useClassProxyingIfNecessary.png" alt="属性处理"></li>
+<li><a name="122">对proxy-target-class和expose-proxy属性处理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target-class是强制使用CGLIB代理<br><img src="/images/源码分析/spring/AopNamespaceUtils_useClassProxyingIfNecessary.png" alt="属性处理"></li>
 </ul>
 </li>
 </ul>
 <p><br></p>
 <h2 id="创建AOP代理"><a href="#创建AOP代理" class="headerlink" title="创建AOP代理"></a><a name="2">创建AOP代理</a></h2><ul>
-<li><p><a name="21">类入口函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AnnotationAwareAspectJAutoProxyCreator在上面已经自动注册了。其中AnnotationAwareAspectJAutoProxyCreator的类关系图如下<br><img src="/images/源码分析/AnnotationAwareAspectJAutoProxyCreator_class.png" alt="类入口函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上图可知，AnnotationAwareAspectJAutoProxyCreator实现了BeanPostProcessor接口，当Spring加载此bean的时候会在实例化前后调用postProcessAfterInitialization方法。此方法即为入口函数。<br><img src="/images/源码分析/AbstractAutoProxyCreator_postProcessAfterInitialization.png" alt="类入口函数"><br><img src="/images/源码分析/AbstractAutoProxyCreator_wrapIfNecessary.png" alt="类入口函数"></p>
+<li><p><a name="21">类入口函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AnnotationAwareAspectJAutoProxyCreator在上面已经自动注册了。其中AnnotationAwareAspectJAutoProxyCreator的类关系图如下<br><img src="/images/源码分析/spring/AnnotationAwareAspectJAutoProxyCreator_class.png" alt="类入口函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由上图可知，AnnotationAwareAspectJAutoProxyCreator实现了BeanPostProcessor接口，当Spring加载此bean的时候会在实例化前后调用postProcessAfterInitialization方法。此方法即为入口函数。<br><img src="/images/源码分析/spring/AbstractAutoProxyCreator_postProcessAfterInitialization.png" alt="类入口函数"><br><img src="/images/源码分析/spring/AbstractAutoProxyCreator_wrapIfNecessary.png" alt="类入口函数"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="211">获取bean的增强器</a><br><img src="/images/源码分析/AbstractAdvisorAutoProxyCreator_getAdvicesAndAdisorsForBean.png" alt="获取bean的增强器"></p>
-<p><img src="/images/源码分析/AbstractAdvisorAutoProxyCreator_findEligibleAdvisors.png" alt="获取bean的增强器"></p>
+<li><p><a name="211">获取bean的增强器</a><br><img src="/images/源码分析/spring/AbstractAdvisorAutoProxyCreator_getAdvicesAndAdisorsForBean.png" alt="获取bean的增强器"></p>
+<p><img src="/images/源码分析/spring/AbstractAdvisorAutoProxyCreator_findEligibleAdvisors.png" alt="获取bean的增强器"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="2111">获取候选集增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该方法首先调用基类的方法加载配置文件中的AOP声明，然后再加上注解的AOP声明<br><img src="/images/源码分析/AnnotationAwareAspectJAutoProxyCreator_findCandidateAdvisors.png" alt="获取候选集增强器"><br><img src="/images/源码分析/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors1.png" alt="获取候选集增强器"><br><img src="/images/源码分析/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors2.png" alt="获取候选集增强器"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在上面中完成了Advisor的提前以及在缓存中获取增强器，后者方法为getAdvisors<br><img src="/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvisors.png" alt="获取候选集增强器"></p>
+<li><p><a name="2111">获取候选集增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该方法首先调用基类的方法加载配置文件中的AOP声明，然后再加上注解的AOP声明<br><img src="/images/源码分析/spring/AnnotationAwareAspectJAutoProxyCreator_findCandidateAdvisors.png" alt="获取候选集增强器"><br><img src="/images/源码分析/spring/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors1.png" alt="获取候选集增强器"><br><img src="/images/源码分析/spring/BeanFactoryAspectJAdvisorsBuilder_buildAspectJAdvisors2.png" alt="获取候选集增强器"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在上面中完成了Advisor的提前以及在缓存中获取增强器，后者方法为getAdvisors<br><img src="/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvisors.png" alt="获取候选集增强器"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="21111">获取普通增强器</a><br><img src="/images/源码分析/RefletiveAspectJAdvisorFactory_getAdvisor.png" alt="获取普通增强器"></p>
+<li><p><a name="21111">获取普通增强器</a><br><img src="/images/源码分析/spring/RefletiveAspectJAdvisorFactory_getAdvisor.png" alt="获取普通增强器"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="211111">获取切点信息</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;切点信息比如@Before(“test()”)<br><img src="/images/源码分析/RefletiveAspectJAdvisorFactory_getPonitcut.png" alt="获取切点信息"></p>
+<li><p><a name="211111">获取切点信息</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;切点信息比如@Before(“test()”)<br><img src="/images/源码分析/spring/RefletiveAspectJAdvisorFactory_getPonitcut.png" alt="获取切点信息"></p>
 <p><br></p>
 </li>
-<li><p><a name="211112">依据切点信息增强</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所有的增强都是由Advisor的实现类InstantiationModelAwaePointcutAdvisorImpl类实现<br><img src="/images/源码分析/InstantiationModelAwarePointcutAdvisorImpl_construct.png" alt="依据切点信息增强"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在实例初始化的时候对增强器也进行了初始化<br><img src="/images/源码分析/InstantiationModelAwarePointcutAdvisorImpl_instantiateAdvice.png" alt="依据切点信息增强"><br><img src="/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvice1.png" alt="依据切点信息增强"><br><img src="/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvice2.png" alt="依据切点信息增强"><br><img src="/images/源码分析/ReflectiveAspectJAdvisorFactory_getAdvice3.png" alt="依据切点信息增强"></p>
+<li><p><a name="211112">依据切点信息增强</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所有的增强都是由Advisor的实现类InstantiationModelAwaePointcutAdvisorImpl类实现<br><img src="/images/源码分析/spring/InstantiationModelAwarePointcutAdvisorImpl_construct.png" alt="依据切点信息增强"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在实例初始化的时候对增强器也进行了初始化<br><img src="/images/源码分析/spring/InstantiationModelAwarePointcutAdvisorImpl_instantiateAdvice.png" alt="依据切点信息增强"><br><img src="/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvice1.png" alt="依据切点信息增强"><br><img src="/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvice2.png" alt="依据切点信息增强"><br><img src="/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_getAdvice3.png" alt="依据切点信息增强"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="2111121">前置通知</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前置通知在MethodBeforeAdviceInterceptor类中的invoke方法被调用的时候触发前置增强的处理逻辑。<br><img src="/images/源码分析/MethodBeforeAdviceInterceptor_invoke.png" alt="前置通知"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;触发before方法<br><img src="/images/源码分析/AspectJMethodBeforeAdvice_before.png" alt="前置通知"><br><img src="/images/源码分析/AbstractAspectJAdive_invokeAdviceMethod.png" alt="前置通知"></p>
+<li><p><a name="2111121">前置通知</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前置通知在MethodBeforeAdviceInterceptor类中的invoke方法被调用的时候触发前置增强的处理逻辑。<br><img src="/images/源码分析/spring/MethodBeforeAdviceInterceptor_invoke.png" alt="前置通知"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;触发before方法<br><img src="/images/源码分析/spring/AspectJMethodBeforeAdvice_before.png" alt="前置通知"><br><img src="/images/源码分析/spring/AbstractAspectJAdive_invokeAdviceMethod.png" alt="前置通知"></p>
 <p><br></p>
 </li>
-<li><a name="2111122">后置通知</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;后置通知直接声明成一个拦截器类，然后在invoke方法中完成处理逻辑。<br><img src="/images/源码分析/AspectJAfterAdive_invoke.png" alt="后置通知"></li>
+<li><a name="2111122">后置通知</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;后置通知直接声明成一个拦截器类，然后在invoke方法中完成处理逻辑。<br><img src="/images/源码分析/spring/AspectJAfterAdive_invoke.png" alt="后置通知"></li>
 </ul>
 </li>
 </ul>
 <p><br></p>
 </li>
-<li><a name="21112">同步实例化增强器</a><br><img src="/images/源码分析/ReflectiveAspectJAdvisorFactory_SyntheticInstantiationAdvisor.png" alt="同步实例化增强器"></li>
+<li><a name="21112">同步实例化增强器</a><br><img src="/images/源码分析/spring/ReflectiveAspectJAdvisorFactory_SyntheticInstantiationAdvisor.png" alt="同步实例化增强器"></li>
 </ul>
 <p><br></p>
 </li>
-<li><a name="2112">从候选集中获取匹配的增强器</a><br><img src="/images/源码分析/AopUtils_findAdvisorsThatCanApply.png" alt="从候选集中获取匹配的增强器"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中总的匹配规则如下<br><img src="/images/源码分析/AopUtils_canApply0.png" alt="从候选集中获取匹配的增强器"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;细分切点的匹配规则如下<br><img src="/images/源码分析/AopUtils_canApply.png" alt="从候选集中获取匹配的增强器"></li>
+<li><a name="2112">从候选集中获取匹配的增强器</a><br><img src="/images/源码分析/spring/AopUtils_findAdvisorsThatCanApply.png" alt="从候选集中获取匹配的增强器"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中总的匹配规则如下<br><img src="/images/源码分析/spring/AopUtils_canApply0.png" alt="从候选集中获取匹配的增强器"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;细分切点的匹配规则如下<br><img src="/images/源码分析/spring/AopUtils_canApply.png" alt="从候选集中获取匹配的增强器"></li>
 </ul>
 <p><br></p>
 </li>
-<li><p><a name="212">创建代理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;获取所有的增强器后就可以创建代理了<br><img src="/images/源码分析/AbstractAutoProxyCreatory_createProxy.png" alt="从候选集中获取匹配的增强器"></p>
+<li><p><a name="212">创建代理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;获取所有的增强器后就可以创建代理了<br><img src="/images/源码分析/spring/AbstractAutoProxyCreatory_createProxy.png" alt="从候选集中获取匹配的增强器"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="2121">构建advisor</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以通过proxyFactory的addAdvisors方法来加入代理到工厂中，但是对于拦截器转换为advisor则比较复杂<br><img src="/images/源码分析/AbstractAutoProxyCreator_buildAdvisors.png" alt="构建advisor"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将拦截器封装成advisor<br><img src="/images/源码分析/DefaultAdvisorAdapterRegistry_wrap.png" alt="构建advisor"></p>
+<li><p><a name="2121">构建advisor</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以通过proxyFactory的addAdvisors方法来加入代理到工厂中，但是对于拦截器转换为advisor则比较复杂<br><img src="/images/源码分析/spring/AbstractAutoProxyCreator_buildAdvisors.png" alt="构建advisor"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将拦截器封装成advisor<br><img src="/images/源码分析/spring/DefaultAdvisorAdapterRegistry_wrap.png" alt="构建advisor"></p>
 <p><br></p>
 </li>
-<li><p><a name="2122">解析获取</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spring中的拦截器，增强器，增强方法来对逻辑进行增强，需要统一封装成advisor，到此进行获取<br><img src="/images/源码分析/ProxyFactroy_getProxy.png" alt="解析获取"></p>
+<li><p><a name="2122">解析获取</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spring中的拦截器，增强器，增强方法来对逻辑进行增强，需要统一封装成advisor，到此进行获取<br><img src="/images/源码分析/spring/ProxyFactroy_getProxy.png" alt="解析获取"></p>
 <p>  <br></p>
 <ul>
-<li><p><a name="21221">创建代理</a><br><img src="/images/源码分析/AbstractAutoProxyCreatory_createProxy.png" alt="创建代理"><br><img src="/images/源码分析/DefaultAopProxyFactory_createAopProxy.png" alt="创建代理"></p>
+<li><p><a name="21221">创建代理</a><br><img src="/images/源码分析/spring/AbstractAutoProxyCreatory_createProxy.png" alt="创建代理"><br><img src="/images/源码分析/spring/DefaultAopProxyFactory_createAopProxy.png" alt="创建代理"></p>
 <p><br></p>
 </li>
-<li><a name="21222">获取代理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这里介绍获取jdk代理<br><img src="/images/源码分析/JdkDynamicAopProxy_getProxy.png" alt="获取代理"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;调用代理的invoke方法<br><img src="/images/源码分析/JdkDynamicAopProxy_invoke1.png" alt="获取代理"><br><img src="/images/源码分析/JdkDynamicAopProxy_invoke2.png" alt="获取代理"><br><img src="/images/源码分析/JdkDynamicAopProxy_invoke3.png" alt="获取代理"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;代理中invoke方法触发执行链的proceed方法，proceed方法中调用了拦截器的invoke方法，从而完成了advice/advisor增强方法处理<br><img src="/images/源码分析/ReflectiveMethodInvocation_proceed.png" alt="获取代理"></li>
+<li><a name="21222">获取代理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这里介绍获取jdk代理<br><img src="/images/源码分析/spring/JdkDynamicAopProxy_getProxy.png" alt="获取代理"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;调用代理的invoke方法<br><img src="/images/源码分析/spring/JdkDynamicAopProxy_invoke1.png" alt="获取代理"><br><img src="/images/源码分析/spring/JdkDynamicAopProxy_invoke2.png" alt="获取代理"><br><img src="/images/源码分析/spring/JdkDynamicAopProxy_invoke3.png" alt="获取代理"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;代理中invoke方法触发执行链的proceed方法，proceed方法中调用了拦截器的invoke方法，从而完成了advice/advisor增强方法处理<br><img src="/images/源码分析/spring/ReflectiveMethodInvocation_proceed.png" alt="获取代理"></li>
 </ul>
 </li>
 </ul>
@@ -326,6 +329,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/04/09/jdk-arraylist/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          ArrayList源码分析
+        
+      </div>
+    </a>
   
   
     <a href="/2019/04/05/algorithm-backpack/" id="article-nav-older" class="article-nav-link-wrap">
@@ -463,11 +475,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color4">jdk</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -475,7 +483,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
