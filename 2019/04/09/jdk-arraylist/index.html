@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>ArrayList源码分析 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 750px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值  构造函数&amp;nbsp;&amp;nbsp;&amp;n">
+  <meta name="description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
 <meta name="keywords" content="jdk,source">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ArrayList源码分析">
 <meta property="og:url" content="http://yoursite.com/2019/04/09/jdk-arraylist/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 750px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值  构造函数&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_field.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_construct1.png">
@@ -35,10 +35,10 @@
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_rangeCheck.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_remove2.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_fastRemove.png">
-<meta property="og:updated_time" content="2019-04-10T06:58:16.299Z">
+<meta property="og:updated_time" content="2019-04-10T12:38:58.113Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ArrayList源码分析">
-<meta name="twitter:description" content="img {     width: 750px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值  构造函数&amp;nbsp;&amp;nbsp;&amp;n">
+<meta name="twitter:description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
 <meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_field.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
@@ -197,7 +197,7 @@
       
         <style>
 img {
-    width: 750px;
+    width: 650px;
 }
 </style>
 
@@ -205,8 +205,7 @@ img {
 <p>ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装<br>本文目录结构如下<br><a href="#arraylist1">字段数值</a><br><a href="#arraylist2">构造函数</a><br><a href="#arraylist3">add函数</a><br><a href="#arraylist4">set和get函数</a><br><a href="#arraylist5">indexOf函数</a><br><a href="#arraylist6">remove函数</a></p>
 </blockquote>
 <p><br></p>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="arraylist1">字段数值</a></h2><p><img src="/images/源码分析/jdk/ArrayList_field.png" alt="字段数值"></p>
-<p><br></p>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="arraylist1">字段数值</a></h2><p><img src="/images/源码分析/jdk/ArrayList_field.png" alt="字段数值"><br><a id="more"></a><br><br></p>
 <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a><a name="arraylist2">构造函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList构造函数有三种重载方式，其中默认的构造函数使用最多。<br><img src="/images/源码分析/jdk/ArrayList_construct1.png" alt="构造函数"><br><img src="/images/源码分析/jdk/ArrayList_construct2.png" alt="构造函数"><br><img src="/images/源码分析/jdk/ArrayList_construct3.png" alt="构造函数"></p>
 <p><br></p>
 <h2 id="add函数"><a href="#add函数" class="headerlink" title="add函数"></a><a name="arraylist3">add函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这时该类最核心的函数之一。其依据元素数组的状态进行保证最小容量，然后依据最小容量进行扩容等。该函数有两种重载方式，其一如下<br><img src="/images/源码分析/jdk/ArrayList_rangeCheckForAdd.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_add.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_ensureCapacityInternal.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_calculateCapacity.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_ensureExplicitCapacity.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_grow.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_hugeCapacity.png" alt="add函数"></p>
@@ -391,11 +390,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -411,11 +410,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color1">liunx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">

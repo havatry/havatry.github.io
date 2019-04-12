@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>HashMap源码分析 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 750px; }   概述 HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。本文主要目录如下字段数值构造函数get函数put函数  字段数值&amp;n">
+  <meta name="description" content="img {     width: 650px; }   概述 HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。本文主要目录如下字段数值构造函数get函数put函数  字段数值&amp;n">
 <meta name="keywords" content="jdk,source">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HashMap源码分析">
 <meta property="og:url" content="http://yoursite.com/2019/04/10/jdk-hashmap/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 750px; }   概述 HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。本文主要目录如下字段数值构造函数get函数put函数  字段数值&amp;n">
+<meta property="og:description" content="img {     width: 650px; }   概述 HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。本文主要目录如下字段数值构造函数get函数put函数  字段数值&amp;n">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/HashMap_field.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/HashMap_Nodeclass.png">
@@ -31,10 +31,10 @@
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/HashMap_resize.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/HashMap_resize2.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/HashMap_resize3.png">
-<meta property="og:updated_time" content="2019-04-10T06:58:51.065Z">
+<meta property="og:updated_time" content="2019-04-10T12:38:55.546Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap源码分析">
-<meta name="twitter:description" content="img {     width: 750px; }   概述 HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。本文主要目录如下字段数值构造函数get函数put函数  字段数值&amp;n">
+<meta name="twitter:description" content="img {     width: 650px; }   概述 HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。本文主要目录如下字段数值构造函数get函数put函数  字段数值&amp;n">
 <meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/HashMap_field.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
@@ -193,14 +193,14 @@
       
         <style>
 img {
-    width: 750px;
+    width: 650px;
 }
 </style>
 
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
 <p>HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。<br>本文主要目录如下<br><a href="#hashmap1">字段数值</a><br><a href="#hashmap2">构造函数</a><br><a href="#hashmap3">get函数</a><br><a href="#hashmap4">put函数</a></p>
 </blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="hashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段中的装载因子可以大于1，甚至可以很大比如2^27<br><img src="/images/源码分析/jdk/HashMap_field.png" alt="字段数值"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node元素数组结果如下<br><img src="/images/源码分析/jdk/HashMap_Nodeclass.png" alt="字段数值"></p>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="hashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段中的装载因子可以大于1，甚至可以很大比如2^27<br><img src="/images/源码分析/jdk/HashMap_field.png" alt="字段数值"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node元素数组结果如下<br><img src="/images/源码分析/jdk/HashMap_Nodeclass.png" alt="字段数值"><br><a id="more"></a></p>
 <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a><a name="hashmap2">构造函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;构造函数有四种。其一是指定阈值和装载因子，此时指定的容量会被操作成一个大于指定容量的最小2次方作为阈值，这个构造函数可以设置初始容量，其原理在resize中的else if(oldTh&gt;0)中实现。<br><img src="/images/源码分析/jdk/HashMap_construct1.png" alt="构造函数"><br><img src="/images/源码分析/jdk/HashMap_tableSizeFor.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二种构造函数使用默认装载因子再调用第一种构造函数<br><img src="/images/源码分析/jdk/HashMap_construct2.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第三种构造函数使用最多，这是默认的构造函数。只是指定默认的装载因子，不指定元素数组容量。<br><img src="/images/源码分析/jdk/HashMap_construct3.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第四种构造函数是将已有的map集合加入到当前map中来构造，首先设置默认装载因子再委托其他方法完成<br><img src="/images/源码分析/jdk/HashMap_construct4.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在上面方法中调用putMapEntries方法。执行流程是当进行第四种构造函数的时候，是进入if(table==null)的分支中；当进行已有元素的map中调用putAll(m)方法时候进入else if中。最后将集合m中元素加入进去。其中resize和putVal方法在后面分析。<br><img src="/images/源码分析/jdk/HashMap_putMapEntries.png" alt="构造函数"></p>
 <h2 id="get函数"><a href="#get函数" class="headerlink" title="get函数"></a><a name="hashmap3">get函数</a></h2><p>&nbsp;该函数获取key的hash值映射到对应桶上。<br><img src="/images/源码分析/jdk/HashMap_getNode.png" alt="get函数"></p>
 <h2 id="put函数"><a href="#put函数" class="headerlink" title="put函数"></a><a name="hashmap4">put函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;和get函数类似，首先获取hash值，然后委托putVal来放入元素到map中。其中主要是在放入元素时候会进行扩容。然后将当前节点加入其中，如果重复则依据是否允许覆盖决定覆盖值并返回被覆盖的值，否则返回null<br><img src="/images/源码分析/jdk/HashMap_put.png" alt="put函数"></p>
@@ -240,6 +240,15 @@ img {
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/04/10/jdk-linkedhashmap/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          LinkedHashMap源码分析
+        
+      </div>
+    </a>
   
   
     <a href="/2019/04/09/jdk-linkedlist/" id="article-nav-older" class="article-nav-link-wrap">
@@ -369,11 +378,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -389,11 +398,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color1">liunx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">

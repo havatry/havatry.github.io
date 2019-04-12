@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>LinkedList源码 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 750px; }   概述 LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。本文主要结构如下字段数值构造函数add函数remove函数  字段数值&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;LinkedList实现的类或者接口">
+  <meta name="description" content="img {     width: 650px; }   概述 LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。本文主要结构如下字段数值构造函数add函数remove函数  字段数值&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;LinkedList实现的类或者接口">
 <meta name="keywords" content="jdk,source">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LinkedList源码">
 <meta property="og:url" content="http://yoursite.com/2019/04/09/jdk-linkedlist/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 750px; }   概述 LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。本文主要结构如下字段数值构造函数add函数remove函数  字段数值&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;LinkedList实现的类或者接口">
+<meta property="og:description" content="img {     width: 650px; }   概述 LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。本文主要结构如下字段数值构造函数add函数remove函数  字段数值&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;LinkedList实现的类或者接口">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Linkedlist_field.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Linkedlist_nodeclass.png">
@@ -28,10 +28,10 @@
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Linkedlist_remove.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Linkedlist_unlink.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Linkedlist_unlink2.png">
-<meta property="og:updated_time" content="2019-04-10T06:59:05.250Z">
+<meta property="og:updated_time" content="2019-04-10T12:38:49.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LinkedList源码">
-<meta name="twitter:description" content="img {     width: 750px; }   概述 LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。本文主要结构如下字段数值构造函数add函数remove函数  字段数值&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;LinkedList实现的类或者接口">
+<meta name="twitter:description" content="img {     width: 650px; }   概述 LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。本文主要结构如下字段数值构造函数add函数remove函数  字段数值&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;LinkedList实现的类或者接口">
 <meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/Linkedlist_field.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
@@ -190,15 +190,14 @@
       
         <style>
 img {
-    width: 750px;
+    width: 650px;
 }
 </style>
 
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
 <p>LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。<br>本文主要结构如下<br><a href="#linkedlist1">字段数值</a><br><a href="#linkedlist2">构造函数</a><br><a href="#linkedlist3">add函数</a><br><a href="#linkedlist4">remove函数</a></p>
 </blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedlist1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList实现的类或者接口中比较关键的时候Dequeue，这是可以在两端进行添加或者删除元素的数据结构。<br><img src="/images/源码分析/jdk/Linkedlist_field.png" alt="字段数值"></p>
-<p><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中Node节点是LinkedList的一个内部类，其结构如下<br><img src="/images/源码分析/jdk/Linkedlist_nodeclass.png" alt="字段数值"></p>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedlist1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList实现的类或者接口中比较关键的时候Dequeue，这是可以在两端进行添加或者删除元素的数据结构。<br><img src="/images/源码分析/jdk/Linkedlist_field.png" alt="字段数值"><br><a id="more"></a><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中Node节点是LinkedList的一个内部类，其结构如下<br><img src="/images/源码分析/jdk/Linkedlist_nodeclass.png" alt="字段数值"></p>
 <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a><a name="linkedlist2">构造函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList的构造函数有两个。一个是默认的，一个是带集合参数的。<br><img src="/images/源码分析/jdk/Linkedlist_construct.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在函数中调用了addAll方法来将集合中的元素加入到LinkedList中。大致操作是先定位到第index+1个节点，作为所有集合元素在插入后的最后一个节点<br><img src="/images/源码分析/jdk/Linkedlist_addAll0.png" alt="构造函数"><br><img src="/images/源码分析/jdk/Linkedlist_addAll1.png" alt="构造函数"><br><img src="/images/源码分析/jdk/Linkedlist_addAll2.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在addlAll方法中会首先定位到index节点处，这需要进行查找操作，而查找在链表中是O(n)时间复杂度。这里jdk做了个小优化，对半边进行操作，使得最多遍历一半元素即可定位到<br><img src="/images/源码分析/jdk/Linkedlist_node.png" alt="构造函数"></p>
 <h2 id="add函数"><a href="#add函数" class="headerlink" title="add函数"></a><a name="linkedlist3">add函数</a></h2><p><img src="/images/源码分析/jdk/Linkedlist_add.png" alt="add函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该函数主要委托linkLast方法来实现<br><img src="/images/源码分析/jdk/Linkedlist_linkLast.png" alt="add函数"></p>
 <h2 id="remove函数"><a href="#remove函数" class="headerlink" title="remove函数"></a><a name="linkedlist4">remove函数</a></h2><p><img src="/images/源码分析/jdk/Linkedlist_remove.png" alt="remove函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同样该函数主要委托unlink方法来实现,unlink方法是用来删除链表中任意一个节点<br><img src="/images/源码分析/jdk/Linkedlist_unlink.png" alt="remove函数"><br><img src="/images/源码分析/jdk/Linkedlist_unlink2.png" alt="remove函数"></p>
@@ -378,11 +377,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -398,11 +397,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color1">liunx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">
