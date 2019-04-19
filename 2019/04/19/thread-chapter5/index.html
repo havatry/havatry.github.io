@@ -6,15 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: base | Havatry</title>
+  <title>线程同步 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/tags/base/index.html">
+  <meta name="description" content="img {     width:650px; }   概述 本文主要描述同步模块的构建，目录如下同步容器并发容器&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ConcurrentHashMap&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CopyOnWriteArrayList&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;BlockingQueue&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nb">
+<meta name="keywords" content="java,thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程同步">
+<meta property="og:url" content="http://yoursite.com/2019/04/19/thread-chapter5/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="img {     width:650px; }   概述 本文主要描述同步模块的构建，目录如下同步容器并发容器&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ConcurrentHashMap&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CopyOnWriteArrayList&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;BlockingQueue&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nb">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Exchanger_arenaExchange1.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Exchanger_arenaExchange2.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Exchanger_arenaExchange3.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Exchanger_arenaExchange4.png">
+<meta property="og:updated_time" content="2019-04-19T07:40:49.682Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Havatry">
+<meta name="twitter:title" content="线程同步">
+<meta name="twitter:description" content="img {     width:650px; }   概述 本文主要描述同步模块的构建，目录如下同步容器并发容器&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ConcurrentHashMap&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CopyOnWriteArrayList&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;BlockingQueue&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nb">
+<meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/Exchanger_arenaExchange1.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -150,64 +160,122 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-thread-chapter5" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/12/linux-bootstep/" class="archive-article-date">
-  	<time datetime="2019-04-12T09:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/12/linux-bootstep/">Liunx启动流程</a>
+    <h1 class="article-title" itemprop="name">
+      线程同步
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/04/19/thread-chapter5/" class="archive-article-date">
+  	<time datetime="2019-04-19T06:01:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width:650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>本文主要描述同步模块的构建，目录如下<br><a href="#threadsyn1">同步容器</a><br><a href="#threadsyn2">并发容器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn21">ConcurrentHashMap</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn22">CopyOnWriteArrayList</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn23">BlockingQueue</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn24">BlockingDequeue</a><br><a href="#threadsyn3">同步策略</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn31">Latch</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn32">Semaphore</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn33">Barrier</a><br><a href="#threadsyn4">缓存设计</a></p>
+</blockquote>
+<h2 id="同步容器"><a href="#同步容器" class="headerlink" title="同步容器"></a><a name="threadsyn1">同步容器</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Jdk中的同步容器有Vector,HashTable,Stack,Enumeration，还有使用Collections类包装的容器类。这些在单个操作是种线程安全的，但是复合操作时候仍然需要加锁。在ConcurrentHashMap中在多个线程并发修改容器的时候并没有考虑并发修改的问题，这种复合操作的影响使用了fast-fail机制来解决，该机制出现在迭代时候。这种机制是一种善意的捕获并发错误。借助modCount值和预期值的差别来判断，但是这样的判断在没有同步的情况下还是会出现看到已经失效的计数值，这是一种设计上的权衡。==&gt; 解决方法是在迭代过程中使用加锁机制，但是这样存在的问题是某些线程访问容器之前需要等待迭代过程的长时间，同时可能还会导致线程的死锁，也会降低程序的可伸缩性。==&gt;解决方法是在线程内克隆容器，然后在副本上进行操作，但是这种方式存在性能开销和空间开销等。<br>&nbsp;&nbsp;&nbsp;&nbsp;除了对显示迭代器加锁，同时也要注意对隐式迭代器加锁，比如toString方法会对容器进行迭代,hashCode以及equals方法也会这样。<br><a id="more"></a></p>
+<h2 id="并发容器"><a href="#并发容器" class="headerlink" title="并发容器"></a><a name="threadsyn2">并发容器</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Jdk5对同步容器做了改进，比如ConcurrentHashMap代替Map,CopyOnWriteArrayList代替List,ConcurrentMap增加常见复合操作的Map,ConcurrentSkipListMap代替SortedMap,ConcurrentSkipListSet代替SortedSet，同时加入Queue和BlockingQueue等。</p>
+<ul>
+<li><a name="threadsyn21">ConcurrentHashMap</a><br>&nbsp;&nbsp;&nbsp;&nbsp;    ConcurrentHashMap并不是将每个方法都在同一个锁上同步并每次只有一个线程访问容器，而是使用了一种粒度更细的加锁机制失效更大程度的共享，这种机制即分段锁。其特性式读线程并发访问，读线程和写线程并发访问，支持一定数量的写线程并发访问。<br>&nbsp;&nbsp;&nbsp;&nbsp;    和Map区别:在并发访问环境下实现更高的吞吐量，在单线程环境下性能损失较少。不会抛出ConcurrentModificationException异常。迭代器是弱一致性而非fast-fail机制，弱一致性的迭代器可以容忍并发的修改，不需要对迭代器进行加锁，当创建迭代器时候会遍历所有元素，然后再遍历时候的修改会反映到容器中（不保证）。但是size方法以及isEmpty方法语义减弱了。可能不是很准确。ConcurrentHashMap没有独占锁，在通过原子方式添加映射，因此在需要使用独占锁的时候才可以考虑不使用ConcurrentHashMap,但是这种情况很少。<br>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li><a name="threadsyn22">CopyOnWriteArrayList</a><br>&nbsp;&nbsp;&nbsp;&nbsp;    CopyOnWriteArrayList用于替代List，在迭代期间不需要加锁。主要实现是每次修改会创建并重新发布一个新的容器副本，从而实现可变性。写入时复制，保留一个指向底层的基础数组引用，由于该基础数组不会被修改，因此在对进行同步时候只需要保证可见性即可。当线程修改容器时候都会复制底层的数组，否则直接读取引用数组。当然复制需要一定的开销，当迭代操作多于修改操作时候，才考虑使用写入时复制的容器<br>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li><a name="threadsyn23">BlockingQueue</a><br>&nbsp;&nbsp;&nbsp;&nbsp;    BlockingQueue提供了可阻塞的put和take方法，定时的offer和poll方法。支持生产者-消费者模式，该模式使得生成数据和使用数据两个过程解耦，简化工作负载的管理，因为两者速率的不协调。线程池和工作队列的组合体现了该设计模式。阻塞队列实现包括LinkedBlockingQueue和ArrayBlockingQueue等FIFO队列，PriorityBlockingQueue优先阻塞队列,SynchronousQueue队列。对于最后一个队列，其实并不是一个真正的队列，它维护一组线程，这些线程等着把元素加入或者移除队列，其是在线程之间直接移交的，当有线程空闲就可以将生成数据移交过去，从而降低了从生产者移动到消费者的延迟。该阻塞队列因为没有存储功能，因此put和take会一直阻塞，直到另一个线程已经准备好参与到交付过程中。当有足够多的消费者才使用同步移交队列。<br>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li><a name="threadsyn24">BlockingDequeue</a><br>&nbsp;&nbsp;&nbsp;&nbsp;    BlockingDequeue是个阻塞的双端队列。实现有ArrayDequeue和LinkedBlockingDequeue等。该队列可以实现工作密取，实现是每个线程有自己的阻塞双端队列，每次线程接收到数据放到自己双端队列尾部，然后在首部取出数据进行消费。当自己的阻塞双端队列的数据消费完成后，可以去别的线程中的双端队列中获取数据进行消费。由于每次获取的是自己的双端队列中的数据，从而极大减少竞争，同时两端消费也减少了竞争程度。这在垃圾回收阶段对堆的标记或者爬虫中等。<br>&nbsp;&nbsp;&nbsp;&nbsp;    </li>
+</ul>
+<h2 id="同步策略"><a href="#同步策略" class="headerlink" title="同步策略"></a><a name="threadsyn3">同步策略</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;实现策略有阻塞队列，信号量，栅栏，闭锁。阻塞队列如上。</p>
+<ul>
+<li><a name="threadsyn31">Latch</a><br>&nbsp;&nbsp;&nbsp;&nbsp;    闭锁可以延迟线程的进度直到其到达终止状态。作用相当于一个门，在闭锁结束之前，门是关闭的，没有任何线程能通过。当到结束状态时候，门开启，允许所有线程通过。同时到达状态时候，门始终打开。使用场景是某个计算需要其他所有资源初始化完成后才能进行；某个服务需要在其依赖的程序运行后才开始。实现方式有两种，一是CountDownLatch使用一个计数器，初始一个值每次调用countDown方法递减，当countDown值为0的时候，await方法会继续执行。另一个是FutureTask。该类继承CallableFuture接口。<br>&nbsp;&nbsp;&nbsp;&nbsp;    </li>
+<li><a name="threadsyn32">Semaphore</a><br>&nbsp;&nbsp;&nbsp;&nbsp;    信号量用来控制同时访问某个特定资源的操作数量。使用场景是资源池或者对容器加上边界或者实现生产者-消费者模式。当信号值为1的时候是二值信号量，用于实现互斥量。<br>&nbsp;&nbsp;&nbsp;&nbsp;    </li>
+<li><a name="threadsyn33">Barrier</a><br>&nbsp;&nbsp;&nbsp;&nbsp;    栅栏是阻塞一组线程直到某个事件发生。其和闭锁的区别在于，闭锁式等待事件而栅栏是等待其他线程。当线程到达栅栏位置的时候在代码处显示调用await方法（栅栏位置），这个方法会阻塞直到所有线程都到栅栏位置。当都到达后，栅栏打开，所有线程释放，栅栏被重置。如果await超时或者中断，则栅栏被认为打破了，并抛出BrokenBarrierException。如果成功通过栅栏，则wait为每个线程返回的一个唯一的到达索引确定一个领导线程来执行一个指定的工作。有两种实现，其一是CyclicBarrier，它用runable来完成工作。另一个是Exchanger，它的实现多槽交换源码如下。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;    <img src="/images/源码分析/jdk/Exchanger_arenaExchange1.png" alt="Barrier"><br>&nbsp;&nbsp;&nbsp;&nbsp;    <img src="/images/源码分析/jdk/Exchanger_arenaExchange2.png" alt="Barrier"><br>&nbsp;&nbsp;&nbsp;&nbsp;    <img src="/images/源码分析/jdk/Exchanger_arenaExchange3.png" alt="Barrier"><br>&nbsp;&nbsp;&nbsp;&nbsp;    <img src="/images/源码分析/jdk/Exchanger_arenaExchange4.png" alt="Barrier"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;    主要是如果发现槽位为空，则将自己数据填充进去。否则有槽上有数据，则和其进行数据交换（类似单槽），如果交换失败说明有其他线程在交换，则其往后移动一个槽位。此时后面槽位有数据就交换，否则说明没有数据交换，那么就自旋等待一会（默认是1&lt;&lt;10次自旋）,如果自旋后还是没有其他线程来交换则往前面移动一个槽位，直到移动到第一个槽位后，没有线程来交换数据，就阻塞。降低了并发竞争程度。<br>参考:<a href="https://blog.csdn.net/u014634338/article/details/78385521" target="_blank" rel="noopener">https://blog.csdn.net/u014634338/article/details/78385521</a></li>
+</ul>
+<h2 id="缓存设计"><a href="#缓存设计" class="headerlink" title="缓存设计"></a><a name="threadsyn4">缓存设计</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;缓存重用之前的计算结果提高吞吐量，但是要消耗更多内存。高效缓存策略:将缓存用ConcurrentMap来实现，键是输入类型，值是Future<v>类型，其中V是输出类型。使用ConcurrentMap考虑到一些复合操作的原子性，Future<v>是避免重复计算。同时还要考虑把Future从缓存中移除，缓存过期以及定期清理缓存等情况。</v></v></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">liunx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/04/12/linux-bootstep/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Liunx启动流程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -230,9 +298,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
