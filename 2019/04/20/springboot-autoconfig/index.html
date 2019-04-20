@@ -6,40 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>ArrayList源码分析 | Havatry</title>
+  <title>springboot自动配置 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
-<meta name="keywords" content="jdk,source">
+  <meta name="description" content="img {     width:650px; }   概述&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;层次">
+<meta name="keywords" content="springboot,base">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ArrayList源码分析">
-<meta property="og:url" content="http://yoursite.com/2019/04/09/jdk-arraylist/index.html">
+<meta property="og:title" content="springboot自动配置">
+<meta property="og:url" content="http://yoursite.com/2019/04/20/springboot-autoconfig/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
+<meta property="og:description" content="img {     width:650px; }   概述&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;层次">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_field.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_construct1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_construct2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_construct3.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_rangeCheckForAdd.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_add.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_ensureCapacityInternal.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_calculateCapacity.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_ensureExplicitCapacity.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_grow.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_hugeCapacity.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_add2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_set.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_get.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_indexOf.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_remove1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_rangeCheck.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_remove2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_fastRemove.png">
-<meta property="og:updated_time" content="2019-04-10T12:38:58.113Z">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/SpringBootApplication_class.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/SpringBootApplication_class.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/AutoConfigurationImportSelector_getCandidateConfigurations.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/autoconfigure_pom.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/EnableAutoConfiguration_springfactories.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/load_pom.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/import_pom.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/springboot/use_pom.png">
+<meta property="og:updated_time" content="2019-04-20T07:14:24.978Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ArrayList源码分析">
-<meta name="twitter:description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
-<meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_field.png">
+<meta name="twitter:title" content="springboot自动配置">
+<meta name="twitter:description" content="img {     width:650px; }   概述&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;层次">
+<meta name="twitter:image" content="http://yoursite.com/images/源码分析/springboot/SpringBootApplication_class.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -175,20 +164,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-jdk-arraylist" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-springboot-autoconfig" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      ArrayList源码分析
+      springboot自动配置
     </h1>
   
 
         
-        <a href="/2019/04/09/jdk-arraylist/" class="archive-article-date">
-  	<time datetime="2019-04-09T11:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
+        <a href="/2019/04/20/springboot-autoconfig/" class="archive-article-date">
+  	<time datetime="2019-04-20T06:32:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-20</time>
 </a>
         
       </header>
@@ -197,26 +186,15 @@
       
         <style>
 img {
-    width: 650px;
+    width:650px;
 }
 </style>
 
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装<br>本文目录结构如下<br><a href="#arraylist1">字段数值</a><br><a href="#arraylist2">构造函数</a><br><a href="#arraylist3">add函数</a><br><a href="#arraylist4">set和get函数</a><br><a href="#arraylist5">indexOf函数</a><br><a href="#arraylist6">remove函数</a></p>
-</blockquote>
-<p><br></p>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="arraylist1">字段数值</a></h2><p><img src="/images/源码分析/jdk/ArrayList_field.png" alt="字段数值"><br><a id="more"></a><br><br></p>
-<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a><a name="arraylist2">构造函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList构造函数有三种重载方式，其中默认的构造函数使用最多。<br><img src="/images/源码分析/jdk/ArrayList_construct1.png" alt="构造函数"><br><img src="/images/源码分析/jdk/ArrayList_construct2.png" alt="构造函数"><br><img src="/images/源码分析/jdk/ArrayList_construct3.png" alt="构造函数"></p>
-<p><br></p>
-<h2 id="add函数"><a href="#add函数" class="headerlink" title="add函数"></a><a name="arraylist3">add函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这时该类最核心的函数之一。其依据元素数组的状态进行保证最小容量，然后依据最小容量进行扩容等。该函数有两种重载方式，其一如下<br><img src="/images/源码分析/jdk/ArrayList_rangeCheckForAdd.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_add.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_ensureCapacityInternal.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_calculateCapacity.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_ensureExplicitCapacity.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_grow.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_hugeCapacity.png" alt="add函数"></p>
-<p><br><br>其二是<br><img src="/images/源码分析/jdk/ArrayList_add2.png" alt="add函数"></p>
-<p><br></p>
-<h2 id="set和get函数"><a href="#set和get函数" class="headerlink" title="set和get函数"></a><a name="arraylist4">set和get函数</a></h2><p><img src="/images/源码分析/jdk/ArrayList_set.png" alt="set和get函数"><br><img src="/images/源码分析/jdk/ArrayList_get.png" alt="set和get函数"></p>
-<p><br></p>
-<h2 id="indexOf函数"><a href="#indexOf函数" class="headerlink" title="indexOf函数"></a><a name="arraylist5">indexOf函数</a></h2><p><img src="/images/源码分析/jdk/ArrayList_indexOf.png" alt="indexOf函数"></p>
-<p><br></p>
-<h2 id="remove函数"><a href="#remove函数" class="headerlink" title="remove函数"></a><a name="arraylist6">remove函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在remove和add函数中都有modCount++,这可以防止在遍历集合的时候对其进行删除操作错误。可以使用迭代器进行安全删除.其有两种实现,第一个如下<br><img src="/images/源码分析/jdk/ArrayList_remove1.png" alt="remove函数"><br><img src="/images/源码分析/jdk/ArrayList_rangeCheck.png" alt="remove函数"></p>
-<p><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二个如下,该函数借助了fastRemove函数,该函数和上面的remove函数很相似,只是少了一些操作.<br><img src="/images/源码分析/jdk/ArrayList_remove2.png" alt="remove函数"><br><img src="/images/源码分析/jdk/ArrayList_fastRemove.png" alt="remove函数"></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。<br>&nbsp;&nbsp;&nbsp;&nbsp;层次关系如下<br>&nbsp;&nbsp;&nbsp;&nbsp;SpringBootApplication注解中包含@EnableAutoConfiguration注解<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/SpringBootApplication_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;@EnableAutoConfiguration注解包含一个关键的AutoConfigurationImportSelector类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/SpringBootApplication_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;AutoConfigurationImportSelector类中会进行加载spring.factories文件中的自动配置类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/AutoConfigurationImportSelector_getCandidateConfigurations.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;spring.factories文件可以在META-INF/目录下，也可以在autoconfigure的jar包中，引入jar包<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/autoconfigure_pom.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;其jar包中配置文件内容<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_springfactories.png" alt="概述"><br><a id="more"></a></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;1. 属性类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.chapter2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;</span><br><span class="line"></span><br><span class="line"><span class="comment">//公共属性前缀</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"hello"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceProperties</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String msg;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMSG</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> msg;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMsg</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.msg = msg;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;2. 配置类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.chapter2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.condition.ConditionalOnClass;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.context.properties.EnableConfigurationProperties;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="comment">//载入配置文件</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(HelloServiceProperties.class)</span><br><span class="line"><span class="comment">//当目标类存在才进行自动配置</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(HelloService.class)</span><br><span class="line"><span class="comment">//可以在本jar包中不配置hello子属性</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty</span>(prefix = <span class="string">"hello"</span>,value=<span class="string">"enabled"</span>,matchIfMissing = <span class="keyword">true</span>)</span><br><span class="line"><span class="comment">//hello子属性只会从运行的项目的application.yml中读取</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloServiceAutoConfiguration</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> HelloServiceProperties helloServiceProperties;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="meta">@ConditionalOnMissingBean</span>(HelloService.class)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> HelloService <span class="title">helloService</span><span class="params">()</span></span>&#123;</span><br><span class="line">		HelloService helloService=<span class="keyword">new</span> HelloService();</span><br><span class="line">		helloService.setMsg(helloServiceProperties.getMSG());</span><br><span class="line">		<span class="keyword">return</span> helloService;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;3. 目标类<br>                        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.chapter2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloService</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String msg;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Hello "</span>+getMsg();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> msg;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMsg</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.msg = msg;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;4. 打包到本地仓库<br>&nbsp;&nbsp;&nbsp;&nbsp;在工程目录下，使用mvn install命令打包。然后再新的工程中引入此jar包。<br>&nbsp;&nbsp;&nbsp;&nbsp;如果出现在maven中引入了本地jar包，但是使用jar包中的类出现cannot resolve symbol ‘xxx’<br>&nbsp;&nbsp;&nbsp;&nbsp;加入本地jar包<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/load_pom.png" alt="使用"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;查看jar包导入<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/import_pom.png" alt="使用"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;使用jar包中类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/use_pom.png" alt="使用"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;解决方法:<br>&nbsp;&nbsp;&nbsp;&nbsp;主要是springboot会对jar包进行二次封装，所以要去掉springboot的打包插件，然后再安装到本地仓库引用<br>&nbsp;&nbsp;&nbsp;&nbsp;参考:<a href="https://blog.csdn.net/lizhongfu2013/article/details/79656972" target="_blank" rel="noopener">https://blog.csdn.net/lizhongfu2013/article/details/79656972</a></p>
 
       
 
@@ -230,11 +208,11 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
         		</li>
       		
 		</ul>
@@ -253,18 +231,9 @@ img {
   
 <nav id="article-nav">
   
-    <a href="/2019/04/09/jdk-linkedlist/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          LinkedList源码
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/08/spring-aop/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Spring AOP源码分析</div>
+    <a href="/2019/04/19/thread-chapter5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">线程同步</div>
       <i class="icon-circle-right"></i>
     </a>
   

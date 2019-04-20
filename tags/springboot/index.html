@@ -6,40 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>ArrayList源码分析 | Havatry</title>
+  <title>Tag: springboot | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
-<meta name="keywords" content="jdk,source">
-<meta property="og:type" content="article">
-<meta property="og:title" content="ArrayList源码分析">
-<meta property="og:url" content="http://yoursite.com/2019/04/09/jdk-arraylist/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Havatry">
+<meta property="og:url" content="http://yoursite.com/tags/springboot/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_field.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_construct1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_construct2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_construct3.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_rangeCheckForAdd.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_add.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_ensureCapacityInternal.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_calculateCapacity.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_ensureExplicitCapacity.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_grow.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_hugeCapacity.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_add2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_set.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_get.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_indexOf.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_remove1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_rangeCheck.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_remove2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_fastRemove.png">
-<meta property="og:updated_time" content="2019-04-10T12:38:58.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ArrayList源码分析">
-<meta name="twitter:description" content="img {     width: 650px; }   概述 ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装本文目录结构如下字段数值构造函数add函数set和get函数indexOf函数remove函数   字段数值">
-<meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/ArrayList_field.png">
+<meta name="twitter:title" content="Havatry">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -175,129 +150,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-jdk-arraylist" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      ArrayList源码分析
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/04/20/springboot-autoconfig/" class="archive-article-date">
+  	<time datetime="2019-04-20T06:32:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-20</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/04/20/springboot-autoconfig/">springboot自动配置</a>
     </h1>
   
 
-        
-        <a href="/2019/04/09/jdk-arraylist/" class="archive-article-date">
-  	<time datetime="2019-04-09T11:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装<br>本文目录结构如下<br><a href="#arraylist1">字段数值</a><br><a href="#arraylist2">构造函数</a><br><a href="#arraylist3">add函数</a><br><a href="#arraylist4">set和get函数</a><br><a href="#arraylist5">indexOf函数</a><br><a href="#arraylist6">remove函数</a></p>
-</blockquote>
-<p><br></p>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="arraylist1">字段数值</a></h2><p><img src="/images/源码分析/jdk/ArrayList_field.png" alt="字段数值"><br><a id="more"></a><br><br></p>
-<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a><a name="arraylist2">构造函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList构造函数有三种重载方式，其中默认的构造函数使用最多。<br><img src="/images/源码分析/jdk/ArrayList_construct1.png" alt="构造函数"><br><img src="/images/源码分析/jdk/ArrayList_construct2.png" alt="构造函数"><br><img src="/images/源码分析/jdk/ArrayList_construct3.png" alt="构造函数"></p>
-<p><br></p>
-<h2 id="add函数"><a href="#add函数" class="headerlink" title="add函数"></a><a name="arraylist3">add函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这时该类最核心的函数之一。其依据元素数组的状态进行保证最小容量，然后依据最小容量进行扩容等。该函数有两种重载方式，其一如下<br><img src="/images/源码分析/jdk/ArrayList_rangeCheckForAdd.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_add.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_ensureCapacityInternal.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_calculateCapacity.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_ensureExplicitCapacity.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_grow.png" alt="add函数"><br><img src="/images/源码分析/jdk/ArrayList_hugeCapacity.png" alt="add函数"></p>
-<p><br><br>其二是<br><img src="/images/源码分析/jdk/ArrayList_add2.png" alt="add函数"></p>
-<p><br></p>
-<h2 id="set和get函数"><a href="#set和get函数" class="headerlink" title="set和get函数"></a><a name="arraylist4">set和get函数</a></h2><p><img src="/images/源码分析/jdk/ArrayList_set.png" alt="set和get函数"><br><img src="/images/源码分析/jdk/ArrayList_get.png" alt="set和get函数"></p>
-<p><br></p>
-<h2 id="indexOf函数"><a href="#indexOf函数" class="headerlink" title="indexOf函数"></a><a name="arraylist5">indexOf函数</a></h2><p><img src="/images/源码分析/jdk/ArrayList_indexOf.png" alt="indexOf函数"></p>
-<p><br></p>
-<h2 id="remove函数"><a href="#remove函数" class="headerlink" title="remove函数"></a><a name="arraylist6">remove函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在remove和add函数中都有modCount++,这可以防止在遍历集合的时候对其进行删除操作错误。可以使用迭代器进行安全删除.其有两种实现,第一个如下<br><img src="/images/源码分析/jdk/ArrayList_remove1.png" alt="remove函数"><br><img src="/images/源码分析/jdk/ArrayList_rangeCheck.png" alt="remove函数"></p>
-<p><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二个如下,该函数借助了fastRemove函数,该函数和上面的remove函数很相似,只是少了一些操作.<br><img src="/images/源码分析/jdk/ArrayList_remove2.png" alt="remove函数"><br><img src="/images/源码分析/jdk/ArrayList_fastRemove.png" alt="remove函数"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/04/09/jdk-linkedlist/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          LinkedList源码
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/04/08/spring-aop/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Spring AOP源码分析</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -320,9 +230,9 @@ img {
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

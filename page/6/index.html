@@ -152,6 +152,100 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-designmode-flyweight" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/30/designmode-flyweight/">享元模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/30/designmode-flyweight/" class="archive-article-date">
+  	<time datetime="2019-03-30T02:14:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>使用共享对象可有效地支持大量的细粒度的对象。依据外部状态和内部状态通过工厂来获取对象。</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象享元: 对享元类进行抽象</span></span><br><span class="line">pubilc <span class="class"><span class="keyword">interface</span> <span class="title">Flyweight</span></span>&#123;</span><br><span class="line">	<span class="comment">//业务方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(String extrinsicState)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体享元: 实现抽象享元</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFlyweight</span> <span class="keyword">implements</span> <span class="title">Flyweight</span></span>&#123;</span><br><span class="line">	<span class="comment">//内部状态</span></span><br><span class="line">	<span class="keyword">private</span> String intrinsicState;</span><br><span class="line">	ConcreteFlyweight(String intrinsicState)&#123;</span><br><span class="line">		<span class="keyword">this</span>.intrinsicState=intrinsicState;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(String extrinsicState)</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"内部状态: "</span>+intrinsicState+<span class="string">",外部状态: "</span>+extrinsicState);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//享元工厂: 池容器，管理创建享元角色</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlyweightFactory</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String,Flyweight&gt; pool =<span class="keyword">new</span> HashMap&lt;String,Flyweight&gt;();</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">FlyweightFactory</span><span class="params">()</span></span>&#123;&#125;<span class="comment">//私有</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Flyweight <span class="title">getFlyweight</span><span class="params">(String intrinsicState)</span></span>&#123;</span><br><span class="line">		Flyweight flyweight=pool.get(intrinsicStae);</span><br><span class="line">		<span class="keyword">if</span>(flyweight==<span class="keyword">null</span>)&#123;</span><br><span class="line">			flyweight=<span class="keyword">new</span> ConcreteFlyweight(intrinsicState);</span><br><span class="line">			pool.put(intrinsicState,flyweight);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> flyweight;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//客户端: 存储享元对象的外部状态</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点<br>优点: 减少内存中对象数量<br>缺点: 增加系统复杂性，读取外部状态使得运行时间变长</p>
+</li>
+<li><p>4.使用场景<br>系统中存在大量相似对象时候<br>对象没有特定身份<br>需要缓冲池时候<br>eg. String,Integer,Boolean,Character等</p>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Chesspiece</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>;<span class="comment">//落子</span></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChesspieceFlyweight</span> <span class="keyword">implements</span> <span class="title">Chesspiece</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String color;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ChesspieceFlyweight</span><span class="params">(String color)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.color=color;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"在("</span>+x+<span class="string">", "</span>+y+<span class="string">")位置放了一个"</span>+color+<span class="string">"子"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChesspieceFactory</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> Chesspiece WHITE=<span class="keyword">new</span> ChesspieceFlyweight(<span class="string">"白"</span>);</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> Chesspiece BLACK=<span class="keyword">new</span> ChesspieceFlyweight(<span class="string">"黑"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Chesspiece <span class="title">getChesspiece</span><span class="params">(String color)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(color.equals(<span class="string">"白"</span>))</span><br><span class="line">			<span class="keyword">return</span> WHITE;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(color.equals(<span class="string">"黑"</span>))</span><br><span class="line">			<span class="keyword">return</span> BLACK;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Chesspiece;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.ChesspieceFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlyweightDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试享元模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Chesspiece p1=ChesspieceFactory.getChesspiece(<span class="string">"黑"</span>);</span><br><span class="line">		p1.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">		Chesspiece p2=ChesspieceFactory.getChesspiece(<span class="string">"白"</span>);</span><br><span class="line">		p2.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">		Chesspiece p3=ChesspieceFactory.getChesspiece(<span class="string">"黑"</span>);</span><br><span class="line">		p3.put(<span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line">		Chesspiece p4=ChesspieceFactory.getChesspiece(<span class="string">"白"</span>);</span><br><span class="line">		p4.put(<span class="number">4</span>, <span class="number">4</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在(1, 1)位置放了一个黑子</span><br><span class="line">在(2, 2)位置放了一个白子</span><br><span class="line">在(3, 3)位置放了一个黑子</span><br><span class="line">在(4, 4)位置放了一个白子</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/30/designmode-flyweight/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-designmode-mediator" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -738,112 +832,6 @@
 
 
   
-    <article id="post-sed进阶" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/sed进阶/">sed进阶</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/27/sed进阶/" class="archive-article-date">
-  	<time datetime="2019-03-27T03:18:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-table th:nth-of-type(1) {
-    width: 400px;
-}
-table th:nth-of-type(2) {
-    width: 600px;
-}
-</style>
-
-<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>sed编辑器的基本功能是处理数据流中的文不，下面介绍下关于sed编辑器的高级特性。</p>
-<blockquote>
-<p><a href="#1">多行命令</a><br><a href="#2">保持空间</a><br><a href="#3">排除命令</a><br><a href="#4">改变流</a><br><a href="#5">模式替换</a><br><a href="#6">其他技巧</a></p>
-</blockquote>
-<h4 id="多行命令"><a href="#多行命令" class="headerlink" title="多行命令"></a><a name="1">多行命令</a></h4><ul>
-<li><p>next命令<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;告诉sed编辑器移动到数据流的下一个文本行中，不用重新回到命令的最开始再执行一遍。next命令改变了在移动到下一行文本前执行完所有定义的命令，而是联合下一行处理。</p>
-<ul>
-<li><p>单行n</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/header/&#123;n ; d&#125;'</span> data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先匹配到/header/行，然后执行{}中的命令列表。n表示将下一行移动到模式空间中,d是用来删除模式空间内容。</p>
-</li>
-<li><p>合并N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrator group meeting will be held.</span><br><span class="line">All System Administrators should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'N ; s/System Administrator/Desktop User/'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrators group meeting will be held.</span><br><span class="line">All Desktop Users should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先查找含有first的那行文不，然后N将下一行合并到那行，使用s进行替换。N表示将下一行追加到模式空间中,s是用来替换模式空间的内容。适合用来查找分散在两行中的文不短语等。<br><strong>注意:</strong>当匹配行在数据流的最后一行，N会错过，因为没有其他行可以读入模式空间中。这样需要将该命令放到N的前面处理。</p>
-</li>
-<li><p>删除N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data5.txt</span><br><span class="line"></span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/^$/&#123;N ; /header/D&#125;'</span> data5.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先找到空行,然后将下一行合并到模式空间后，匹配以header开头的模式空间内容，匹配到则删除模式空间中的第一行。D是删除空间中的第一行，d是删除空间中的所有行。</p>
-</li>
-<li><p>打印N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">'N ; /System\nAdministrator/P'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先将下一追加到模式空间，然后进行匹配模式打印，将打印空间中的第一行内容。</p>
-        
-          <a class="article-more-a" href="/2019/03/27/sed进阶/#more">more >></a>
-        
-      
-
-      
-    </li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/27/sed进阶/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -941,11 +929,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -969,6 +957,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -978,10 +974,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">liunx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
             
             <div class="clearfix"></div>
