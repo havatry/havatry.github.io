@@ -178,7 +178,7 @@ img {
 }
 </style>
 
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。<br>&nbsp;&nbsp;&nbsp;&nbsp;层次关系如下<br>&nbsp;&nbsp;&nbsp;&nbsp;SpringBootApplication注解中包含@EnableAutoConfiguration注解<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/SpringBootApplication_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;@EnableAutoConfiguration注解包含一个关键的AutoConfigurationImportSelector类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/SpringBootApplication_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;AutoConfigurationImportSelector类中会进行加载spring.factories文件中的自动配置类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/AutoConfigurationImportSelector_getCandidateConfigurations.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;spring.factories文件可以在META-INF/目录下，也可以在autoconfigure的jar包中，引入jar包<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/autoconfigure_pom.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;其jar包中配置文件内容<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_springfactories.png" alt="概述"><br>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。<br>&nbsp;&nbsp;&nbsp;&nbsp;层次关系如下<br>&nbsp;&nbsp;&nbsp;&nbsp;SpringBootApplication注解中包含@EnableAutoConfiguration注解<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/SpringBootApplication_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;@EnableAutoConfiguration注解包含一个关键的AutoConfigurationImportSelector类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;AutoConfigurationImportSelector类中会进行加载spring.factories文件中的自动配置类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/AutoConfigurationImportSelector_getCandidateConfigurations.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;spring.factories文件可以在META-INF/目录下，也可以在autoconfigure的jar包中，引入jar包<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/autoconfigure_pom.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;其jar包中配置文件内容<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_springfactories.png" alt="概述"><br>
         
           <a class="article-more-a" href="/2019/04/20/springboot-autoconfig/#more">more >></a>
         
@@ -682,11 +682,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
