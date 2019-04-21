@@ -152,6 +152,175 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-linux-bootstep" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/12/linux-bootstep/">Liunx启动流程</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/12/linux-bootstep/" class="archive-article-date">
+  	<time datetime="2019-04-12T09:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>一、介绍</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Linux启动流程如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.加载BIOS硬件信息与进行自我测试，依据设置取得第一个可启动的设备<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.读取第一个启动设备内MBR的boot loader(grub)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.依据boot loader设置加载内核，内核开始检测硬件与加载驱动程序<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.硬件驱动加载后，内核主动调用init进程，init进程取得runlevel信息<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.init执行/etc/rc.d/rc.sysinit准备操作环境<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.init执行/etc/rc.d/rc[0-6]准备各个服务启动<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.init执行/etc/rc.d/rc.local执行自定义脚本服务<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.init执行终端机模拟程序mingetty来启动login进程，进行登录<br>
+        
+          <a class="article-more-a" href="/2019/04/12/linux-bootstep/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">liunx</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/12/linux-bootstep/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-jdk-linkedhashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/10/jdk-linkedhashmap/">LinkedHashMap源码分析</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/10/jdk-linkedhashmap/" class="archive-article-date">
+  	<time datetime="2019-04-10T11:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等。<br>本文主要目录如下<br><a href="#linkedhashmap1">字段数值</a><br><a href="#linkedhashmap2">构造函数</a><br><a href="#linkedhashmap3">newNode函数</a><br><a href="#linkedhashmap4">afterNodeAccess函数</a><br><a href="#linkedhashmap5">afterNodeInsertion函数</a><br><a href="#linkedhashmap6">containsValue函数</a><br><a href="#linkedhashmap7">get函数</a></p>
+</blockquote>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedhashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedHashMap继承自HashMap，定义的属主要有头部节点和尾部节点以及访问顺序。<br><img src="/images/源码分析/jdk/LinkedHashMap_field.png" alt="字段数值"><br>
+        
+          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-jdk-hashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -420,173 +589,6 @@ img {
 
 
   
-    <article id="post-spring-aop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/08/spring-aop/">Spring AOP源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/08/spring-aop/" class="archive-article-date">
-  	<time datetime="2019-04-08T12:26:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>SpringAop有动态代理和静态代理两种，本文主要分析动态代理的过程。SpringAOP是将业务代码和系统代码进行解耦，主要用于数据库，日志和安全等方面。SpringAop主要采用AspectJ框架来实现。主要是如下步骤:<br><a href="#1">解析自定义标签</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#11">自定义标签</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#12">解析入口函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#121">注册AnnotationAwareAspectJAutoProxyCreator</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#122">对proxy-target-class和expose-proxy属性处理</a><br><a href="#2">创建AOP代理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21">类入口函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211">获取bean的增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2111">获取候选集增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21111">获取普通增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211111">获取切点信息</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211112">依据切点信息增强</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2111121">前置通知</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2111122">后置通知</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21112">同步实例化增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#212">创建代理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2121">构建advisor</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2122">解析获取</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21221">创建代理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21222">获取代理</a></p>
-</blockquote>
-<p><br></p>
-<h2 id="解析自定义标签"><a href="#解析自定义标签" class="headerlink" title="解析自定义标签"></a><a name="1">解析自定义标签</a></h2><ul>
-<li><a name="11">自定义标签</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在AopnamespaceHandler类中为声明的注解定义对应的解析器。<br><img src="/images/源码分析/spring/AopNamespaceHandler_init.png" alt="自定义标签"></li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/04/08/spring-aop/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/08/spring-aop/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-algorithm-backpack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/05/algorithm-backpack/">背包九讲</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/05/algorithm-backpack/" class="archive-article-date">
-  	<time datetime="2019-04-05T08:25:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 01背包问题</span></span><br><span class="line"><span class="comment"> * 2019年4月5日 上午10:44:24</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZeroOnePack</span> </span>&#123;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解01背包问题</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight 各物品质量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 最佳的总价值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsack</span><span class="params">(<span class="keyword">int</span>[] weight,<span class="keyword">int</span>[] value,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n=weight.length;<span class="comment">//总物品数</span></span><br><span class="line">	<span class="keyword">int</span>[] f=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];</span><br><span class="line">	<span class="comment">//f[j]表示重量不超过j的最大价值</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=weight[i];j--)&#123;<span class="comment">//从后往前，防止覆盖</span></span><br><span class="line">			f[j]=Math.max(f[j-weight[i]]+value[i], f[j]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解完全背包</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight 各物品质量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 最佳的总价值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsackFull</span><span class="params">(<span class="keyword">int</span>[] weight,<span class="keyword">int</span>[] value,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n=weight.length;<span class="comment">//总物品数</span></span><br><span class="line">	<span class="keyword">int</span>[] f=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];</span><br><span class="line">	<span class="comment">//f[j]表示重量不超过j的最大价值</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=weight[i];j&lt;=m;j++)&#123;</span><br><span class="line">			f[j]=Math.max(f[j-weight[i]]+value[i], f[j]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解多重背包</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight 各物品质量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> s 每种物品总数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 最佳的总价值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsackMore</span><span class="params">(<span class="keyword">int</span>[] weight,<span class="keyword">int</span>[] value,<span class="keyword">int</span>[] s,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n=weight.length;<span class="comment">//总物品数</span></span><br><span class="line">	<span class="keyword">int</span>[] f=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];</span><br><span class="line">	<span class="comment">//f[j]表示重量不超过j的最大价值</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">0</span>;j--)&#123;<span class="comment">//从后往前，防止覆盖</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;=s[i] &amp;&amp; j-k*weight[i]&gt;=<span class="number">0</span>;k++)&#123;</span><br><span class="line">				f[j]=Math.max(f[j], f[j-k*weight[i]]+k*value[i]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解多重背包,使用优化技术</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight 各物品质量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> s 每种物品总数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 最佳的总价值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsackMoreOptimalize</span><span class="params">(Scanner in)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//首先构造w和v数组</span></span><br><span class="line">	List&lt;Integer&gt; w=<span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">	List&lt;Integer&gt; v=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">	<span class="keyword">int</span> n=in.nextInt();</span><br><span class="line">	<span class="keyword">int</span> m=in.nextInt();</span><br><span class="line">	<span class="keyword">while</span>(n--&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="comment">//开始初始化</span></span><br><span class="line">		<span class="keyword">int</span> weight=in.nextInt();</span><br><span class="line">		<span class="keyword">int</span> value=in.nextInt();</span><br><span class="line">		<span class="keyword">int</span> s=in.nextInt();</span><br><span class="line">		<span class="comment">//将s分解成二进制</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=s;s-=i,i*=<span class="number">2</span>)&#123;</span><br><span class="line">			v.add(i*value);</span><br><span class="line">			w.add(i*weight);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//将剩余的打包</span></span><br><span class="line">		<span class="keyword">if</span>(s&gt;<span class="number">0</span>)&#123;</span><br><span class="line">			v.add(s*value);</span><br><span class="line">			w.add(s*weight);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	in.close();</span><br><span class="line">	<span class="comment">//转换为01背包</span></span><br><span class="line">	<span class="keyword">int</span>[] weight=<span class="keyword">new</span> <span class="keyword">int</span>[w.size()];</span><br><span class="line">	<span class="keyword">int</span>[] value=<span class="keyword">new</span> <span class="keyword">int</span>[v.size()];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;weight.length;i++)</span><br><span class="line">		weight[i]=w.get(i);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;value.length;i++)</span><br><span class="line">		value[i]=v.get(i);</span><br><span class="line">	<span class="keyword">return</span> knapsack(weight, value, m);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解混合背包</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight 各物品质量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> s 每种物品总数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 最佳的总价值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsackBlend</span><span class="params">(<span class="keyword">int</span>[] weight,<span class="keyword">int</span>[] value,<span class="keyword">int</span>[] s,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n=weight.length;<span class="comment">//总物品数</span></span><br><span class="line">	<span class="keyword">int</span>[] f=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];</span><br><span class="line">	<span class="comment">//f[j]表示重量不超过j的最大价值</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(s[i]==<span class="number">0</span>)&#123;</span><br><span class="line">			<span class="comment">//完全背包</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=weight[i];j&lt;=n;j++)&#123;<span class="comment">//一直加，直到包不够装</span></span><br><span class="line">				f[j]=Math.max(f[j], f[j-weight[i]]+value[i]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="comment">//01背包或者多重背包</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">0</span>;j--)&#123;<span class="comment">//从后往前，防止覆盖</span></span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;=s[i] &amp;&amp; j-k*weight[i]&gt;=<span class="number">0</span>;k++)&#123;</span><br><span class="line">					f[j]=Math.max(f[j], f[j-k*weight[i]]+k*value[i]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解二维背包</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight1 第一类各物品质量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight2 第二类各物品质量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> s 每种物品总数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 第一类包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> t 第二类包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 最佳的总价值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsackTwoDimension</span><span class="params">(<span class="keyword">int</span>[] weight1,<span class="keyword">int</span>[] weight2,<span class="keyword">int</span>[] value,<span class="keyword">int</span>[] s,<span class="keyword">int</span> m,<span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n=weight1.length;<span class="comment">//总物品数</span></span><br><span class="line">	<span class="keyword">int</span>[][] f=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>][t+<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;f.length;i++)</span><br><span class="line">		Arrays.fill(f[i], Integer.MAX_VALUE/<span class="number">2</span>);</span><br><span class="line">	f[<span class="number">0</span>][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">	<span class="comment">//f[i][j]表示需求不超过i和j的时候最小价值量</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">			<span class="comment">//第一个约束</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=t;k&gt;=<span class="number">0</span>;k--)&#123;</span><br><span class="line">				<span class="comment">//第二个约束</span></span><br><span class="line">				<span class="keyword">int</span> p1=Math.min(j+weight1[i], m);</span><br><span class="line">				<span class="keyword">int</span> p2=Math.min(k+weight2[i], t);</span><br><span class="line">				f[p1][p2]=Math.min(f[j][k]+value[i], f[p1][p2]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m][t];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解分组背包</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight 各物品重量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> group 各物品所属组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 最大包容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsackGroup</span><span class="params">(<span class="keyword">int</span>[] weight,<span class="keyword">int</span>[] value,<span class="keyword">int</span>[] group,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> max=Arrays.stream(group).summaryStatistics().getMax();</span><br><span class="line">	<span class="keyword">int</span> t=max;<span class="comment">//假设从第1组开始</span></span><br><span class="line">	<span class="keyword">int</span>[][] a=<span class="keyword">new</span> <span class="keyword">int</span>[max+<span class="number">1</span>][group.length+<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">int</span>[] f=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;group.length;i++)&#123;</span><br><span class="line">		a[group[i]][++a[group[i]][<span class="number">0</span>]]=i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;=t;k++)&#123;</span><br><span class="line">		<span class="comment">//遍历组</span></span><br><span class="line">		<span class="comment">//这是只能拿一个</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=<span class="number">0</span>;j--)&#123;<span class="comment">//0-1打包</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=a[k][<span class="number">0</span>];i++)&#123;<span class="comment">//从1开始,0是计算数量的</span></span><br><span class="line">				<span class="keyword">int</span> index=a[k][i];</span><br><span class="line">				<span class="keyword">if</span>(j&gt;=weight[index])&#123;</span><br><span class="line">					<span class="comment">//遍历单个组中的元素</span></span><br><span class="line">					f[j]=Math.max(f[j-weight[index]]+value[index], f[j]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解依赖背包</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> weight 各物品重量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> value 各物品价值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dependency 各物品依赖</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 背包最大容量</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 最佳价值</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">knapsackDependency</span><span class="params">(<span class="keyword">int</span>[] weight,<span class="keyword">int</span>[] value,<span class="keyword">int</span>[] dependency,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n=weight.length;</span><br><span class="line">	<span class="keyword">int</span>[] f=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">int</span>[] t=<span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>];<span class="comment">//存储过渡结果,对应每个组的01背包结果</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">		value[i]=value[i]*weight[i];<span class="comment">//定义的要求函数</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(dependency[i]==<span class="number">0</span>)&#123;<span class="comment">//将主件和所有其附件分成一组,分组打包的样式</span></span><br><span class="line">			<span class="comment">//找对应的组</span></span><br><span class="line">			<span class="comment">//初始化</span></span><br><span class="line">			Arrays.fill(t, <span class="number">0</span>);</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=weight[i];j&lt;=m;j++)&#123;</span><br><span class="line">				t[j]=f[j-weight[i]]+value[i];</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//01打包格式</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(dependency[j]==i)&#123;</span><br><span class="line">					<span class="comment">//找到某组的所有成员</span></span><br><span class="line">					<span class="keyword">for</span>(<span class="keyword">int</span> k=m;k&gt;=weight[i]+weight[j];k--)&#123;<span class="comment">//主件必选</span></span><br><span class="line">						<span class="comment">//这样表示在组中可以多选成员(也就是01背包)</span></span><br><span class="line">						t[j]=Math.max(t[k-weight[j]]+value[j], t[j]);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//修改f</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=weight[i];j&lt;=m;j++)&#123;</span><br><span class="line">				f[j]=Math.max(t[j], f[j]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 求解总和背包</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> array</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> m 准确值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 总数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">knapsackTotal</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">long</span>[] f=<span class="keyword">new</span> <span class="keyword">long</span>[m+<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">int</span> n=array.length;</span><br><span class="line">	f[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=m;j&gt;=array[i];j--)&#123;</span><br><span class="line">			<span class="comment">//f[j]表示面值为j的总方案数</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;=j/array[i];k++)&#123;<span class="comment">//从1开始，因为从0开始要么是没有执行max操作（上文中）要么不合理</span></span><br><span class="line">				<span class="comment">//多重背包</span></span><br><span class="line">				f[j]+=f[j-k*array[i]];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> f[m];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong><a href="https://www.cnblogs.com/BrokenString/p/9279544.html#" target="_blank" rel="noopener">参考实现</a></strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/05/algorithm-backpack/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -697,6 +699,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">source</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">

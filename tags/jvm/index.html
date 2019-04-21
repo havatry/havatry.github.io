@@ -6,11 +6,11 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Havatry</title>
+  <title>Tag: jvm | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/page/7/index.html">
+<meta property="og:url" content="http://yoursite.com/tags/jvm/index.html">
 <meta property="og:site_name" content="Havatry">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
@@ -152,768 +152,96 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-spring-source-container" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
     
-      <header class="article-header">
-        
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/04/21/jvm-collectors/" class="archive-article-date">
+  	<time datetime="2019-04-21T10:46:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        </div>
+    	 
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-container/">Spring ApplicationContext容器</a>
+      <a class="archive-article-title" href="/2019/04/21/jvm-collectors/">GC收集器</a>
     </h1>
   
 
-        
-        <a href="/2019/03/29/spring-source-container/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:59:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>1.环境准备，对系统属性和环境变量的初始化以及验证<ul>
-<li>初始化属性资源（子类需要覆盖的方法），如getEnvironment().setRequiredProperties(“ABC”);</li>
-<li>验证环境中需要验证的变量，如”ABC”</li>
-</ul>
-</li>
-<li>2.获取beanFactory，实现其所有功能<ul>
-<li>2.1初始化beanFactory,进行xml文件读取并记录在当前属性中<ul>
-<li>2.1.1创建defaultListableBeanFactoy,因为该类是容器的基础，首先初始化</li>
-<li>2.2设置序列化id号</li>
-<li>2.3定制beanFactory<ul>
-<li>2.3.1 依据条件设置是否允许同名的不同定义的对象覆盖</li>
-<li>2.3.2 依据条件设置是否允许bean之间存在循环依赖</li>
-<li>2.3.3 提供支持@Autowired和@Qualifier的支持</li>
-</ul>
-</li>
-<li>2.4加载beanDefinition<ul>
-<li>2.4.1 初始化xmlbeandefinitionreader</li>
-<li>2.4.2 对beandefinitionreader进行一些设置</li>
-<li>2.4.3 加载beanDefinition实现<ul>
-<li>2.4.3.1 加载资源文件的beanDefinitions</li>
-<li>2.4.3.2 加载路径文件的beanDefinitions</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>2.5将beanFactory设置为全局变量</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>3.填充beanfactory的功能<ul>
-<li>3.1设置beanfactory的表达式语言的支持spel(这会在bean创建时候的属性填充那里，应用属性值填充到bean的时候会使用解析器来调用spel的解析)</li>
-<li>3.2设置beanfactory的属性编辑器的支持propertyeditorregistrar(1.继承propertyeditorsupport重写setAsText方法，并注册到customeditorconfigurer对象的customeditors属性中;2.实现propertyeditorregistrar接口，实现registercustomeditors方法，注册到customeditorconfigurer对象的propertyeditorregistrars属性中)</li>
-<li>这在创建bean的时候调用createbeaninstance方法，调用初始化bean，调用initwrapper方法后注册的。使用是在为bean填充属性的时候</li>
-<li>3.3.添加applicationcontextawareprocessor处理器，bean后处理器<ul>
-<li>3.3.1 postProcesseforeInitialization,bean初始化处理前<ul>
-<li>3.3.1.1 处理实现aware接口的bean<ul>
-<li>3.3.1.1.1 为这些bean设置资源</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>3.3.1.2 postProcesseforeInitialization,bean初始化处理后</li>
-</ul>
-</li>
-<li>3.4忽略为3.3中的bean设置依赖</li>
-<li>3.5注册3.3中的bean依赖</li>
-</ul>
-</li>
-<li>4.子类需要覆盖的方法</li>
-<li>5.激活beanFactory后处理器（激活是调用beanFactoryPostProcessor的postProcessBeanFactory方法）<ul>
-<li>5.1 如果是BeanDefintionRegistry类型的beanFactory,则处理</li>
-<li>5.2对于硬编码注册的后处理器<ul>
-<li>5.2.1 如果是BeanDefintionRegistryPostProcessor类型，则调用器postProcessBeanDefinitionRegistry方法，记录在registryPostProcessors中</li>
-<li>5.2.2 否则是普通的，记录在regularPostProcessors中</li>
-</ul>
-</li>
-<li>5.3对于配置文件注册的后处理器（排序）<ul>
-<li>5.3.1调用器postPrrocessBeanDefinitionRegisrt方法</li>
-</ul>
-</li>
-<li>5.4激活5.2和5.3中的beanFactory后处理器</li>
-<li>5.5按照优先级排序后激活</li>
-<li>5.6按照order属性排序后激活</li>
-<li>5.7无序激活</li>
-</ul>
-</li>
-<li>6.注册BeanPostProcessors<ul>
-<li>6.1遍历postProcessor的名称</li>
-<li>6.2如果是按照优先级顺序则加入priorityorderedPostProcessors和internalPostProcessors中;如果是order顺序则加入orderedPostProcessorName；否则加入nonOrderedPostProcessorNames中</li>
-<li>6.3排序优先级顺序的后处理器注册</li>
-<li>6.4遍历Ordered的BeanPostProcessor，将其中具有合并属性的bean加入到internalPostProcessors中</li>
-<li>6.5排序Orderd顺序的后处理器注册</li>
-<li>6.6排序无序的后处理器注册</li>
-<li>6.7排序合并的处理器注册</li>
-<li>6.8添加ApplicationListenerDetector监听探测器</li>
-</ul>
-</li>
-<li>7.初始化消息资源<ul>
-<li>7.1如果在配置文件中含有id为messagesource的bean，则获取。否则使用delegatingMessageSource</li>
-</ul>
-</li>
-<li>8.初始化ApplicationEventMulticast广播器<ul>
-<li>8.1如果在配置文件含有id围殴指定bean，则获取.否则使用默认的SimpleApplicationEventMulticaster广播器</li>
-<li>广播器中含有multicastEvent方法，用来广播给ApplicationListener类型的监听器，触发他们的onApllicationEvent方法</li>
-</ul>
-</li>
-<li>9.子类需要覆盖的方法</li>
-<li>10.注册监听器<ul>
-<li>9.1向广播器中添加监听器</li>
-</ul>
-</li>
-<li>11.初始化非延迟加载的单例（**)</li>
-<li>12.最终刷新<ul>
-<li>12.1初始化lifecycleProcessor,与所有声明的bean的周期做状态更新。如果配置文件中包含指定id的bean，将该bean作为lifecycleProcessor。否则使用默认的defaultcycleprocessor。</li>
-<li>12.2启动所有实现了lifecycle接口的bean</li>
-<li>12.3发布事件，ApplicationContext初始化完成</li>
-</ul>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-container/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-spring-source-label" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
     
-      <header class="article-header">
-        
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/04/21/jvm-layout/" class="archive-article-date">
+  	<time datetime="2019-04-21T08:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        </div>
+    	 
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-label/">Spring 标签解析</a>
+      <a class="archive-article-title" href="/2019/04/21/jvm-layout/">jvm内存区域</a>
     </h1>
   
 
-        
-        <a href="/2019/03/29/spring-source-label/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:44:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>1.importBeanDefinitionResource</p>
-<ul>
-<li>1.不存在resource属性，不处理</li>
-<li>2.解析其中的环境变量</li>
-<li>3.判断resource对应的是不是绝对路径</li>
-<li>4.考虑这两种情况进行加载beanDefinition</li>
-<li>5.通知监听器</li>
-</ul>
-</li>
-<li><p>2.processAliasRegistration</p>
-<ul>
-<li>1.找到beanName</li>
-<li>2.找到alias</li>
-<li>3.判断beanName和alias非空</li>
-<li>4.将beanName和alias注册<ul>
-<li>4.1 如果beanName和alias重名，删除对应的alias</li>
-<li>4.2 否则找出alias对应的已经注册的beanName,如果存在而且不允许覆盖，则抛出异常</li>
-<li>4.3 检查alias的循环依赖问题</li>
-<li>4.4 如果不存在循环依赖，则进行注册</li>
-</ul>
-</li>
-<li>5.通知监听器</li>
-</ul>
-</li>
-<li><p>3.processBeanDefinition</p>
-<ul>
-<li>1.获取BeanDefinitionHolder</li>
-<li>2.对该beanDefinition进行装饰<ul>
-<li>2.1遍历所有属性，看看是否有适用于修饰的属性</li>
-<li>2.2遍历所有子节点，看看是否适用于修饰的属性<ul>
-<li>2.2.2 如果是默认的命名空间则不处理，因为到这里默认命名空间的已经处理完成了。<br>否则依据命名空间找到对应的处理器。如果能找到处理器，则使用它进行装饰</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>3.注册beanDefinition<ul>
-<li>3.1 获取beanName作为标识进行注册<ul>
-<li>3.1.1 如果bean是AbstractBeanDefinition类型的beanDefinition,则需要进行校验。比如bean属性中的methodOverrides是否与工厂方法并存，或者指向的方法不存在</li>
-<li>3.1.2 如果该beanDefinition已经注册了如果不允许覆盖则抛出异常。</li>
-<li>3.1.3 如果没有注册,记录下beanName，统一注册</li>
-<li>3.1.4 清空解析前留下的beanName缓存</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.通知监听器</li>
-</ul>
-</li>
-<li><p>4.doRegisterBeanDefinitions<br>  嵌套bean情况</p>
-</li>
-<li><p>5.自定义标签</p>
-<ul>
-<li>1.依据元素来获取命名空间</li>
-<li>2.根据命名空间找对应的处理器<ul>
-<li>2.1获取所有已经配置的handlerMapings<ul>
-<li>2.1.1 如果handlerMappings为空，从META-INF/Spring.handlers中获取properties填充到handlerMappings中</li>
-<li>2.1.2 如果不为空，直接返回（缓存）</li>
-</ul>
-</li>
-<li>2.2依据命名空间获取其中的handlerOrClassName</li>
-<li>2.3如果handlerOrClassName是handler，则直接返回。否则是字符串，则使用反射转换为类。调用该类对象的init()方法<br>将该类记录在handlerMappings中</li>
-</ul>
-</li>
-<li>3.1获取元素的解析器<ul>
-<li>3.1.1 获取元素名称为user</li>
-<li>3.1.2 从parses中获取对应已经使用init()方法注册的自定义解析器</li>
-</ul>
-</li>
-<li>3.2 使用自定义解析器来进行解析<ul>
-<li>3.2.1 调用parseInternal方法<ul>
-<li>3.2.1.1 设置beanClass,scope,lazyInit等属性</li>
-<li>3.2.1.2 调用自定义解析的doParse方法（模板方法）</li>
-</ul>
-</li>
-<li>3.2.2 将解析后的AbstractBeanDefinition转换为BeanDefinitionHolder并注册</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-label/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-spring-source-createBean" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
+    </div></section>
+  
+
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>1.转换name获取beanName(别名或者FactoryBean)</li>
-<li>2.依据beanName找出单例的bean，在缓存中情况 getSingleton()<ul>
-<li>2.1如果允许提前曝光，则从singleFactories(beanName-&gt;ObjectFactory)中获取ObjectFactory</li>
-<li>2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getObject方法</li>
-<li>2.3将提前曝光的beanName和ObjectFactory(产生该bean的Factory)保存到earlySingleObjects(beanName-&gt;bean)中</li>
-<li>2.4删除singletonFactories中的beanName记录(互斥，因为首先从earlySingleObjects查找)</li>
-</ul>
-</li>
-<li>3.获取对应实例 getObjectForBeanInstance()<ul>
-<li>3.1如果是name是工厂name(带&amp;)，但是该bean又不是FactoryBean实例，抛出异常</li>
-<li>3.2如果想获取工厂实例或者不是FactroyBean类型，那么直接返回</li>
-<li>3.3否则从工厂bean中获取对象(getObjectForBeanInstance)<ul>
-<li>3.3.1 权限验证</li>
-<li>3.3.2 直接调用factory的getObject方法获取bean(**)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.如果单例bean不存在缓存中，则从头开始加载bean getSingle(…)<ul>
-<li>4.1检查bean是否已经加载</li>
-<li>4.2如果没有加载，记录beanName处于正在加载状态的map中singletonsCurrentlyICreation进行单例bean初始化</li>
-<li>4.3 调用createBean方法<ul>
-<li>4.3.1.1 验证以及准备覆盖的方法<ul>
-<li>4.3.1.1.1 遍历beandefinition的方法覆盖</li>
-<li>4.3.1.1.2 获取对应类中的方法名个数</li>
-<li>4.3.1.1.3 如果该方法个数为0，抛出异常。为1，设置方法没有覆盖，提前验证</li>
-</ul>
-</li>
-<li>4.3.1.2 实例化的前置处理<ul>
-<li>4.3.1.2.1 实例化前应用处理器<ul>
-<li>4.3.1.2.1.1 遍历处理器，如果是InstantiationAwareBeanPostProcessor类型，则调用其postProcessBeforeInstantiation方法</li>
-</ul>
-</li>
-<li>4.3.1.2.2 在实例化后应用处理器<ul>
-<li>4.3.1.2.2.1 遍历bean后处理器，调用其postProcessAfterInitialization方法</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.3.1.3 如果上一步的返回bean不为空，直接返回。否则进行常规的bean创建<ul>
-<li>4.3.1.3.1如果是单例bean，则先清除缓存</li>
-<li>4.3.1.3.2使用对应策略创建新的实例，如工厂方法，构造函数等<ul>
-<li>4.3.1.3.2.1 如果工厂方法不为空，使用工厂方法初始化</li>
-<li>4.3.1.3.2.2 否则使用构造函数初始化</li>
-<li>4.3.1.3.2.3 如果构造函数有多个，且以及解析过了，那么使用解析好的构造函数(**略)</li>
-<li>4.3.1.3.2.4 如果没有解析过，则需要依据参数先解析构造函数，再使用构造函数解析</li>
-</ul>
-</li>
-<li>4.3.1.3.3 bean合并处理，Autowired注解通过此实现类型预解析</li>
-<li>4.3.1.3.4 处理循环依赖问题<ul>
-<li>4.3.1.3.4.1判断是否需要提前曝光（单例，允许循环依赖，当前bean正在创建）</li>
-<li>4.3.1.3.4.2将该bean的ObjectFactory加入到singleFatories中（AOP)<ul>
-<li>4.3.1.3.4.2.1 ObjectFactory的getObject方法返回getEarlyBeanReference，保证属性地址一样，解决了循环依赖问题</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.3.1.3.5 属性注入<ul>
-<li>4.3.1.3.5.1 如果处理器是InstantiationAwareBeanPostProcessors类型，则调用其postProcessAfterInstantiation方法。</li>
-<li>4.3.1.3.5.2 如果有Autowireby，则依据名称自动注入或者依据类型自动注入(**略)</li>
-</ul>
-</li>
-<li>4.3.1.3.6 应用属性值，将获取的属性应用到实例化bean中</li>
-<li>4.3.1.3.7 初始化bean<ul>
-<li>4.3.1.3.7.1 为实现BeanNameAware，BeanClassLoaderAware,BeanFactoryAware类型的bean设置资源</li>
-<li>4.3.1.3.7.2 调用bean后处理器的postProccessBeforeInitialization方法</li>
-<li>4.3.1.3.7.3 如果bean实现了initializingBean接口，则调用其afterPropertiesSet方法。如果还有init-method属性，则调用其对应的方法</li>
-<li>4.3.1.3.7.4 注册DisposableBean</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>5.类型转换</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-createBean/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-sed进阶" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/sed进阶/">sed进阶</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/27/sed进阶/" class="archive-article-date">
-  	<time datetime="2019-03-27T03:18:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-table th:nth-of-type(1) {
-    width: 400px;
-}
-table th:nth-of-type(2) {
-    width: 600px;
-}
-</style>
-
-<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>sed编辑器的基本功能是处理数据流中的文不，下面介绍下关于sed编辑器的高级特性。</p>
-<blockquote>
-<p><a href="#1">多行命令</a><br><a href="#2">保持空间</a><br><a href="#3">排除命令</a><br><a href="#4">改变流</a><br><a href="#5">模式替换</a><br><a href="#6">其他技巧</a></p>
-</blockquote>
-<h4 id="多行命令"><a href="#多行命令" class="headerlink" title="多行命令"></a><a name="1">多行命令</a></h4><ul>
-<li><p>next命令<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;告诉sed编辑器移动到数据流的下一个文本行中，不用重新回到命令的最开始再执行一遍。next命令改变了在移动到下一行文本前执行完所有定义的命令，而是联合下一行处理。</p>
-<ul>
-<li><p>单行n</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/header/&#123;n ; d&#125;'</span> data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先匹配到/header/行，然后执行{}中的命令列表。n表示将下一行移动到模式空间中,d是用来删除模式空间内容。</p>
-</li>
-<li><p>合并N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrator group meeting will be held.</span><br><span class="line">All System Administrators should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'N ; s/System Administrator/Desktop User/'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrators group meeting will be held.</span><br><span class="line">All Desktop Users should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先查找含有first的那行文不，然后N将下一行合并到那行，使用s进行替换。N表示将下一行追加到模式空间中,s是用来替换模式空间的内容。适合用来查找分散在两行中的文不短语等。<br><strong>注意:</strong>当匹配行在数据流的最后一行，N会错过，因为没有其他行可以读入模式空间中。这样需要将该命令放到N的前面处理。</p>
-</li>
-<li><p>删除N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data5.txt</span><br><span class="line"></span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/^$/&#123;N ; /header/D&#125;'</span> data5.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先找到空行,然后将下一行合并到模式空间后，匹配以header开头的模式空间内容，匹配到则删除模式空间中的第一行。D是删除空间中的第一行，d是删除空间中的所有行。</p>
-</li>
-<li><p>打印N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">'N ; /System\nAdministrator/P'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先将下一追加到模式空间，然后进行匹配模式打印，将打印空间中的第一行内容。</p>
-        
-          <a class="article-more-a" href="/2019/03/27/sed进阶/#more">more >></a>
-        
-      
-
-      
-    </li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/27/sed进阶/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-redis数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/25/redis数据类型/">redis数据类型</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/25/redis数据类型/" class="archive-article-date">
-  	<time datetime="2019-03-25T04:26:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-table {
-    display: block;
-    overflow-x: auto;  //显示滚动条
-    white-space: nowrap; //表格内容强制不换行
-}
-</style>
-
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>设置值</th>
-<th>获取值</th>
-<th>删除值</th>
-<th>查看值</th>
-<th>存在值</th>
-<th>运算</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>string</td>
-<td>set,mset,append</td>
-<td>get,mget</td>
-<td>setrange</td>
-<td></td>
-<td></td>
-<td>strlen</td>
-</tr>
-<tr>
-<td>list</td>
-<td>lpush,rpush,linsert</td>
-<td>lindex</td>
-<td>lpop,rpop,ltrim,brpop,blpop</td>
-<td>lrange</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>hash</td>
-<td>hset,hmset</td>
-<td>hget,hmget</td>
-<td>hdel</td>
-<td>hgetall,hscan</td>
-<td>hexists</td>
-<td></td>
-</tr>
-<tr>
-<td>set</td>
-<td>sadd</td>
-<td></td>
-<td>srem</td>
-<td>sscan,scard</td>
-<td>sismember</td>
-<td>sunion,sunionstore,sinter,sinterstore,sdiff,sdiffstore</td>
-</tr>
-<tr>
-<td>zset</td>
-<td>zadd</td>
-<td></td>
-<td>zrem</td>
-<td>zrevrange,zrevrank,zscore,zscan,zcard</td>
-<td></td>
-<td>zunionstore,zinterstore,zdiffstore</td>
-</tr>
-<tr>
-<td>HLL</td>
-<td>pfadd</td>
-<td></td>
-<td></td>
-<td>pfcount</td>
-<td></td>
-<td>pfmerge</td>
-</tr>
-<tr>
-<td>Geo</td>
-<td>geoadd,zadd</td>
-<td>geopos</td>
-<td>zrem</td>
-<td>zrevrange,zrevrank,zscore,zscan,zcard</td>
-<td></td>
-<td>georadius,geodist,georadiusbymemeber,zunionstore,zinterstore,zdiffstore</td>
-</tr>
-</tbody>
-</table>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/25/redis数据类型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
-    </nav>
-  
 
 
           </div>
@@ -935,10 +263,10 @@ table {
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
+		isHome: false,
 		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
