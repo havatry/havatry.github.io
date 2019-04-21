@@ -8,22 +8,22 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>mysql索引 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="概述 索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:索引分类&amp;nbsp;&amp;nbsp;    B-Tree索引&amp;nbsp;&amp;nbsp;    哈希索引&amp;nbsp;&amp;nbsp;    聚族索引&amp;nbsp;&amp;nbsp;    覆盖索引&amp;nbsp;&amp;nbsp;    排序索引&amp;nbsp;&amp;nbsp;    其他索引索引策略索引优化  索引分类&amp;nbsp;&amp;">
+  <meta name="description" content="img {     width: 650px; }   概述 索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:索引分类&amp;nbsp;&amp;nbsp;    B-Tree索引&amp;nbsp;&amp;nbsp;    哈希索引&amp;nbsp;&amp;nbsp;    聚族索引&amp;nbsp;&amp;nbsp;    覆盖索引&amp;nbsp;&amp;nbsp;    排序索引&amp;nbsp;&amp;nbsp;">
 <meta name="keywords" content="base,mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql索引">
 <meta property="og:url" content="http://yoursite.com/2019/04/21/mysql-index/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="概述 索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:索引分类&amp;nbsp;&amp;nbsp;    B-Tree索引&amp;nbsp;&amp;nbsp;    哈希索引&amp;nbsp;&amp;nbsp;    聚族索引&amp;nbsp;&amp;nbsp;    覆盖索引&amp;nbsp;&amp;nbsp;    排序索引&amp;nbsp;&amp;nbsp;    其他索引索引策略索引优化  索引分类&amp;nbsp;&amp;">
+<meta property="og:description" content="img {     width: 650px; }   概述 索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:索引分类&amp;nbsp;&amp;nbsp;    B-Tree索引&amp;nbsp;&amp;nbsp;    哈希索引&amp;nbsp;&amp;nbsp;    聚族索引&amp;nbsp;&amp;nbsp;    覆盖索引&amp;nbsp;&amp;nbsp;    排序索引&amp;nbsp;&amp;nbsp;">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/Mysql/innode_store.png">
 <meta property="og:image" content="http://yoursite.com/images/Mysql/hash_store.png">
 <meta property="og:image" content="http://yoursite.com/images/Mysql/collect_store.png">
 <meta property="og:image" content="http://yoursite.com/images/Mysql/collect_test.png">
-<meta property="og:updated_time" content="2019-04-21T07:49:02.890Z">
+<meta property="og:updated_time" content="2019-04-21T07:52:56.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql索引">
-<meta name="twitter:description" content="概述 索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:索引分类&amp;nbsp;&amp;nbsp;    B-Tree索引&amp;nbsp;&amp;nbsp;    哈希索引&amp;nbsp;&amp;nbsp;    聚族索引&amp;nbsp;&amp;nbsp;    覆盖索引&amp;nbsp;&amp;nbsp;    排序索引&amp;nbsp;&amp;nbsp;    其他索引索引策略索引优化  索引分类&amp;nbsp;&amp;">
+<meta name="twitter:description" content="img {     width: 650px; }   概述 索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:索引分类&amp;nbsp;&amp;nbsp;    B-Tree索引&amp;nbsp;&amp;nbsp;    哈希索引&amp;nbsp;&amp;nbsp;    聚族索引&amp;nbsp;&amp;nbsp;    覆盖索引&amp;nbsp;&amp;nbsp;    排序索引&amp;nbsp;&amp;nbsp;">
 <meta name="twitter:image" content="http://yoursite.com/images/Mysql/innode_store.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
@@ -180,13 +180,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
 <p>索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:<br><a href="#mysqlindex1">索引分类</a><br>&nbsp;&nbsp;    <a href="#mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex12">哈希索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex13">聚族索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex14">覆盖索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex15">排序索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex16">其他索引</a><br><a href="#mysqlindex2">索引策略</a><br><a href="#mysqlindex3">索引优化</a></p>
 </blockquote>
-<h2 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a><a name="mysqlindex1">索引分类</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;索引优点:大大减少服务器需要扫描的数据量；帮助服务器避免排序和临时表；将随机IO变成顺序IO。索引三星标准:将相关记录放到一起<em>；索引数据顺序和查找数据顺序一致<strong>;索引列包含了查询中全表列</strong></em>。</p>
+<h2 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a><a name="mysqlindex1">索引分类</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;索引优点:大大减少服务器需要扫描的数据量；帮助服务器避免排序和临时表；将随机IO变成顺序IO。索引三星标准:将相关记录放到一起；索引数据顺序和查找数据顺序一致;索引列包含了查询中全表列。</p>
 <ul>
-<li><p><a name="mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;每种存储引擎以不同的方式实现B-Tree索引。比如MyISAM使用前缀压缩技术使得索引更小,InnoDB按照原数据格式存储。MyISAM会将冗余重复索引优化成一个索引存储内容，InnoDB会对比如A和(A,B)两个索引分别存储对应内容。MyISAM使用B-Tree索引，而InnoDB使用其变形的B+-Tree索引。InnoDB的索引结构如下:<br><img src="/images/Mysql/innode_store.png" alt="B-Tree索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;B-Tree的查询类型有全值匹配(和索引中所有列进行匹配),最左匹配,匹配列前缀(只使用索引第一列),匹配范围(只使用索引第一列)，索引查询(也称覆盖索引),排序查询(也称排序索引,索引树种的节点是有序的),精确并范围查询(对于上面只使用索引第一列的情况，如果前面使用的是等值匹配,包括=或者in，那么索引第一列的概念泛化到已经等值匹配列的后一列)</p>
-</li>
+<li><a name="mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;每种存储引擎以不同的方式实现B-Tree索引。比如MyISAM使用前缀压缩技术使得索引更小,InnoDB按照原数据格式存储。MyISAM会将冗余重复索引优化成一个索引存储内容，InnoDB会对比如A和(A,B)两个索引分别存储对应内容。MyISAM使用B-Tree索引，而InnoDB使用其变形的B+-Tree索引。InnoDB的索引结构如下:<br><img src="/images/Mysql/innode_store.png" alt="B-Tree索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;B-Tree的查询类型有全值匹配(和索引中所有列进行匹配),最左匹配,匹配列前缀(只使用索引第一列),匹配范围(只使用索引第一列)，索引查询(也称覆盖索引),排序查询(也称排序索引,索引树种的节点是有序的),精确并范围查询(对于上面只使用索引第一列的情况，如果前面使用的是等值匹配,包括=或者in，那么索引第一列的概念泛化到已经等值匹配列的后一列)<a id="more"></a></li>
 <li><p><a name="mysqlindex12">哈希索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;只有精确匹配索引所有列的查询才有效。实现是存储引擎会对所有的索引列计算一个哈希码，哈希索引将所有的哈希码存储在所有中，同时在哈希表中保存指向每个数据行的指针。<br><img src="/images/Mysql/hash_store.png" alt="哈希索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;优点:索引自身只需要存储对应的哈希值，结构紧凑，因此查找速度非常快。缺点:不能使用索引中的值来避免回表查询，不是按照索引值排序的无法用于排序，不支持最左匹配列查找因为依据所有列进行哈希值，不支持范围查找，存在哈希冲突此时需要遍历链表中所有行指针逐行比较直到找到符合条件的行，存在哈希冲突当删除操作的时候需要遍历链表中所有行逐行比较直到找到符合条件的行即维护代价高。<br>&nbsp;&nbsp;&nbsp;&nbsp;InnoDB注意到某些索引值被使用的非常频繁时候，会自动在内存中基于B-Tree索引之上在建立一个哈希索引。此功能未自适应哈希索引，可以关闭。<br>&nbsp;&nbsp;&nbsp;&nbsp;自定义哈希索引,当存储引擎不支持哈希索引，可以模拟之。在表中加上一列，该列通过其他某列的值进行哈希的结果，删除某列索引，添加哈希列的索引。当查询的时候需要显示指定hash函数将某列的值先hash再使用索引找到哈希列中并回表比较某列具体值。<br>&nbsp;&nbsp;&nbsp;&nbsp;优点:存储空间小，查找速度快，常用的hash函数可以是CRC32或者是SHA1或者MD5。缺点: 需要使用触发器对每次插入更新进行维护哈希列的值。</p>
 </li>
 <li><p><a name="mysqlindex13">聚族索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;不是一种单独的索引类型，而是数据存储方式。InnoDB通过主键聚集数据，如果没有定义主键，InnoDB会选择一个唯一的非空索引代替，否则会隐式定义一个主键来作为聚族索引。<br><img src="/images/Mysql/collect_store.png" alt="聚族索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;优点:把相关数据保存在一起，比如邮箱中的用户ID聚集用户邮件，使得查询邮件的磁盘IO减少；访问速度快，聚族索引将索引和数据保存在同一个B-Tree中；覆盖索引还能覆盖主键。缺点:在IO较少的场景比如数据都在内存中那么优势不明显；插入的速度依赖插入顺序，如果不是按照主键顺序加载数据，会出现页分裂问题，该问题是在已经填满的页面中插入新的行，导致页面分成两个页导致占用空间增加，因为者页是临时增加的，已经插入的行可能没有充分利用该页；同时移动行的代价很高；二级索引比原来的更大，因为要包含主键列；当行少或者存储不连续的时候，会被优化成全表扫描。<br>&nbsp;&nbsp;&nbsp;&nbsp;关于顺序插入和无序插入:InnoDB默认页的最大填充因子是15/16，留部分作为修改，当满的时候写到下一页面，当顺序插入是期望的结果，但是在高并发工作负载中会存在主键顺序插入时候的明显竞争问题即间隙锁的竞争，同时还存在auto_increment锁机制的问题（更改innodb_autoinc_lock_mode配置)。当无序插入的时候可能写入的目标页已经刷到磁盘上并从缓存中移除了，或者还没有加载到缓存中，InnoDB在插入之前得先找到并从磁盘读取目标页面到内存中，导致随机IO；其次InnoDB频繁页分裂操作出现移动，修改以及页面稀疏和碎片问题。<br><img src="/images/Mysql/collect_test.png" alt="聚族索引"><br><br></p>
