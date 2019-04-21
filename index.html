@@ -152,6 +152,103 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mysql-index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/mysql-index/">mysql索引</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/mysql-index/" class="archive-article-date">
+  	<time datetime="2019-04-21T05:10:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:<br><a href="#mysqlindex1">索引分类</a><br>&nbsp;&nbsp;    <a href="#mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex12">哈希索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex13">聚族索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex14">覆盖索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex15">排序索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex16">其他索引</a><br><a href="#mysqlindex2">索引策略</a><br><a href="#mysqlindex3">索引优化</a></p>
+</blockquote>
+<h2 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a><a name="mysqlindex1">索引分类</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;索引优点:大大减少服务器需要扫描的数据量；帮助服务器避免排序和临时表；将随机IO变成顺序IO。索引三星标准:将相关记录放到一起<em>；索引数据顺序和查找数据顺序一致<strong>;索引列包含了查询中全表列</strong></em>。</p>
+<ul>
+<li><p><a name="mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;每种存储引擎以不同的方式实现B-Tree索引。比如MyISAM使用前缀压缩技术使得索引更小,InnoDB按照原数据格式存储。MyISAM会将冗余重复索引优化成一个索引存储内容，InnoDB会对比如A和(A,B)两个索引分别存储对应内容。MyISAM使用B-Tree索引，而InnoDB使用其变形的B+-Tree索引。InnoDB的索引结构如下:<br><img src="/images/Mysql/innode_store.png" alt="B-Tree索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;B-Tree的查询类型有全值匹配(和索引中所有列进行匹配),最左匹配,匹配列前缀(只使用索引第一列),匹配范围(只使用索引第一列)，索引查询(也称覆盖索引),排序查询(也称排序索引,索引树种的节点是有序的),精确并范围查询(对于上面只使用索引第一列的情况，如果前面使用的是等值匹配,包括=或者in，那么索引第一列的概念泛化到已经等值匹配列的后一列)</p>
+</li>
+<li><p><a name="mysqlindex12">哈希索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;只有精确匹配索引所有列的查询才有效。实现是存储引擎会对所有的索引列计算一个哈希码，哈希索引将所有的哈希码存储在所有中，同时在哈希表中保存指向每个数据行的指针。<br><img src="/images/Mysql/hash_store.png" alt="哈希索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;优点:索引自身只需要存储对应的哈希值，结构紧凑，因此查找速度非常快。缺点:不能使用索引中的值来避免回表查询，不是按照索引值排序的无法用于排序，不支持最左匹配列查找因为依据所有列进行哈希值，不支持范围查找，存在哈希冲突此时需要遍历链表中所有行指针逐行比较直到找到符合条件的行，存在哈希冲突当删除操作的时候需要遍历链表中所有行逐行比较直到找到符合条件的行即维护代价高。<br>&nbsp;&nbsp;&nbsp;&nbsp;InnoDB注意到某些索引值被使用的非常频繁时候，会自动在内存中基于B-Tree索引之上在建立一个哈希索引。此功能未自适应哈希索引，可以关闭。<br>&nbsp;&nbsp;&nbsp;&nbsp;自定义哈希索引,当存储引擎不支持哈希索引，可以模拟之。在表中加上一列，该列通过其他某列的值进行哈希的结果，删除某列索引，添加哈希列的索引。当查询的时候需要显示指定hash函数将某列的值先hash再使用索引找到哈希列中并回表比较某列具体值。<br>&nbsp;&nbsp;&nbsp;&nbsp;优点:存储空间小，查找速度快，常用的hash函数可以是CRC32或者是SHA1或者MD5。缺点: 需要使用触发器对每次插入更新进行维护哈希列的值。</p>
+</li>
+<li><p><a name="mysqlindex13">聚族索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;不是一种单独的索引类型，而是数据存储方式。InnoDB通过主键聚集数据，如果没有定义主键，InnoDB会选择一个唯一的非空索引代替，否则会隐式定义一个主键来作为聚族索引。<br><img src="/images/Mysql/collect_store.png" alt="聚族索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;优点:把相关数据保存在一起，比如邮箱中的用户ID聚集用户邮件，使得查询邮件的磁盘IO减少；访问速度快，聚族索引将索引和数据保存在同一个B-Tree中；覆盖索引还能覆盖主键。缺点:在IO较少的场景比如数据都在内存中那么优势不明显；插入的速度依赖插入顺序，如果不是按照主键顺序加载数据，会出现页分裂问题，该问题是在已经填满的页面中插入新的行，导致页面分成两个页导致占用空间增加，因为者页是临时增加的，已经插入的行可能没有充分利用该页；同时移动行的代价很高；二级索引比原来的更大，因为要包含主键列；当行少或者存储不连续的时候，会被优化成全表扫描。<br>&nbsp;&nbsp;&nbsp;&nbsp;关于顺序插入和无序插入:InnoDB默认页的最大填充因子是15/16，留部分作为修改，当满的时候写到下一页面，当顺序插入是期望的结果，但是在高并发工作负载中会存在主键顺序插入时候的明显竞争问题即间隙锁的竞争，同时还存在auto_increment锁机制的问题（更改innodb_autoinc_lock_mode配置)。当无序插入的时候可能写入的目标页已经刷到磁盘上并从缓存中移除了，或者还没有加载到缓存中，InnoDB在插入之前得先找到并从磁盘读取目标页面到内存中，导致随机IO；其次InnoDB频繁页分裂操作出现移动，修改以及页面稀疏和碎片问题。<br><img src="/images/Mysql/collect_test.png" alt="聚族索引"><br><br></p>
+</li>
+<li><p><a name="mysqlindex14">覆盖索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;mysql可以使用索引来直接获取列的数据不需要回表。如果所有索引包含所有需要查询的字段则称为覆盖索引。<br>&nbsp;&nbsp;&nbsp;&nbsp;优点:减少数据量访问，因为花费较少时间在数据拷贝上；减少空间占用，放入内存的数据更少；在IO密集型对范围查询更有优势；由于数据缓存依赖于操作系统，可以减少系统调用开销；避免InnoDB的多次查询。缺点:哈希索引，空间索引，全文索引不存储索引列的值，所以只有B-Tree能做覆盖索引；Memory存储引擎不支持覆盖索引；查询中没有索引覆盖所有列不能使用覆盖索引；在索引中使用LIKE操作，由于底层API限制（除了”LIKE%”外),服务器只能提取数据行来比较。<br>&nbsp;&nbsp;&nbsp;&nbsp;使用Explain查看语句执行中，当Extra列值为Using index表明使用了覆盖索引。<br>![]</p>
+</li>
+<li><p><a name="mysqlindex15">排序索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;mysql可以使用文件排序操作或者按照索引顺序扫描的两个操作来生成有序的结果。最差情况下，如果索引无法覆盖查询的所有列，这时每扫描一条索引记录就会回表查询异常对应的行，基本上是随机IO，这可能比全表扫描要慢。<br>&nbsp;&nbsp;&nbsp;&nbsp;限制:夺标关联时候order by引用的字段必须全是（当且仅当）第一个表的字段；满足索引最左匹配原则；引用字段的排序方式一致；必须使用一个等值情况的条件（因为IN的多个等值）<br>&nbsp;&nbsp;&nbsp;&nbsp;使用Explain查看语句执行中，当Extra列值为index表明使用了排序索引。</p>
+</li>
+<li><p><a name="mysqlindex15">其他索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;其他索引有R-Tree,MyISAM可以用作地理数据存储；全文索引,MyISAM查找文本中的关键字而不是比较索引中的值；压缩索引，MyISAM使用前缀压缩，比如第一个值perform，第二个值是performance，则第二个值存储为7,ance格式，是先完全保存索引快中的第一个值，然后将其他值和第一个值比较，存储其差异，不适合二分查找和倒序查找等，但是能节省90%的空间；冗余重复索引，这是索引出现冗余比如对某列的主键索引，唯一索引等重复，或者是列索引是其他索引的最左匹配；未使用索引是基本不会使用的索引。</p>
+</li>
+</ul>
+<h2 id="索引策略"><a href="#索引策略" class="headerlink" title="索引策略"></a><a name="mysqlindex2">索引策略</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;对于单独的列索引来说，不能使用表达式或者是将列作为一个函数的参数。对于前缀索引，选择标准是不重复索引值占总数的比例，应该保存比例越高这样能够过滤更多行；对于blob,text,varchar的列必须使用前缀索引；关于前缀索引的长度则使用计算每次取的长度的唯一数量和总数量的比值作为一个参考值(select count(distinct city)/count(*) from t),声明前缀索引格式 key (tid(8)))；同时还要将该值作为参数统计各个数据出现的次数，各个值的差距不是很大最好。对于后缀索引,首先将其反向存储，然后转换为前缀索引的标准。对于多列索引，如果在每个列上创建单独的索引，那么mysql会使用索引合并策略(mysql5.0之后),比如将or的两个列索引使用or条件联合和and条件相交技术实现(比如select film_id,actor_id from film_actor where actor_id =1 or film_id=1; ==&gt; select film_id,actor_id from film_actor where actor_id=1 union all select film_id,actor_id from film_actor where film_id=1 and actor_id &lt;&gt;1;);这种策略的优点:会优化结果；这种策略缺点:需要大量的CPU和内存资源在算法的缓存、排序和合并操作上，特别是存在某些列的筛选程度低的适合需要合并大量数据，同时这些计算不会被优化器捕捉到导致查询成本被低估，导致不如直接全表扫描，建议显示写成UNION方式更好。对于联合索引，将筛选度高的列作为第一列；同时考虑到数据的不平衡分布，比如guest用户以及匿名用户明显和正常登陆地方不同用户差距很大，此时需要重新设计表，增加每种用户的区分度或者不对特殊的区间进行查询等。</p>
+<h2 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a><a name="mysqlindex3">索引优化</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;考虑到配对网站，用户信息包括country,region,city,sex,eye-color..<br>&nbsp;&nbsp;&nbsp;&nbsp;因为sex列基本上都会使用，因此将sex作为第一列，如果对sex不作筛选可以将其表示为sex in (‘m’,’f’)，这样一方面满足最左匹配同时能覆盖索引。这样首先确定出三个可能的索引列分别是(sex,country,age),(sex,country,region,age)和(sex,country,region,city,age)。因为尽可能重用索引而不是建立大量索引，因此使用(sex,country,region,city,age)索引，借助IN技巧来兼容之前两个索引。对于不常见的搜索，比如eye-color等，可以选择忽略然后回表查询即可，或者在age列的前面加上这些列再用IN()来忽略之。至于为什么一直将age列放到最后，因为age列一般都是范围查询，而mysql对于范围查询就不能使用后面的索引了。当然也可以使用IN来解决，但是这样会IN的所有组合太大，新版本的mysql不支持过多的组合数。对于多个范围查询，比如纪要范围查询过去一周的在线的同时年龄在某个区间的用户，则需要last_online&gt;data_sub(now(),interval 7 day) and age betwwen 18 and 25这两个范围，对于这个需要重新增加一个字段active,每次用户登陆的适合，将其值设置为1，如果一周没有登陆过则将其值设置为1，则可以借助IN来将这个范围进行改进。<br>&nbsp;&nbsp;&nbsp;&nbsp;推荐的索引为(active,sex,country,age),(active,country,age),(sex,country,age),(country,age)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/mysql-index/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-springboot-autoconfig" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -496,95 +593,6 @@ img {
 
 
   
-    <article id="post-jdk-hashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/jdk-hashmap/">HashMap源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/10/jdk-hashmap/" class="archive-article-date">
-  	<time datetime="2019-04-10T05:48:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。<br>本文主要目录如下<br><a href="#hashmap1">字段数值</a><br><a href="#hashmap2">构造函数</a><br><a href="#hashmap3">get函数</a><br><a href="#hashmap4">put函数</a></p>
-</blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="hashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段中的装载因子可以大于1，甚至可以很大比如2^27<br><img src="/images/源码分析/jdk/HashMap_field.png" alt="字段数值"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node元素数组结果如下<br><img src="/images/源码分析/jdk/HashMap_Nodeclass.png" alt="字段数值"><br>
-        
-          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -715,6 +723,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">

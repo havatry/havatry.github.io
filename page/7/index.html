@@ -152,6 +152,162 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-spring-source-createBean" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
+  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>1.转换name获取beanName(别名或者FactoryBean)</li>
+<li>2.依据beanName找出单例的bean，在缓存中情况 getSingleton()<ul>
+<li>2.1如果允许提前曝光，则从singleFactories(beanName-&gt;ObjectFactory)中获取ObjectFactory</li>
+<li>2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getObject方法</li>
+<li>2.3将提前曝光的beanName和ObjectFactory(产生该bean的Factory)保存到earlySingleObjects(beanName-&gt;bean)中</li>
+<li>2.4删除singletonFactories中的beanName记录(互斥，因为首先从earlySingleObjects查找)</li>
+</ul>
+</li>
+<li>3.获取对应实例 getObjectForBeanInstance()<ul>
+<li>3.1如果是name是工厂name(带&amp;)，但是该bean又不是FactoryBean实例，抛出异常</li>
+<li>3.2如果想获取工厂实例或者不是FactroyBean类型，那么直接返回</li>
+<li>3.3否则从工厂bean中获取对象(getObjectForBeanInstance)<ul>
+<li>3.3.1 权限验证</li>
+<li>3.3.2 直接调用factory的getObject方法获取bean(**)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.如果单例bean不存在缓存中，则从头开始加载bean getSingle(…)<ul>
+<li>4.1检查bean是否已经加载</li>
+<li>4.2如果没有加载，记录beanName处于正在加载状态的map中singletonsCurrentlyICreation进行单例bean初始化</li>
+<li>4.3 调用createBean方法<ul>
+<li>4.3.1.1 验证以及准备覆盖的方法<ul>
+<li>4.3.1.1.1 遍历beandefinition的方法覆盖</li>
+<li>4.3.1.1.2 获取对应类中的方法名个数</li>
+<li>4.3.1.1.3 如果该方法个数为0，抛出异常。为1，设置方法没有覆盖，提前验证</li>
+</ul>
+</li>
+<li>4.3.1.2 实例化的前置处理<ul>
+<li>4.3.1.2.1 实例化前应用处理器<ul>
+<li>4.3.1.2.1.1 遍历处理器，如果是InstantiationAwareBeanPostProcessor类型，则调用其postProcessBeforeInstantiation方法</li>
+</ul>
+</li>
+<li>4.3.1.2.2 在实例化后应用处理器<ul>
+<li>4.3.1.2.2.1 遍历bean后处理器，调用其postProcessAfterInitialization方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.3.1.3 如果上一步的返回bean不为空，直接返回。否则进行常规的bean创建<ul>
+<li>4.3.1.3.1如果是单例bean，则先清除缓存</li>
+<li>4.3.1.3.2使用对应策略创建新的实例，如工厂方法，构造函数等<ul>
+<li>4.3.1.3.2.1 如果工厂方法不为空，使用工厂方法初始化</li>
+<li>4.3.1.3.2.2 否则使用构造函数初始化</li>
+<li>4.3.1.3.2.3 如果构造函数有多个，且以及解析过了，那么使用解析好的构造函数(**略)</li>
+<li>4.3.1.3.2.4 如果没有解析过，则需要依据参数先解析构造函数，再使用构造函数解析</li>
+</ul>
+</li>
+<li>4.3.1.3.3 bean合并处理，Autowired注解通过此实现类型预解析</li>
+<li>4.3.1.3.4 处理循环依赖问题<ul>
+<li>4.3.1.3.4.1判断是否需要提前曝光（单例，允许循环依赖，当前bean正在创建）</li>
+<li>4.3.1.3.4.2将该bean的ObjectFactory加入到singleFatories中（AOP)<ul>
+<li>4.3.1.3.4.2.1 ObjectFactory的getObject方法返回getEarlyBeanReference，保证属性地址一样，解决了循环依赖问题</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.3.1.3.5 属性注入<ul>
+<li>4.3.1.3.5.1 如果处理器是InstantiationAwareBeanPostProcessors类型，则调用其postProcessAfterInstantiation方法。</li>
+<li>4.3.1.3.5.2 如果有Autowireby，则依据名称自动注入或者依据类型自动注入(**略)</li>
+</ul>
+</li>
+<li>4.3.1.3.6 应用属性值，将获取的属性应用到实例化bean中</li>
+<li>4.3.1.3.7 初始化bean<ul>
+<li>4.3.1.3.7.1 为实现BeanNameAware，BeanClassLoaderAware,BeanFactoryAware类型的bean设置资源</li>
+<li>4.3.1.3.7.2 调用bean后处理器的postProccessBeforeInitialization方法</li>
+<li>4.3.1.3.7.3 如果bean实现了initializingBean接口，则调用其afterPropertiesSet方法。如果还有init-method属性，则调用其对应的方法</li>
+<li>4.3.1.3.7.4 注册DisposableBean</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>5.类型转换</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/29/spring-source-createBean/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-sed进阶" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -547,6 +703,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
