@@ -17,7 +17,7 @@
 <meta property="og:description" content="img {     width: 650px; }   对象分析 是否可达&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;给对象添加一个引用计数器，当一个地方引用的时候，计数器值加1；当引用失效时候，计数器值就减1；当且仅当计数器值为0的对象就是不可能被使用的。该算法失效简单，判断效率高。在微软COM技术和Python中使用。但是该算法存在循环引用问题。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nb">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/JVM/collectors.png">
-<meta property="og:updated_time" content="2019-04-21T12:51:26.614Z">
+<meta property="og:updated_time" content="2019-04-21T13:06:20.626Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GC收集器">
 <meta name="twitter:description" content="img {     width: 650px; }   对象分析 是否可达&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;给对象添加一个引用计数器，当一个地方引用的时候，计数器值加1；当引用失效时候，计数器值就减1；当且仅当计数器值为0的对象就是不可能被使用的。该算法失效简单，判断效率高。在微软COM技术和Python中使用。但是该算法存在循环引用问题。&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nb">
@@ -198,8 +198,10 @@ img {
 </ul>
 <h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><ul>
 <li>标记清除<br>&nbsp;&nbsp;&nbsp;&nbsp;标记出所有需要回收的对象，再标记完成后统一回收被标记的对象。存在的问题是效率,标记和清除的效率都不高。还有一个问题是空间问题,标记清除之后产生大量不连续的碎片，会导致无法找到足够的连续内存不得不提前触发另外一次的垃圾收集动作。</li>
-<li>复制算法<br>&nbsp;&nbsp;&nbsp;&nbsp;为了解决效率问题，此算法将可用内存划分为大小相等的两个部分，每次只使用其中的一块。当一块用完，将还存活的对象复制到另一块上，然后把使用的该空间一次清理掉，使得每次都对半区进行内存回收，同时也不需要考虑内存碎片，移动指针即可。优点是实现简单，运行高效；缺点是空间使用率为50%。</li>
-<li>标记整理<br>&nbsp;&nbsp;&nbsp;&nbsp;标记过程和标记清除一样，让已经存活的对象向一端进行移动，然后直接清理掉边界以外的内存</li>
+<li><p>复制算法<br>&nbsp;&nbsp;&nbsp;&nbsp;为了解决效率问题，此算法将可用内存划分为大小相等的两个部分，每次只使用其中的一块。当一块用完，将还存活的对象复制到另一块上，然后把使用的该空间一次清理掉，使得每次都对半区进行内存回收，同时也不需要考虑内存碎片，移动指针即可。优点是实现简单，运行高效；缺点是空间使用率为50%。新生代分为Eden区、from Survivor区和to Survivor区，比例为8:1:1,每次使用其中两块，当回收时候，将Eden区和一个Survivor区复制到另一个Survivor区，然后进行清除Eden区和Survivor区。如果移动对象很大超出Survivor区，则需要依赖老年代担保分配。</p>
+</li>
+<li><p>标记整理<br>&nbsp;&nbsp;&nbsp;&nbsp;标记过程和标记清除一样，让已经存活的对象向一端进行移动，然后直接清理掉边界以外的内存</p>
+</li>
 <li>分代收集<br>&nbsp;&nbsp;&nbsp;&nbsp;根据对象存活周期的不同将内存划分为几块，比如将堆分成新生代和老年代，依据每个年代的特点采用最适当的收集算法。在新生代使用复制算法，在老年代使用标记清理或者标记整理</li>
 </ul>
 <h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;垃圾收集主要在堆中进行，也有在方法区的，只是方法区中回收不是很理想。方法区垃圾收集的主要是废弃常量和无用的类。废弃常量是指没有任何String对象引用常量池中的某个常量，也没有其他地方引用这个字面量。同理类、方法、字段的符号引用也如此。无用类是指该类的所有实例都已经被回收了，加载该类的classloader已经被回收了，该类的class对象没有在任何地方被引用，即无法通过反射访问该类的方法。适用于反射，动态代理，CGLIB，动态JSP和OSGI等场合。</p>
@@ -244,6 +246,15 @@ img {
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/04/22/spring-transaction/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Spring事务
+        
+      </div>
+    </a>
   
   
     <a href="/2019/04/21/jvm-layout/" id="article-nav-older" class="article-nav-link-wrap">
@@ -389,19 +400,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -413,7 +420,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -422,6 +429,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
