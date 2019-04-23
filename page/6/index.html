@@ -152,6 +152,206 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-designmode-bridge" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/31/designmode-bridge/">桥梁模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/31/designmode-bridge/" class="archive-article-date">
+  	<time datetime="2019-03-31T06:57:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>将抽象和实现分离，使两者独立变化</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象化: 给出定义，保存一个对实现化对象的引用</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Abstraction</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Implementor imp;<span class="comment">//对实现化角色的引用</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Abstraction</span><span class="params">(Implementor imp)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.imp=imp</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//业务</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现化: 给出实现化接口，没有具体实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Implementor</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationImp</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//修正抽象化: 用实现化角色对抽象化角色进行修正</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RefinedAbstraction</span> <span class="keyword">extends</span> <span class="title">Abstraction</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">RefinedAbstraction</span><span class="params">(Implementor imp)</span></span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(imp);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//修正父类方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体实现化: 对实现化角色接口中的方法进行具体实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteImplementor</span> <span class="keyword">implements</span> <span class="title">Implementor</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">opertionImp</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//业务</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点</p>
+<blockquote>
+<p>优点:抽象和实现分离，解决了继承的缺点<br>  对客户端透明<br>  提高灵活性和可扩展性</p>
+</blockquote>
+</li>
+<li><p>4.使用场景</p>
+<blockquote>
+<p>在抽象化角色和具体化角色之间增加更多灵活性时<br>实现化角色的改变对客户端透明时<br>动态耦合时<br>不希望使用继承时，因为继承是侵入式的。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractShape</span> </span>&#123;</span><br><span class="line">	Color color;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">AbstractShape</span><span class="params">(Color color)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.color=color;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Color</span> </span>&#123;</span><br><span class="line">	<span class="function">String <span class="title">getColor</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Green</span> <span class="keyword">implements</span> <span class="title">Color</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getColor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="string">"绿色"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Red</span> <span class="keyword">implements</span> <span class="title">Color</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getColor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="string">"红色"</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">extends</span> <span class="title">AbstractShape</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Square</span><span class="params">(Color color)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(color);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"使用"</span>+color.getColor()+<span class="string">"画正方形"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BridgeDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试桥梁模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Color color=<span class="keyword">new</span> Green();</span><br><span class="line">		AbstractShape shape=<span class="keyword">new</span> Square(color);</span><br><span class="line">		shape.draw();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用绿色画正方形</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/31/designmode-bridge/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-designmode-factory" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/31/designmode-factory/">工厂方法模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/31/designmode-factory/" class="archive-article-date">
+  	<time datetime="2019-03-31T06:42:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>定义一个用于创建对象的接口，让子类决定实例化哪个类。工厂方法使一个类的实例化延迟到其子类。</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//工厂方法模式分为四个角色。</span></span><br><span class="line"><span class="comment">//抽象工厂角色:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Creator</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Product&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体工厂角色：</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreateCreator</span> <span class="keyword">implements</span> <span class="title">Creator</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Product&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span></span>&#123;</span><br><span class="line">		Product product=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			product=(Produce)Class.forName(c.getName()).newIntance();<span class="comment">//CORE</span></span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> (T) product;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//抽象产品角色:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Product</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> method1;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> method2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体产品角色：</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteProduct</span> <span class="keyword">implements</span> <span class="title">Product</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//应用:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryMethodDemo</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		Creator creator=<span class="keyword">new</span> ConcreteCreator();</span><br><span class="line">		Product product=creator.factory(ConcreteProduct.class);</span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点</p>
+<blockquote>
+<p>优点:<br>  良好的封装性，代码结构清晰。<br>  优秀的可扩展性。<br>  屏蔽产品类。<br>  典型的解耦模块。</p>
+</blockquote>
+</li>
+<li><p>4.应用场景</p>
+<blockquote>
+<p>需要生成对象的地方使用<br>需要灵活、可扩展的框架<br>使用异构项目，与其他语言交互<br>使用测试驱动开发的框架中</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FruitGardenerCommon</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Fruit&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactoryCommon</span> <span class="keyword">implements</span> <span class="title">FruitGardenerCommon</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> &lt;T extends Fruit&gt; <span class="function">T <span class="title">factory</span><span class="params">(Class&lt;T&gt; c)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		Fruit fruit=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			fruit=(Fruit)Class.forName(c.getName()).newInstance();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> (T)fruit;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Fruit</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span></span>;<span class="comment">//生长</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harvest</span><span class="params">()</span></span>;<span class="comment">//收获</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span></span>;<span class="comment">//栽种</span></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> treeAge;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"苹果正在生长"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harvest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"收获苹果"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"栽种苹果"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTreeAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> treeAge;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTreeAge</span><span class="params">(<span class="keyword">int</span> treeAge)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.treeAge = treeAge;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Grape</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">boolean</span> seedless;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"葡萄正在生长"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">harvest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"收获葡萄"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">plant</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"栽种葡萄"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSeedless</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> seedless;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSeedless</span><span class="params">(<span class="keyword">boolean</span> seedless)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.seedless = seedless;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="comment">//水果园丁</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FruitGardener</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Fruit <span class="title">factory</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppleGardener</span> <span class="keyword">implements</span> <span class="title">FruitGardener</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Fruit <span class="title">factory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Apple();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GrapeGardener</span> <span class="keyword">implements</span> <span class="title">FruitGardener</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Fruit <span class="title">factory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Grape();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Apple;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.AppleGardener;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.ConcreteFactoryCommon;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Fruit;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.FruitGardener;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.FruitGardenerCommon;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Grape;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.GrapeGardener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试工厂方法模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//苹果园丁工厂</span></span><br><span class="line">		FruitGardener fruitGardener=<span class="keyword">new</span> AppleGardener();</span><br><span class="line">		<span class="comment">//通过工厂生成苹果</span></span><br><span class="line">		Fruit apple=fruitGardener.factory();</span><br><span class="line">		apple.plant();</span><br><span class="line">		apple.grow();</span><br><span class="line">		apple.harvest();</span><br><span class="line">		<span class="comment">//葡萄园丁工厂</span></span><br><span class="line">		fruitGardener=<span class="keyword">new</span> GrapeGardener();</span><br><span class="line">		<span class="comment">//通过工厂生产葡萄</span></span><br><span class="line">		Fruit grape=fruitGardener.factory();</span><br><span class="line">		grape.plant();</span><br><span class="line">		grape.grow();</span><br><span class="line">		grape.harvest();</span><br><span class="line">		System.out.println();</span><br><span class="line">		<span class="comment">//测试另一种</span></span><br><span class="line">		FruitGardenerCommon fruitGardenerCommon=<span class="keyword">new</span> ConcreteFactoryCommon();</span><br><span class="line">		Fruit apple2=fruitGardenerCommon.factory(Apple.class);</span><br><span class="line">		apple2.plant();</span><br><span class="line">		apple2.grow();</span><br><span class="line">		apple2.harvest();</span><br><span class="line">		Fruit grape2=fruitGardenerCommon.factory(Grape.class);</span><br><span class="line">		grape2.plant();</span><br><span class="line">		grape2.grow();</span><br><span class="line">		grape2.harvest();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">栽种苹果</span><br><span class="line">苹果正在生长</span><br><span class="line">收获苹果</span><br><span class="line">栽种葡萄</span><br><span class="line">葡萄正在生长</span><br><span class="line">收获葡萄</span><br><span class="line"></span><br><span class="line">栽种苹果</span><br><span class="line">苹果正在生长</span><br><span class="line">收获苹果</span><br><span class="line">栽种葡萄</span><br><span class="line">葡萄正在生长</span><br><span class="line">收获葡萄</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/31/designmode-factory/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-designmode-facade" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -432,194 +632,6 @@
 
 
   
-    <article id="post-designmode-prototype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/30/designmode-prototype/">原型模式</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/30/designmode-prototype/" class="archive-article-date">
-  	<time datetime="2019-03-30T02:29:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>概述</p>
-<ul>
-<li><p>1.定义<br>用原型实例指定创建对象的种类，并且通过复制这些原型创建新的对象</p>
-</li>
-<li><p>2.角色</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//客户: 提出创建对象的请求</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(Prototype example)</span></span>&#123;</span><br><span class="line">		<span class="comment">//得到example副本</span></span><br><span class="line">		Prototype p=example.clone()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//抽象原型:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Prototype</span> <span class="keyword">extends</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">	<span class="function">Prototype <span class="title">clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"><span class="comment">//具体原型:</span></span></span><br><span class="line"><span class="function"><span class="comment">//实现clone()方法</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>3.优缺点<br>优点:性能优良，其是在内存二进制流的复制，比new性能好。<br>  避免构造函数的约束。直接在内存中复制，构造函数是不会执行的。</p>
-</li>
-<li><p>4.应用场景<br>资源优化时<br>性能和安全要求的场景<br>一个对象提供给其他对象访问，且其他对象要修改本对象的数据时</p>
-</li>
-</ul>
-</li>
-<li><p>使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MailPrototype</span> <span class="keyword">extends</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">	<span class="function">Mail <span class="title">clone</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mail</span> <span class="keyword">implements</span> <span class="title">MailPrototype</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String receiver;</span><br><span class="line">	<span class="keyword">private</span> String subject;</span><br><span class="line">	<span class="keyword">private</span> String appellation;</span><br><span class="line">	<span class="keyword">private</span> String context;</span><br><span class="line">	<span class="keyword">private</span> String tail;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Mail</span><span class="params">(String subject,String context)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.subject=subject;</span><br><span class="line">		<span class="keyword">this</span>.context=context;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mail <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (Mail) <span class="keyword">super</span>.clone();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getReceiver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> receiver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setReceiver</span><span class="params">(String receiver)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.receiver = receiver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getSubject</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> subject;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSubject</span><span class="params">(String subject)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.subject = subject;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getAppellation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> appellation;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppellation</span><span class="params">(String appellation)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.appellation = appellation;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> context;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContext</span><span class="params">(String context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.context = context;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getTail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> tail;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTail</span><span class="params">(String tail)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.tail = tail;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Mail;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试原型模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//模拟发送邮件</span></span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		Mail mail=<span class="keyword">new</span> Mail(<span class="string">"商场五一抽奖活动"</span>, <span class="string">"五一抽奖活动通知: "</span>+</span><br><span class="line">				<span class="string">"凡在五一期间在本商城购物满100元的客户都有机会获取抽奖机会!"</span>);</span><br><span class="line">		mail.setTail(<span class="string">"解释权归本商场所有"</span>);</span><br><span class="line">		<span class="keyword">while</span>(i&lt;<span class="number">6</span>)&#123;</span><br><span class="line">			<span class="comment">//克隆邮件</span></span><br><span class="line">			Mail cloneMail=mail.clone();</span><br><span class="line">			cloneMail.setAppellation(i+<span class="string">"先生(女士)!"</span>);</span><br><span class="line">			cloneMail.setReceiver(i+<span class="string">"@"</span>+i+<span class="string">"_"</span>+i+<span class="string">".com"</span>);</span><br><span class="line">			sendMail(cloneMail);</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(Mail mail)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"标题: "</span>+mail.getSubject()+<span class="string">"\t收件人: "</span>+mail.getReceiver()+</span><br><span class="line">				<span class="string">"\t...发送成功"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>测试结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">标题: 商场五一抽奖活动	收件人: 0@0_0.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 1@1_1.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 2@2_2.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 3@3_3.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 4@4_4.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 5@5_5.com	...发送成功</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/30/designmode-prototype/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-designmode-flyweight" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/30/designmode-flyweight/">享元模式</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/30/designmode-flyweight/" class="archive-article-date">
-  	<time datetime="2019-03-30T02:14:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>概述</p>
-<ul>
-<li><p>1.定义<br>使用共享对象可有效地支持大量的细粒度的对象。依据外部状态和内部状态通过工厂来获取对象。</p>
-</li>
-<li><p>2.角色</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象享元: 对享元类进行抽象</span></span><br><span class="line">pubilc <span class="class"><span class="keyword">interface</span> <span class="title">Flyweight</span></span>&#123;</span><br><span class="line">	<span class="comment">//业务方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(String extrinsicState)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体享元: 实现抽象享元</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFlyweight</span> <span class="keyword">implements</span> <span class="title">Flyweight</span></span>&#123;</span><br><span class="line">	<span class="comment">//内部状态</span></span><br><span class="line">	<span class="keyword">private</span> String intrinsicState;</span><br><span class="line">	ConcreteFlyweight(String intrinsicState)&#123;</span><br><span class="line">		<span class="keyword">this</span>.intrinsicState=intrinsicState;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(String extrinsicState)</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"内部状态: "</span>+intrinsicState+<span class="string">",外部状态: "</span>+extrinsicState);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//享元工厂: 池容器，管理创建享元角色</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlyweightFactory</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String,Flyweight&gt; pool =<span class="keyword">new</span> HashMap&lt;String,Flyweight&gt;();</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">FlyweightFactory</span><span class="params">()</span></span>&#123;&#125;<span class="comment">//私有</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Flyweight <span class="title">getFlyweight</span><span class="params">(String intrinsicState)</span></span>&#123;</span><br><span class="line">		Flyweight flyweight=pool.get(intrinsicStae);</span><br><span class="line">		<span class="keyword">if</span>(flyweight==<span class="keyword">null</span>)&#123;</span><br><span class="line">			flyweight=<span class="keyword">new</span> ConcreteFlyweight(intrinsicState);</span><br><span class="line">			pool.put(intrinsicState,flyweight);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> flyweight;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//客户端: 存储享元对象的外部状态</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>3.优缺点<br>优点: 减少内存中对象数量<br>缺点: 增加系统复杂性，读取外部状态使得运行时间变长</p>
-</li>
-<li><p>4.使用场景<br>系统中存在大量相似对象时候<br>对象没有特定身份<br>需要缓冲池时候<br>eg. String,Integer,Boolean,Character等</p>
-</li>
-</ul>
-</li>
-<li><p>使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Chesspiece</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>;<span class="comment">//落子</span></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChesspieceFlyweight</span> <span class="keyword">implements</span> <span class="title">Chesspiece</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String color;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ChesspieceFlyweight</span><span class="params">(String color)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.color=color;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"在("</span>+x+<span class="string">", "</span>+y+<span class="string">")位置放了一个"</span>+color+<span class="string">"子"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChesspieceFactory</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> Chesspiece WHITE=<span class="keyword">new</span> ChesspieceFlyweight(<span class="string">"白"</span>);</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> Chesspiece BLACK=<span class="keyword">new</span> ChesspieceFlyweight(<span class="string">"黑"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Chesspiece <span class="title">getChesspiece</span><span class="params">(String color)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(color.equals(<span class="string">"白"</span>))</span><br><span class="line">			<span class="keyword">return</span> WHITE;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(color.equals(<span class="string">"黑"</span>))</span><br><span class="line">			<span class="keyword">return</span> BLACK;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Chesspiece;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.ChesspieceFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlyweightDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试享元模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Chesspiece p1=ChesspieceFactory.getChesspiece(<span class="string">"黑"</span>);</span><br><span class="line">		p1.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">		Chesspiece p2=ChesspieceFactory.getChesspiece(<span class="string">"白"</span>);</span><br><span class="line">		p2.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">		Chesspiece p3=ChesspieceFactory.getChesspiece(<span class="string">"黑"</span>);</span><br><span class="line">		p3.put(<span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line">		Chesspiece p4=ChesspieceFactory.getChesspiece(<span class="string">"白"</span>);</span><br><span class="line">		p4.put(<span class="number">4</span>, <span class="number">4</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>测试结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在(1, 1)位置放了一个黑子</span><br><span class="line">在(2, 2)位置放了一个白子</span><br><span class="line">在(3, 3)位置放了一个黑子</span><br><span class="line">在(4, 4)位置放了一个白子</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/30/designmode-flyweight/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -717,11 +729,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -730,6 +742,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">source</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -753,7 +769,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -762,10 +778,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">thread</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">

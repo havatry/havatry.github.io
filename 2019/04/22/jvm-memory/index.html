@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>标签 | Havatry</title>
+  <title>jvm内存模型 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+  <meta name="description" content="主内存和工作内存&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。  内存交互&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java定义了8种操作来完成。 lock 作用于主内存的变量，把变量">
+<meta name="keywords" content="jvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jvm内存模型">
+<meta property="og:url" content="http://yoursite.com/2019/04/22/jvm-memory/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="主内存和工作内存&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。  内存交互&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java定义了8种操作来完成。 lock 作用于主内存的变量，把变量">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-27T13:51:01.243Z">
+<meta property="og:updated_time" content="2019-04-22T13:02:57.154Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="标签">
+<meta name="twitter:title" content="jvm内存模型">
+<meta name="twitter:description" content="主内存和工作内存&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。  内存交互&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java定义了8种操作来完成。 lock 作用于主内存的变量，把变量">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -151,27 +155,81 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-jvm-memory" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      标签
+      jvm内存模型
     </h1>
   
 
         
-        <a href="/tags/index.html" class="archive-article-date">
-  	<time datetime="2019-03-24T04:09:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-24</time>
+        <a href="/2019/04/22/jvm-memory/" class="archive-article-date">
+  	<time datetime="2019-04-22T07:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="主内存和工作内存"><a href="#主内存和工作内存" class="headerlink" title="主内存和工作内存"></a>主内存和工作内存</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。</p>
+<ul>
+<li>内存交互<br>&nbsp;&nbsp;&nbsp;&nbsp;Java定义了8种操作来完成。<ul>
+<li>lock 作用于主内存的变量，把变量标识为一条线程独占的状态</li>
+<li>unlock 作用于主内存的变量，把一个处于锁定状态的变量释放处理</li>
+<li>read 作用于主内存变量，把一个变量的值从主内存传输到线程的工作内存中</li>
+<li>load 作用于工作内存的变量，把read操作从主内存中得到的变量放入工作内存的变量副本中</li>
+<li>use 作用于工作内存的变量，把工作内存中一个变量的值传递给执行引擎</li>
+<li>assign 作用于工作内存的变量，把从一个执行引擎接收到的值赋给工作内存的变量</li>
+<li>store 作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中</li>
+<li>write 作用于主内存的变量，把工作内存得到的变量的值写回主内存<br>综上，如果要在主内存和工作内存之间复制值的话，需要顺序地执行read &amp; load和store &amp; write指令，只需要顺序不一定连续<a id="more"></a></li>
+</ul>
+</li>
+<li><p>先行发生规则<br>&nbsp;&nbsp;&nbsp;&nbsp;由于内存的操作规则比较繁琐，这里使用先行发生规则来判断并发访问的安全性。</p>
+<ul>
+<li>程序次序规则: 在一个线程中，按照控制流顺序，前面的操作发生在后面的操作之前</li>
+<li>管程锁定规则: 一个unlock操作先行发生后面对同一个锁的lock操作</li>
+<li>volatile变量规则: 对一个volatile变量的写操作先行发生在后面对这个变量的读操作</li>
+<li>线程启动规则: Thread对象的start()方法先行发生此线程的每一个动找</li>
+<li>线程终止规则: 线程所有操作先行发生于对此线程的终止检测</li>
+<li>线程中断规则: 对interrupt方法的调用先行发生于被中断线程的代码检测中断事件的发生</li>
+<li>对象终结规则: 对象的初始化完成先行发生于对象的finalize方法之前</li>
+<li>传递性: 如果A先于B，B先于C，那么A先于C</li>
+</ul>
+</li>
+<li><p>内存特性</p>
+<ul>
+<li>原子性<br>&nbsp;&nbsp;&nbsp;&nbsp;Java内存直接保证原子性变量的操作包括read,load,assign,store,write等，可以认为基本类型数据访问读写是具有原子性的。如果需要更大范围内的原子性，则需要借助lock和unlock操作。除此之外，还提供了更高层次的字节码指令monitorenter和monitorexit指令隐式使用，这就是synchronized关键字的操作。</li>
+<li>可见性<br>&nbsp;&nbsp;&nbsp;&nbsp;当一个线程修改了共享变量的值，其他线程能够立即得到这个修改。voliatile能保证新值立即同步回主内存，每次使用前能立即从主内存刷新。而普通变量不能。除voliatile关键字外，还有synchronized和final两个关键字也能实现可见性。其中synchronized式一个变量执行unlock之前，必须将变量同步回主内存这个规则来保证可见性。</li>
+<li>有序性<br>&nbsp;&nbsp;&nbsp;&nbsp;在本线程内有序，在其他线程中无序。voliatile关键字包含禁止指令重排，synchronized通过一个变量在同一个时刻只允许一条线程对其进行lock操作来保证的，保证一个锁的多个同步块只能串行执行。</li>
+</ul>
+</li>
+<li><p>volatile<br>  &nbsp;&nbsp;&nbsp;&nbsp;在对volatile变量进行设值的时候，会多执行一个lock addl $0x0,这个指令相当于一个内存屏障。它的作用是使得本CPU的Cache写入内存，同时该写入动作引起其他CPU或者别的内核无效化其Cache。这样保证了可见性。<br>  &nbsp;&nbsp;&nbsp;&nbsp;因为将修改同步到内存时候，意味着所有之前的操作已经执行完成了，这样便形成了指令重排序无法越过的内存屏障。<br>  &nbsp;&nbsp;&nbsp;&nbsp;关于volatile和synchronized比较，volatile变量的读操作性能消耗和普通变量一样，但是写操作需要在本地代码中插入许多内存屏障指令来保证处理器不发生乱序执行。但一般开销比锁低，选择volatile的标准是1.运算结果不依赖变量的当前值 2.变量不需要和其他状态变量共同参与不变约束</p>
+</li>
+</ul>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><ul>
+<li><p>实现</p>
+<ul>
+<li>内核线程<br>&nbsp;&nbsp;&nbsp;&nbsp;直接由操作系统内核支持的线程，通过轻量级进程LWP的接口来去使用内核线程。LWP和内核线程是1:1的对称关系，用户进程和LWP是1:N关系。优点:LWP是一个独立的调度单元，即使LWP出现阻塞，也不会影响整个进程。缺点:系统调用代价高，同时要消耗内核资源因此LWP数量有限。Java使用内核线程。</li>
+<li>用户线程<br>&nbsp;&nbsp;&nbsp;&nbsp;不是内核线程即可。进程和UT是1:N的关系。优点:不需要进行系统调用，缺点:实现起来复杂，阻塞问题。</li>
+<li>混合线程<br>&nbsp;&nbsp;&nbsp;&nbsp;LWP和UT的比例是N:M，优点:系统调用通过LWP来完成，降低了整个进程被阻塞的风险。</li>
+</ul>
+</li>
+<li><p>状态转换</p>
+<ul>
+<li>新建</li>
+<li>运行</li>
+<li>无限期等待 Object.wait(),Thread.join(),LockSupport.park()</li>
+<li>限期等待 Thread.sleep(),Object.wait(t),Thread.join(t),LockSupport.parkNanos(),LockSupport.parkUtil()</li>
+<li>阻塞</li>
+<li>结束</li>
+</ul>
+</li>
+</ul>
+
       
 
       
@@ -179,6 +237,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -190,6 +259,25 @@
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2019/04/22/jvm-thread/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          jvm锁
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/22/spring-transaction/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spring事务</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -240,7 +328,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>标签 | Havatry</title>
+  <title>jvm锁 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+  <meta name="description" content="线程安全&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;定义：当多个线程访问一个对象时候，如果不用考虑这些线程在运行环境下的调度和交替执行，也不需要额外的同步，或者在调用方法进行任何其他的协调操作，调用这个对象的行为都能获得正确的结果，那么这个对象是线程安全的。  不可变&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java中如果共享对象是基本数据类型，那么只要定义的时候">
+<meta name="keywords" content="jvm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jvm锁">
+<meta property="og:url" content="http://yoursite.com/2019/04/22/jvm-thread/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="线程安全&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;定义：当多个线程访问一个对象时候，如果不用考虑这些线程在运行环境下的调度和交替执行，也不需要额外的同步，或者在调用方法进行任何其他的协调操作，调用这个对象的行为都能获得正确的结果，那么这个对象是线程安全的。  不可变&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java中如果共享对象是基本数据类型，那么只要定义的时候">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-27T13:51:01.243Z">
+<meta property="og:updated_time" content="2019-04-22T13:00:50.980Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="标签">
+<meta name="twitter:title" content="jvm锁">
+<meta name="twitter:description" content="线程安全&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;定义：当多个线程访问一个对象时候，如果不用考虑这些线程在运行环境下的调度和交替执行，也不需要额外的同步，或者在调用方法进行任何其他的协调操作，调用这个对象的行为都能获得正确的结果，那么这个对象是线程安全的。  不可变&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Java中如果共享对象是基本数据类型，那么只要定义的时候">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -151,27 +155,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-jvm-thread" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      标签
+      jvm锁
     </h1>
   
 
         
-        <a href="/tags/index.html" class="archive-article-date">
-  	<time datetime="2019-03-24T04:09:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-24</time>
+        <a href="/2019/04/22/jvm-thread/" class="archive-article-date">
+  	<time datetime="2019-04-22T08:51:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定义：当多个线程访问一个对象时候，如果不用考虑这些线程在运行环境下的调度和交替执行，也不需要额外的同步，或者在调用方法进行任何其他的协调操作，调用这个对象的行为都能获得正确的结果，那么这个对象是线程安全的。</p>
+<ul>
+<li><p>不可变<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java中如果共享对象是基本数据类型，那么只要定义的时候使用final来修饰，就可以保证其是不可变的。如果共享数据是一个对象，则需要保证对象的行为不会对其状态产生任何影响才可以。比如String，Long,Dobule,BigInteger,BigDecimal,Integer等</p>
+</li>
+<li><p>绝对线程安全<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上面的定义是满足绝对线程安全的条件，Java Api中的类大多数不是绝对线程安全的。</p>
+</li>
+<li><p>相对线程安全<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将定义的调用这个对象的行为限定为单次调用，满足这个条件的称为相对线程安全。Java中绝大多数的线程安全的类是这个级别。比如Vector,HashTable和synchronizedCollection()包装的集合等。</p>
+</li>
+<li><p>线程兼容<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对象本身不是线程安全的，但是可以通过在调用段的正确同步措施来保证对象在并发环境下可以安全使用。比如ArrayList和HashMap等。</p>
+</li>
+<li><p>线程对立<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无论调用端是否采用了同步措施，都无法再多线程环境下并发使用。比如Thread的suspend和resume方法，在多线程环境下存在死锁的风险。</p>
+<a id="more"></a>
+<h2 id="线程安全实现"><a href="#线程安全实现" class="headerlink" title="线程安全实现"></a>线程安全实现</h2></li>
+<li><p>互斥同步<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同步是多个线程并发访问共享数据时候，保证共享数据在同一个时刻只被一个线程使用；互斥是实现同步的一种手段，临界区、互斥量和信号量都是互斥实现方式。最基本的互斥同步是synchronized关键字。执行monitorenter指令的时候，首先尝试获取对象的锁，如果没有被锁定或者已经有当前这个锁，这锁的计数加1.当执行monitorexit指令时候将锁计数器减1，当计数器为0的时候，锁被释放。除了synchronized关键字外，还有ReentrantLock类，该类实现了可中断、可实现公平锁和锁绑定多个条件。其中可中断是正在等待的线程可以选择放弃等待；公平锁是按照申请锁的事件顺序来异常获得锁，默认是非公平的。锁绑定多个条件是ReentrantLock对象可以绑定到多个Condition对象，使用newCondition方法即可。</p>
+</li>
+<li><p>非阻塞同步<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;互斥同步属于悲观并发策略。而非阻塞同步是乐观并发策略，也就是先进行操作，如果没有其他线程争用共享数据，那操作就成功了，否则采取其他补偿措施(CAS)。CAS会出现ABA问题，可以使用AtomicStampedReference通过控制变量只的版本来保证CAS的正确性。</p>
+</li>
+<li><p>无同步方案<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果方法不涉及共享数据，则不需要进行同步措施。比如可重入代码，不依赖于存储在堆上的数据和公用的系统资源，用到的状态量都是由参数中传入、不调用非可重入的方法。==&gt;如果一个方法返回结果是可以预测的，那么输入相同数据就应该有相同的结果。还有线程本地存储，将共享数据的代码保证在同一个线程中执行。</p>
+</li>
+</ul>
+<h2 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h2><ul>
+<li><p>自旋锁<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共享数据的锁定状态可能只会持续很短的一段事件，为了这段事件去挂起和恢复线程的开销很大。因此如果让后请求锁的线程稍等一会，当不放弃处理器的执行事件，看看持有锁的线程是否很快就会是否锁，也就是自旋。优点:避免线程切换的开销。缺点:锁占用事件很长时，自旋的线程只会白白消耗处理器资源。自旋次数默认是10次。JDK1.6引入了自适应的自旋锁，自旋时间不固定，而且由前一次在同一个锁上的自旋时间以及锁的拥有着状态来决定的。</p>
+</li>
+<li><p>锁消除<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;虚拟机即时编译器在运行时候，依据逃逸分析判断一段代码中是否不可能逃逸出去从而被其他线程访问到，那么就可以将他们当作栈上的数据对待，即为线程私有。JIT会忽略所有同步而直接执行。</p>
+</li>
+<li><p>锁粗化<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果虚拟机探测到有一串零碎的操作都是堆同一个对象加锁，就会将加锁的同步范围粗化到整个操作序列的外部，这样只需要加一个锁即可。</p>
+</li>
+<li><p>轻量级锁<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mark Word是实现轻量级锁和偏向锁的关键。代码进入同步块的时候，如果同步对象没有被锁定，虚拟机首先在当前线程的栈帧中建立一个锁记录的空间(Lock Record)的空间，存储着锁对象当前的Mark Word拷贝(Displaced Mark Word)。然后虚拟机将使用CAS将对象的Mark Word更新为指向Lock Record的指针，如果更新成功，则拥有该对象的锁，并且对象的Mark Word锁标志位变成00.否则更新没有成功，则会检查对象的Mark Word是否指向当前线程的栈帧，如果是则说明当前线程已经拥有这个对象的锁，直接进入同步块执行，否则被其他线程抢占。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果有两个以上的线程争用同一个锁，那么轻量级锁膨胀为重量级锁，锁标志的状态值变成10,Mark Word中存储执行重量级锁的指针，后面等待锁的线程会阻塞。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;解锁也是通过CAS，如果Mark Word仍然指向线程的锁记录，就用CAS操作将对象的当前Mark Word和Displaced Mark Word替换回来，如果成功则结束，否则有其他线程尝试获取该锁，需要在释放锁的同时，唤醒被挂起的线程。<br>&nbsp;在无竞争情况下，轻量级锁避免使用互斥量的开销。如果竞争很大，则除了互斥量开销还有CAS操作，轻量级锁比重量级锁更慢。</p>
+</li>
+<li><p>偏向锁<br>&nbsp;&nbsp;&nbsp;&nbsp;消除数据在无竞争情况下的同步。当锁第一次被线程获取的时候，虚拟机会把对象头中的标志位设为01偏向模式。同时使用CAS操作将获取到这个锁的线程ID记录在对象的Mark Word中，如果CAS操作成功，持有偏向锁的线程以后每次进入这个锁相关的同步快时候，虚拟机都不再进行任何同步操作。但是当有一个线程尝试获取该锁的时候，偏向模式则失效。依据锁对象目前是否处于被锁定状态，撤销偏向后恢复到未锁定或者轻量级锁状态。</p>
+</li>
+</ul>
+
       
 
       
@@ -179,6 +215,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -190,6 +237,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/22/jvm-memory/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">jvm内存模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -240,7 +297,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
