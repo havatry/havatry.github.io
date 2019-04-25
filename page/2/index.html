@@ -152,40 +152,39 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-mysql-index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-jvm-thread" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/21/mysql-index/">mysql索引</a>
+      <a class="article-title" href="/2019/04/22/jvm-thread/">jvm锁</a>
     </h1>
   
 
         
-        <a href="/2019/04/21/mysql-index/" class="archive-article-date">
-  	<time datetime="2019-04-21T05:10:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+        <a href="/2019/04/22/jvm-thread/" class="archive-article-date">
+  	<time datetime="2019-04-22T08:51:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:<br><a href="#mysqlindex1">索引分类</a><br>&nbsp;&nbsp;    <a href="#mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex12">哈希索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex13">聚族索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex14">覆盖索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex15">排序索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex16">其他索引</a><br><a href="#mysqlindex2">索引策略</a><br><a href="#mysqlindex3">索引优化</a></p>
-</blockquote>
-<h2 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a><a name="mysqlindex1">索引分类</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;索引优点:大大减少服务器需要扫描的数据量；帮助服务器避免排序和临时表；将随机IO变成顺序IO。索引三星标准:将相关记录放到一起；索引数据顺序和查找数据顺序一致;索引列包含了查询中全表列。</p>
+        <h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定义：当多个线程访问一个对象时候，如果不用考虑这些线程在运行环境下的调度和交替执行，也不需要额外的同步，或者在调用方法进行任何其他的协调操作，调用这个对象的行为都能获得正确的结果，那么这个对象是线程安全的。</p>
 <ul>
-<li><a name="mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;每种存储引擎以不同的方式实现B-Tree索引。比如MyISAM使用前缀压缩技术使得索引更小,InnoDB按照原数据格式存储。MyISAM会将冗余重复索引优化成一个索引存储内容，InnoDB会对比如A和(A,B)两个索引分别存储对应内容。MyISAM使用B-Tree索引，而InnoDB使用其变形的B+-Tree索引。InnoDB的索引结构如下:<br><img src="/images/Mysql/innode_store.png" alt="B-Tree索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;B-Tree的查询类型有全值匹配(和索引中所有列进行匹配),最左匹配,匹配列前缀(只使用索引第一列),匹配范围(只使用索引第一列)，索引查询(也称覆盖索引),排序查询(也称排序索引,索引树种的节点是有序的),精确并范围查询(对于上面只使用索引第一列的情况，如果前面使用的是等值匹配,包括=或者in，那么索引第一列的概念泛化到已经等值匹配列的后一列)<br>
+<li><p>不可变<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java中如果共享对象是基本数据类型，那么只要定义的时候使用final来修饰，就可以保证其是不可变的。如果共享数据是一个对象，则需要保证对象的行为不会对其状态产生任何影响才可以。比如String，Long,Dobule,BigInteger,BigDecimal,Integer等</p>
+</li>
+<li><p>绝对线程安全<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上面的定义是满足绝对线程安全的条件，Java Api中的类大多数不是绝对线程安全的。</p>
+</li>
+<li><p>相对线程安全<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将定义的调用这个对象的行为限定为单次调用，满足这个条件的称为相对线程安全。Java中绝大多数的线程安全的类是这个级别。比如Vector,HashTable和synchronizedCollection()包装的集合等。</p>
+</li>
+<li><p>线程兼容<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对象本身不是线程安全的，但是可以通过在调用段的正确同步措施来保证对象在并发环境下可以安全使用。比如ArrayList和HashMap等。</p>
+</li>
+<li><p>线程对立<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无论调用端是否采用了同步措施，都无法再多线程环境下并发使用。比如Thread的suspend和resume方法，在多线程环境下存在死锁的风险。</p>
         
-          <a class="article-more-a" href="/2019/04/21/mysql-index/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/22/jvm-thread/#more">more >></a>
         
       
 
@@ -199,11 +198,7 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
         		</li>
       		
 		</ul>
@@ -213,7 +208,7 @@ img {
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/21/mysql-index/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/22/jvm-thread/">展开全文 >></a>
         </p>
       
 
@@ -243,40 +238,44 @@ img {
 
 
   
-    <article id="post-springboot-autoconfig" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-jvm-memory" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/20/springboot-autoconfig/">springboot自动配置</a>
+      <a class="article-title" href="/2019/04/22/jvm-memory/">jvm内存模型</a>
     </h1>
   
 
         
-        <a href="/2019/04/20/springboot-autoconfig/" class="archive-article-date">
-  	<time datetime="2019-04-20T06:32:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-20</time>
+        <a href="/2019/04/22/jvm-memory/" class="archive-article-date">
+  	<time datetime="2019-04-22T07:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <style>
-img {
-    width:650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。<br>&nbsp;&nbsp;&nbsp;&nbsp;层次关系如下<br>&nbsp;&nbsp;&nbsp;&nbsp;SpringBootApplication注解中包含@EnableAutoConfiguration注解<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/SpringBootApplication_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;@EnableAutoConfiguration注解包含一个关键的AutoConfigurationImportSelector类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;AutoConfigurationImportSelector类中会进行加载spring.factories文件中的自动配置类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/AutoConfigurationImportSelector_getCandidateConfigurations.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;spring.factories文件可以在META-INF/目录下，也可以在autoconfigure的jar包中，引入jar包<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/autoconfigure_pom.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;其jar包中配置文件内容<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_springfactories.png" alt="概述"><br>
+        <h2 id="主内存和工作内存"><a href="#主内存和工作内存" class="headerlink" title="主内存和工作内存"></a>主内存和工作内存</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。</p>
+<ul>
+<li>内存交互<br>&nbsp;&nbsp;&nbsp;&nbsp;Java定义了8种操作来完成。<ul>
+<li>lock 作用于主内存的变量，把变量标识为一条线程独占的状态</li>
+<li>unlock 作用于主内存的变量，把一个处于锁定状态的变量释放处理</li>
+<li>read 作用于主内存变量，把一个变量的值从主内存传输到线程的工作内存中</li>
+<li>load 作用于工作内存的变量，把read操作从主内存中得到的变量放入工作内存的变量副本中</li>
+<li>use 作用于工作内存的变量，把工作内存中一个变量的值传递给执行引擎</li>
+<li>assign 作用于工作内存的变量，把从一个执行引擎接收到的值赋给工作内存的变量</li>
+<li>store 作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中</li>
+<li>write 作用于主内存的变量，把工作内存得到的变量的值写回主内存<br>综上，如果要在主内存和工作内存之间复制值的话，需要顺序地执行read &amp; load和store &amp; write指令，只需要顺序不一定连续
         
-          <a class="article-more-a" href="/2019/04/20/springboot-autoconfig/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/22/jvm-memory/#more">more >></a>
         
       
 
       
-    </p></div>
+    </li></ul></li></ul></div>
     <div class="article-info article-info-index">
       
       
@@ -285,11 +284,7 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
         		</li>
       		
 		</ul>
@@ -299,7 +294,7 @@ img {
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/20/springboot-autoconfig/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/22/jvm-memory/">展开全文 >></a>
         </p>
       
 
@@ -329,189 +324,20 @@ img {
 
 
   
-    <article id="post-thread-chapter5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-spring-transaction" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/19/thread-chapter5/">线程同步</a>
+      <a class="article-title" href="/2019/04/22/spring-transaction/">Spring事务</a>
     </h1>
   
 
         
-        <a href="/2019/04/19/thread-chapter5/" class="archive-article-date">
-  	<time datetime="2019-04-19T06:01:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width:650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>本文主要描述同步模块的构建，目录如下<br><a href="#threadsyn1">同步容器</a><br><a href="#threadsyn2">并发容器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn21">ConcurrentHashMap</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn22">CopyOnWriteArrayList</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn23">BlockingQueue</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn24">BlockingDequeue</a><br><a href="#threadsyn3">同步策略</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn31">Latch</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn32">Semaphore</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn33">Barrier</a><br><a href="#threadsyn4">缓存设计</a></p>
-</blockquote>
-<h2 id="同步容器"><a href="#同步容器" class="headerlink" title="同步容器"></a><a name="threadsyn1">同步容器</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Jdk中的同步容器有Vector,HashTable,Stack,Enumeration，还有使用Collections类包装的容器类。这些在单个操作是种线程安全的，但是复合操作时候仍然需要加锁。在ConcurrentHashMap中在多个线程并发修改容器的时候并没有考虑并发修改的问题，这种复合操作的影响使用了fast-fail机制来解决，该机制出现在迭代时候。这种机制是一种善意的捕获并发错误。借助modCount值和预期值的差别来判断，但是这样的判断在没有同步的情况下还是会出现看到已经失效的计数值，这是一种设计上的权衡。==&gt; 解决方法是在迭代过程中使用加锁机制，但是这样存在的问题是某些线程访问容器之前需要等待迭代过程的长时间，同时可能还会导致线程的死锁，也会降低程序的可伸缩性。==&gt;解决方法是在线程内克隆容器，然后在副本上进行操作，但是这种方式存在性能开销和空间开销等。<br>&nbsp;&nbsp;&nbsp;&nbsp;除了对显示迭代器加锁，同时也要注意对隐式迭代器加锁，比如toString方法会对容器进行迭代,hashCode以及equals方法也会这样。<br>
-        
-          <a class="article-more-a" href="/2019/04/19/thread-chapter5/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/19/thread-chapter5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux-bootstep" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/12/linux-bootstep/">Liunx启动流程</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/12/linux-bootstep/" class="archive-article-date">
-  	<time datetime="2019-04-12T09:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>一、介绍</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Linux启动流程如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.加载BIOS硬件信息与进行自我测试，依据设置取得第一个可启动的设备<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.读取第一个启动设备内MBR的boot loader(grub)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.依据boot loader设置加载内核，内核开始检测硬件与加载驱动程序<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.硬件驱动加载后，内核主动调用init进程，init进程取得runlevel信息<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.init执行/etc/rc.d/rc.sysinit准备操作环境<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.init执行/etc/rc.d/rc[0-6]准备各个服务启动<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.init执行/etc/rc.d/rc.local执行自定义脚本服务<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.init执行终端机模拟程序mingetty来启动login进程，进行登录<br>
-        
-          <a class="article-more-a" href="/2019/04/12/linux-bootstep/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">liunx</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/12/linux-bootstep/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jdk-linkedhashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/jdk-linkedhashmap/">LinkedHashMap源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/10/jdk-linkedhashmap/" class="archive-article-date">
-  	<time datetime="2019-04-10T11:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
+        <a href="/2019/04/22/spring-transaction/" class="archive-article-date">
+  	<time datetime="2019-04-22T02:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
 </a>
         
       </header>
@@ -525,11 +351,11 @@ img {
 </style>
 
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等。<br>本文主要目录如下<br><a href="#linkedhashmap1">字段数值</a><br><a href="#linkedhashmap2">构造函数</a><br><a href="#linkedhashmap3">newNode函数</a><br><a href="#linkedhashmap4">afterNodeAccess函数</a><br><a href="#linkedhashmap5">afterNodeInsertion函数</a><br><a href="#linkedhashmap6">containsValue函数</a><br><a href="#linkedhashmap7">get函数</a></p>
+<p>Spring声明式事务抽象了底层的连接创建事务、回滚提交事务等操作。本文目录<br><a href="#springtransaction1">注册InfrastructureAdvisorAutoProxyCreator</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction11">获取增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction111">寻找候选的增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction112">寻找匹配项</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction113">提取事务标签</a><br><a href="#springtransaction2">TransactionInterceptor事务增强</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction21">创建事务</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction211">获取事务</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction212">嵌套事务</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction213">完善transaction</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction22">回滚</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction221">回滚条件判断</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction222">回滚处理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction223">回滚后处理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction22">提交</a></p>
 </blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedhashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedHashMap继承自HashMap，定义的属主要有头部节点和尾部节点以及访问顺序。<br><img src="/images/源码分析/jdk/LinkedHashMap_field.png" alt="字段数值"><br>
+<h2 id="注册InfrastructureAdvisorAutoProxyCreator"><a href="#注册InfrastructureAdvisorAutoProxyCreator" class="headerlink" title="注册InfrastructureAdvisorAutoProxyCreator"></a><a name="springtransaction1">注册InfrastructureAdvisorAutoProxyCreator</a></h2><p>事务开启配置”tx:annotation-driven”其对应的解析器为AnnotationDrivenBeanDefinitionParser<br><img src="/images/源码分析/spring/TxNamespaceHandler_class.png" alt="注册InfrastructureAdvisorAutoProxyCreator"><br>
         
-          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/22/spring-transaction/#more">more >></a>
         
       
 
@@ -543,11 +369,11 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
         		</li>
       		
 		</ul>
@@ -557,7 +383,173 @@ img {
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/22/spring-transaction/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-jvm-collectors" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/jvm-collectors/">GC收集器</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/jvm-collectors/" class="archive-article-date">
+  	<time datetime="2019-04-21T10:46:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="对象分析"><a href="#对象分析" class="headerlink" title="对象分析"></a>对象分析</h2><ul>
+<li>是否可达<br>&nbsp;&nbsp;&nbsp;&nbsp;给对象添加一个引用计数器，当一个地方引用的时候，计数器值加1；当引用失效时候，计数器值就减1；当且仅当计数器值为0的对象就是不可能被使用的。该算法失效简单，判断效率高。在微软COM技术和Python中使用。但是该算法存在循环引用问题。<br>&nbsp;&nbsp;&nbsp;&nbsp;Java使用可达性分析算法。通过一系列的GC-Roots作为起始点，开始往下搜索，搜索所走过的路径称为引用链，当一个对象到GC-Roots没有任何引用链相连时，证明该对象是不可用的。其中GC-Roots对象包括: 虚拟机栈中引用的对象，方法区类静态属性引用的对象，方法区常量引用的对象，本地方法栈JNI引用的对象。<br>
+        
+          <a class="article-more-a" href="/2019/04/21/jvm-collectors/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/jvm-collectors/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-jvm-layout" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/jvm-layout/">jvm内存区域</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/jvm-layout/" class="archive-article-date">
+  	<time datetime="2019-04-21T08:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="内存区域"><a href="#内存区域" class="headerlink" title="内存区域"></a>内存区域</h2><ul>
+<li>程序计数器<br>&nbsp;&nbsp;&nbsp;&nbsp;当前所执行字节码的行号指示器，字节码解释器就是改变这个计数器的值来选取下一条需要执行的字节码指令，指令包括分支、循环、跳转、异常处理、线程恢复等。为了线程切换后能恢复到正确的执行位置，每条线程有一个独立的程序计数器，各条线程的计数器互不影响，独立存储，为线程私有的内存。如果线程执行Java方法，计数器记录的是正在执行的虚拟机字节码指令地址，否则如果执行Native方法，计数器值为空。这是唯一一个没有规定任何OOM的区域。<br>
+        
+          <a class="article-more-a" href="/2019/04/21/jvm-layout/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/jvm-layout/">展开全文 >></a>
         </p>
       
 
@@ -589,7 +581,7 @@ img {
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -684,11 +676,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color4">interview-jingdong</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">interview</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -708,11 +708,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

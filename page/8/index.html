@@ -152,20 +152,20 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-spring-source-createBean" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-designmode-prototype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
+      <a class="article-title" href="/2019/03/30/designmode-prototype/">原型模式</a>
     </h1>
   
 
         
-        <a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
+        <a href="/2019/03/30/designmode-prototype/" class="archive-article-date">
+  	<time datetime="2019-03-30T02:29:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
 </a>
         
       </header>
@@ -173,83 +173,387 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>1.转换name获取beanName(别名或者FactoryBean)</li>
-<li>2.依据beanName找出单例的bean，在缓存中情况 getSingleton()<ul>
-<li>2.1如果允许提前曝光，则从singleFactories(beanName-&gt;ObjectFactory)中获取ObjectFactory</li>
-<li>2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getObject方法</li>
-<li>2.3将提前曝光的beanName和ObjectFactory(产生该bean的Factory)保存到earlySingleObjects(beanName-&gt;bean)中</li>
-<li>2.4删除singletonFactories中的beanName记录(互斥，因为首先从earlySingleObjects查找)</li>
-</ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>用原型实例指定创建对象的种类，并且通过复制这些原型创建新的对象</p>
 </li>
-<li>3.获取对应实例 getObjectForBeanInstance()<ul>
-<li>3.1如果是name是工厂name(带&amp;)，但是该bean又不是FactoryBean实例，抛出异常</li>
-<li>3.2如果想获取工厂实例或者不是FactroyBean类型，那么直接返回</li>
-<li>3.3否则从工厂bean中获取对象(getObjectForBeanInstance)<ul>
-<li>3.3.1 权限验证</li>
-<li>3.3.2 直接调用factory的getObject方法获取bean(**)</li>
-</ul>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//客户: 提出创建对象的请求</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(Prototype example)</span></span>&#123;</span><br><span class="line">		<span class="comment">//得到example副本</span></span><br><span class="line">		Prototype p=example.clone()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//抽象原型:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Prototype</span> <span class="keyword">extends</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">	<span class="function">Prototype <span class="title">clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"><span class="comment">//具体原型:</span></span></span><br><span class="line"><span class="function"><span class="comment">//实现clone()方法</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点<br>优点:性能优良，其是在内存二进制流的复制，比new性能好。<br>  避免构造函数的约束。直接在内存中复制，构造函数是不会执行的。</p>
+</li>
+<li><p>4.应用场景<br>资源优化时<br>性能和安全要求的场景<br>一个对象提供给其他对象访问，且其他对象要修改本对象的数据时</p>
 </li>
 </ul>
 </li>
-<li>4.如果单例bean不存在缓存中，则从头开始加载bean getSingle(…)<ul>
-<li>4.1检查bean是否已经加载</li>
-<li>4.2如果没有加载，记录beanName处于正在加载状态的map中singletonsCurrentlyICreation进行单例bean初始化</li>
-<li>4.3 调用createBean方法<ul>
-<li>4.3.1.1 验证以及准备覆盖的方法<ul>
-<li>4.3.1.1.1 遍历beandefinition的方法覆盖</li>
-<li>4.3.1.1.2 获取对应类中的方法名个数</li>
-<li>4.3.1.1.3 如果该方法个数为0，抛出异常。为1，设置方法没有覆盖，提前验证</li>
-</ul>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MailPrototype</span> <span class="keyword">extends</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">	<span class="function">Mail <span class="title">clone</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mail</span> <span class="keyword">implements</span> <span class="title">MailPrototype</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String receiver;</span><br><span class="line">	<span class="keyword">private</span> String subject;</span><br><span class="line">	<span class="keyword">private</span> String appellation;</span><br><span class="line">	<span class="keyword">private</span> String context;</span><br><span class="line">	<span class="keyword">private</span> String tail;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Mail</span><span class="params">(String subject,String context)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.subject=subject;</span><br><span class="line">		<span class="keyword">this</span>.context=context;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mail <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (Mail) <span class="keyword">super</span>.clone();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getReceiver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> receiver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setReceiver</span><span class="params">(String receiver)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.receiver = receiver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getSubject</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> subject;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSubject</span><span class="params">(String subject)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.subject = subject;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getAppellation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> appellation;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAppellation</span><span class="params">(String appellation)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.appellation = appellation;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> context;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContext</span><span class="params">(String context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.context = context;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getTail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> tail;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTail</span><span class="params">(String tail)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.tail = tail;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Mail;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrototypeDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试原型模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//模拟发送邮件</span></span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		Mail mail=<span class="keyword">new</span> Mail(<span class="string">"商场五一抽奖活动"</span>, <span class="string">"五一抽奖活动通知: "</span>+</span><br><span class="line">				<span class="string">"凡在五一期间在本商城购物满100元的客户都有机会获取抽奖机会!"</span>);</span><br><span class="line">		mail.setTail(<span class="string">"解释权归本商场所有"</span>);</span><br><span class="line">		<span class="keyword">while</span>(i&lt;<span class="number">6</span>)&#123;</span><br><span class="line">			<span class="comment">//克隆邮件</span></span><br><span class="line">			Mail cloneMail=mail.clone();</span><br><span class="line">			cloneMail.setAppellation(i+<span class="string">"先生(女士)!"</span>);</span><br><span class="line">			cloneMail.setReceiver(i+<span class="string">"@"</span>+i+<span class="string">"_"</span>+i+<span class="string">".com"</span>);</span><br><span class="line">			sendMail(cloneMail);</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendMail</span><span class="params">(Mail mail)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"标题: "</span>+mail.getSubject()+<span class="string">"\t收件人: "</span>+mail.getReceiver()+</span><br><span class="line">				<span class="string">"\t...发送成功"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>4.3.1.2 实例化的前置处理<ul>
-<li>4.3.1.2.1 实例化前应用处理器<ul>
-<li>4.3.1.2.1.1 遍历处理器，如果是InstantiationAwareBeanPostProcessor类型，则调用其postProcessBeforeInstantiation方法</li>
-</ul>
-</li>
-<li>4.3.1.2.2 在实例化后应用处理器<ul>
-<li>4.3.1.2.2.1 遍历bean后处理器，调用其postProcessAfterInitialization方法</li>
-</ul>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">标题: 商场五一抽奖活动	收件人: 0@0_0.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 1@1_1.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 2@2_2.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 3@3_3.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 4@4_4.com	...发送成功</span><br><span class="line">标题: 商场五一抽奖活动	收件人: 5@5_5.com	...发送成功</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/30/designmode-prototype/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-designmode-flyweight" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/30/designmode-flyweight/">享元模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/30/designmode-flyweight/" class="archive-article-date">
+  	<time datetime="2019-03-30T02:14:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>使用共享对象可有效地支持大量的细粒度的对象。依据外部状态和内部状态通过工厂来获取对象。</p>
 </li>
-<li>4.3.1.3 如果上一步的返回bean不为空，直接返回。否则进行常规的bean创建<ul>
-<li>4.3.1.3.1如果是单例bean，则先清除缓存</li>
-<li>4.3.1.3.2使用对应策略创建新的实例，如工厂方法，构造函数等<ul>
-<li>4.3.1.3.2.1 如果工厂方法不为空，使用工厂方法初始化</li>
-<li>4.3.1.3.2.2 否则使用构造函数初始化</li>
-<li>4.3.1.3.2.3 如果构造函数有多个，且以及解析过了，那么使用解析好的构造函数(**略)</li>
-<li>4.3.1.3.2.4 如果没有解析过，则需要依据参数先解析构造函数，再使用构造函数解析</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象享元: 对享元类进行抽象</span></span><br><span class="line">pubilc <span class="class"><span class="keyword">interface</span> <span class="title">Flyweight</span></span>&#123;</span><br><span class="line">	<span class="comment">//业务方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(String extrinsicState)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体享元: 实现抽象享元</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteFlyweight</span> <span class="keyword">implements</span> <span class="title">Flyweight</span></span>&#123;</span><br><span class="line">	<span class="comment">//内部状态</span></span><br><span class="line">	<span class="keyword">private</span> String intrinsicState;</span><br><span class="line">	ConcreteFlyweight(String intrinsicState)&#123;</span><br><span class="line">		<span class="keyword">this</span>.intrinsicState=intrinsicState;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">(String extrinsicState)</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"内部状态: "</span>+intrinsicState+<span class="string">",外部状态: "</span>+extrinsicState);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//享元工厂: 池容器，管理创建享元角色</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlyweightFactory</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String,Flyweight&gt; pool =<span class="keyword">new</span> HashMap&lt;String,Flyweight&gt;();</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">FlyweightFactory</span><span class="params">()</span></span>&#123;&#125;<span class="comment">//私有</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Flyweight <span class="title">getFlyweight</span><span class="params">(String intrinsicState)</span></span>&#123;</span><br><span class="line">		Flyweight flyweight=pool.get(intrinsicStae);</span><br><span class="line">		<span class="keyword">if</span>(flyweight==<span class="keyword">null</span>)&#123;</span><br><span class="line">			flyweight=<span class="keyword">new</span> ConcreteFlyweight(intrinsicState);</span><br><span class="line">			pool.put(intrinsicState,flyweight);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> flyweight;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//客户端: 存储享元对象的外部状态</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点<br>优点: 减少内存中对象数量<br>缺点: 增加系统复杂性，读取外部状态使得运行时间变长</p>
+</li>
+<li><p>4.使用场景<br>系统中存在大量相似对象时候<br>对象没有特定身份<br>需要缓冲池时候<br>eg. String,Integer,Boolean,Character等</p>
+</li>
 </ul>
 </li>
-<li>4.3.1.3.3 bean合并处理，Autowired注解通过此实现类型预解析</li>
-<li>4.3.1.3.4 处理循环依赖问题<ul>
-<li>4.3.1.3.4.1判断是否需要提前曝光（单例，允许循环依赖，当前bean正在创建）</li>
-<li>4.3.1.3.4.2将该bean的ObjectFactory加入到singleFatories中（AOP)<ul>
-<li>4.3.1.3.4.2.1 ObjectFactory的getObject方法返回getEarlyBeanReference，保证属性地址一样，解决了循环依赖问题</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Chesspiece</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>;<span class="comment">//落子</span></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChesspieceFlyweight</span> <span class="keyword">implements</span> <span class="title">Chesspiece</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String color;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ChesspieceFlyweight</span><span class="params">(String color)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.color=color;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">"在("</span>+x+<span class="string">", "</span>+y+<span class="string">")位置放了一个"</span>+color+<span class="string">"子"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChesspieceFactory</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> Chesspiece WHITE=<span class="keyword">new</span> ChesspieceFlyweight(<span class="string">"白"</span>);</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> Chesspiece BLACK=<span class="keyword">new</span> ChesspieceFlyweight(<span class="string">"黑"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Chesspiece <span class="title">getChesspiece</span><span class="params">(String color)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(color.equals(<span class="string">"白"</span>))</span><br><span class="line">			<span class="keyword">return</span> WHITE;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(color.equals(<span class="string">"黑"</span>))</span><br><span class="line">			<span class="keyword">return</span> BLACK;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Chesspiece;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.ChesspieceFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FlyweightDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试享元模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Chesspiece p1=ChesspieceFactory.getChesspiece(<span class="string">"黑"</span>);</span><br><span class="line">		p1.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">		Chesspiece p2=ChesspieceFactory.getChesspiece(<span class="string">"白"</span>);</span><br><span class="line">		p2.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">		Chesspiece p3=ChesspieceFactory.getChesspiece(<span class="string">"黑"</span>);</span><br><span class="line">		p3.put(<span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line">		Chesspiece p4=ChesspieceFactory.getChesspiece(<span class="string">"白"</span>);</span><br><span class="line">		p4.put(<span class="number">4</span>, <span class="number">4</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在(1, 1)位置放了一个黑子</span><br><span class="line">在(2, 2)位置放了一个白子</span><br><span class="line">在(3, 3)位置放了一个黑子</span><br><span class="line">在(4, 4)位置放了一个白子</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/30/designmode-flyweight/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-designmode-mediator" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/30/designmode-mediator/">中介模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/30/designmode-mediator/" class="archive-article-date">
+  	<time datetime="2019-03-30T01:43:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>也称调停者模式<br>用一个中介对象封装一系列对象的交互，中介者使得各对象不需要显示地相互作用，从而使其耦合松散，而且可以独立改变它们之间的交互</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象中介者:接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Mediator</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">colleaguaChanged</span><span class="params">(Colleague c)</span></span>;<span class="comment">//定义交互行为</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体中介者：实现接口，协作各同事的行为</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteMediator</span> <span class="keyword">extends</span> <span class="title">Mediator</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ConcreteColleague1 c1;</span><br><span class="line">	<span class="keyword">private</span> ConcreteColleague1 c2;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">colleagueChanged</span><span class="params">(Colleague c)</span></span>&#123;</span><br><span class="line">		c1.action();</span><br><span class="line">		c2.action();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//工厂方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createConcreteMediator</span><span class="params">()</span></span>&#123;</span><br><span class="line">		c1=<span class="keyword">new</span> ConcreteColleague1(<span class="keyword">this</span>);</span><br><span class="line">		c2=<span class="keyword">new</span> ConcreteColleague2(<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//getC1,getC2方法省略</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//抽象同事:抽象类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Colleague</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Mediator mediator;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Colleague</span><span class="params">(Mediator m)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.mediator=m;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//getMediator和setMediatro方法省略</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">action</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">change</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.mediator.colleagueChaned(<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//具体同事</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteColleague1</span> <span class="keyword">extends</span> <span class="title">Colleague</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConcreteColleague1</span><span class="params">(Mediator m)</span></span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(m);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">action</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//行为实现</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点<br>优点:减少类间依赖，将原有的一对多的依赖变成一对一的依赖。<br>  避免对象之间过度耦合<br>  将对象行为和协作抽象化<br>缺点:增加了中介者类的复杂性<br>  中介者类不能被复用</p>
+</li>
+<li><p>4.注意场景<br>不应在责任划分混乱的时候使用<br>不应在数据类和方法类中使用<br>在理解封装的基础上使用</p>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Woman</span><span class="params">(String name, <span class="keyword">int</span> age, <span class="keyword">int</span> requestAge, MarriageAgency agency)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(name, age, Sex.FEMALE, requestAge, agency);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Man</span><span class="params">(String name, <span class="keyword">int</span> age, <span class="keyword">int</span> requestAge, MarriageAgency agency)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(name, age, Sex.MALE, requestAge, agency);</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">	String name;</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	Sex sex;</span><br><span class="line">	<span class="keyword">int</span> requestAge;</span><br><span class="line">	MarriageAgency agency;<span class="comment">//中介</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name,<span class="keyword">int</span> age,Sex sex,<span class="keyword">int</span> requestAge,MarriageAgency agency)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.name=name;</span><br><span class="line">		<span class="keyword">this</span>.age=age;</span><br><span class="line">		<span class="keyword">this</span>.sex=sex;</span><br><span class="line">		<span class="keyword">this</span>.requestAge=requestAge;</span><br><span class="line">		<span class="keyword">this</span>.agency=agency;</span><br><span class="line">		agency.register(<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//寻找对象</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPartner</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		agency.pair(<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> Sex&#123;</span><br><span class="line">	MALE,FEMALE;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MarriageAgency</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">pair</span><span class="params">(Person person)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">register</span><span class="params">(Person person)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MarriageAgencyImpl</span> <span class="keyword">implements</span> <span class="title">MarriageAgency</span></span>&#123;</span><br><span class="line">	List&lt;Man&gt; men=<span class="keyword">new</span> ArrayList&lt;Man&gt;();</span><br><span class="line">	List&lt;Woman&gt; women=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pair</span><span class="params">(Person person)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">if</span>(person.sex==Sex.MALE)&#123;</span><br><span class="line">			<span class="keyword">for</span>(Woman w:women)&#123;</span><br><span class="line">				<span class="keyword">if</span>(w.age==person.requestAge)&#123;</span><br><span class="line">					System.out.println(person.name+<span class="string">"和"</span>+w.name+<span class="string">"配对成功"</span>);</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(person.sex==Sex.FEMALE)&#123;</span><br><span class="line">			<span class="keyword">for</span>(Man m:men)&#123;</span><br><span class="line">				<span class="keyword">if</span>(m.age==person.requestAge)&#123;</span><br><span class="line">					System.out.println(person.name+<span class="string">"和"</span>+m.name+<span class="string">"配对成功"</span>);</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"没有为"</span>+person.name+<span class="string">"找到合适的对象"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(Person person)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">if</span>(person.sex==Sex.MALE)</span><br><span class="line">			men.add((Man)person);</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(person.sex==Sex.FEMALE)</span><br><span class="line">			women.add((Woman)person);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Man;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.MarriageAgency;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.MarriageAgencyImpl;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Person;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Woman;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MediatorDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试中介者模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		MarriageAgency agency=<span class="keyword">new</span> MarriageAgencyImpl();</span><br><span class="line"></span><br><span class="line">		Person m1=<span class="keyword">new</span> Man(<span class="string">"John"</span>, <span class="number">20</span>, <span class="number">18</span>,agency);</span><br><span class="line">		Person m2=<span class="keyword">new</span> Man(<span class="string">"Mike"</span>, <span class="number">27</span>, <span class="number">25</span>, agency);</span><br><span class="line">		Person w1=<span class="keyword">new</span> Woman(<span class="string">"Mary"</span>, <span class="number">25</span>, <span class="number">27</span>, agency);</span><br><span class="line">		Person w2=<span class="keyword">new</span> Woman(<span class="string">"Jane"</span>, <span class="number">20</span>, <span class="number">22</span>, agency);</span><br><span class="line"></span><br><span class="line">		m1.findPartner();</span><br><span class="line">		m2.findPartner();</span><br><span class="line">		w1.findPartner();</span><br><span class="line">		w2.findPartner();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">没有为John找到合适的对象</span><br><span class="line">Mike和Mary配对成功</span><br><span class="line">Mary和Mike配对成功</span><br><span class="line">没有为Jane找到合适的对象</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/30/designmode-mediator/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-spring-source-container" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/29/spring-source-container/">Spring ApplicationContext容器</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/29/spring-source-container/" class="archive-article-date">
+  	<time datetime="2019-03-29T10:59:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>1.环境准备，对系统属性和环境变量的初始化以及验证<ul>
+<li>初始化属性资源（子类需要覆盖的方法），如getEnvironment().setRequiredProperties(“ABC”);</li>
+<li>验证环境中需要验证的变量，如”ABC”</li>
+</ul>
+</li>
+<li>2.获取beanFactory，实现其所有功能<ul>
+<li>2.1初始化beanFactory,进行xml文件读取并记录在当前属性中<ul>
+<li>2.1.1创建defaultListableBeanFactoy,因为该类是容器的基础，首先初始化</li>
+<li>2.2设置序列化id号</li>
+<li>2.3定制beanFactory<ul>
+<li>2.3.1 依据条件设置是否允许同名的不同定义的对象覆盖</li>
+<li>2.3.2 依据条件设置是否允许bean之间存在循环依赖</li>
+<li>2.3.3 提供支持@Autowired和@Qualifier的支持</li>
+</ul>
+</li>
+<li>2.4加载beanDefinition<ul>
+<li>2.4.1 初始化xmlbeandefinitionreader</li>
+<li>2.4.2 对beandefinitionreader进行一些设置</li>
+<li>2.4.3 加载beanDefinition实现<ul>
+<li>2.4.3.1 加载资源文件的beanDefinitions</li>
+<li>2.4.3.2 加载路径文件的beanDefinitions</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>4.3.1.3.5 属性注入<ul>
-<li>4.3.1.3.5.1 如果处理器是InstantiationAwareBeanPostProcessors类型，则调用其postProcessAfterInstantiation方法。</li>
-<li>4.3.1.3.5.2 如果有Autowireby，则依据名称自动注入或者依据类型自动注入(**略)</li>
-</ul>
-</li>
-<li>4.3.1.3.6 应用属性值，将获取的属性应用到实例化bean中</li>
-<li>4.3.1.3.7 初始化bean<ul>
-<li>4.3.1.3.7.1 为实现BeanNameAware，BeanClassLoaderAware,BeanFactoryAware类型的bean设置资源</li>
-<li>4.3.1.3.7.2 调用bean后处理器的postProccessBeforeInitialization方法</li>
-<li>4.3.1.3.7.3 如果bean实现了initializingBean接口，则调用其afterPropertiesSet方法。如果还有init-method属性，则调用其对应的方法</li>
-<li>4.3.1.3.7.4 注册DisposableBean</li>
+<li>2.5将beanFactory设置为全局变量</li>
 </ul>
 </li>
 </ul>
 </li>
+<li>3.填充beanfactory的功能<ul>
+<li>3.1设置beanfactory的表达式语言的支持spel(这会在bean创建时候的属性填充那里，应用属性值填充到bean的时候会使用解析器来调用spel的解析)</li>
+<li>3.2设置beanfactory的属性编辑器的支持propertyeditorregistrar(1.继承propertyeditorsupport重写setAsText方法，并注册到customeditorconfigurer对象的customeditors属性中;2.实现propertyeditorregistrar接口，实现registercustomeditors方法，注册到customeditorconfigurer对象的propertyeditorregistrars属性中)</li>
+<li>这在创建bean的时候调用createbeaninstance方法，调用初始化bean，调用initwrapper方法后注册的。使用是在为bean填充属性的时候</li>
+<li>3.3.添加applicationcontextawareprocessor处理器，bean后处理器<ul>
+<li>3.3.1 postProcesseforeInitialization,bean初始化处理前<ul>
+<li>3.3.1.1 处理实现aware接口的bean<ul>
+<li>3.3.1.1.1 为这些bean设置资源</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>5.类型转换</li>
+<li>3.3.1.2 postProcesseforeInitialization,bean初始化处理后</li>
+</ul>
+</li>
+<li>3.4忽略为3.3中的bean设置依赖</li>
+<li>3.5注册3.3中的bean依赖</li>
+</ul>
+</li>
+<li>4.子类需要覆盖的方法</li>
+<li>5.激活beanFactory后处理器（激活是调用beanFactoryPostProcessor的postProcessBeanFactory方法）<ul>
+<li>5.1 如果是BeanDefintionRegistry类型的beanFactory,则处理</li>
+<li>5.2对于硬编码注册的后处理器<ul>
+<li>5.2.1 如果是BeanDefintionRegistryPostProcessor类型，则调用器postProcessBeanDefinitionRegistry方法，记录在registryPostProcessors中</li>
+<li>5.2.2 否则是普通的，记录在regularPostProcessors中</li>
+</ul>
+</li>
+<li>5.3对于配置文件注册的后处理器（排序）<ul>
+<li>5.3.1调用器postPrrocessBeanDefinitionRegisrt方法</li>
+</ul>
+</li>
+<li>5.4激活5.2和5.3中的beanFactory后处理器</li>
+<li>5.5按照优先级排序后激活</li>
+<li>5.6按照order属性排序后激活</li>
+<li>5.7无序激活</li>
+</ul>
+</li>
+<li>6.注册BeanPostProcessors<ul>
+<li>6.1遍历postProcessor的名称</li>
+<li>6.2如果是按照优先级顺序则加入priorityorderedPostProcessors和internalPostProcessors中;如果是order顺序则加入orderedPostProcessorName；否则加入nonOrderedPostProcessorNames中</li>
+<li>6.3排序优先级顺序的后处理器注册</li>
+<li>6.4遍历Ordered的BeanPostProcessor，将其中具有合并属性的bean加入到internalPostProcessors中</li>
+<li>6.5排序Orderd顺序的后处理器注册</li>
+<li>6.6排序无序的后处理器注册</li>
+<li>6.7排序合并的处理器注册</li>
+<li>6.8添加ApplicationListenerDetector监听探测器</li>
+</ul>
+</li>
+<li>7.初始化消息资源<ul>
+<li>7.1如果在配置文件中含有id为messagesource的bean，则获取。否则使用delegatingMessageSource</li>
+</ul>
+</li>
+<li>8.初始化ApplicationEventMulticast广播器<ul>
+<li>8.1如果在配置文件含有id围殴指定bean，则获取.否则使用默认的SimpleApplicationEventMulticaster广播器</li>
+<li>广播器中含有multicastEvent方法，用来广播给ApplicationListener类型的监听器，触发他们的onApllicationEvent方法</li>
+</ul>
+</li>
+<li>9.子类需要覆盖的方法</li>
+<li>10.注册监听器<ul>
+<li>9.1向广播器中添加监听器</li>
+</ul>
+</li>
+<li>11.初始化非延迟加载的单例（**)</li>
+<li>12.最终刷新<ul>
+<li>12.1初始化lifecycleProcessor,与所有声明的bean的周期做状态更新。如果配置文件中包含指定id的bean，将该bean作为lifecycleProcessor。否则使用默认的defaultcycleprocessor。</li>
+<li>12.2启动所有实现了lifecycle接口的bean</li>
+<li>12.3发布事件，ApplicationContext初始化完成</li>
+</ul>
+</li>
 </ul>
 
       
@@ -278,7 +582,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-createBean/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/03/29/spring-source-container/">展开全文 >></a>
         </p>
       
 
@@ -308,218 +612,107 @@
 
 
   
-    <article id="post-sed进阶" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-spring-source-label" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/sed进阶/">sed进阶</a>
+      <a class="article-title" href="/2019/03/29/spring-source-label/">Spring 标签解析</a>
     </h1>
   
 
         
-        <a href="/2019/03/27/sed进阶/" class="archive-article-date">
-  	<time datetime="2019-03-27T03:18:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
+        <a href="/2019/03/29/spring-source-label/" class="archive-article-date">
+  	<time datetime="2019-03-29T10:44:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <style>
-table th:nth-of-type(1) {
-    width: 400px;
-}
-table th:nth-of-type(2) {
-    width: 600px;
-}
-</style>
-
-<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>sed编辑器的基本功能是处理数据流中的文不，下面介绍下关于sed编辑器的高级特性。</p>
-<blockquote>
-<p><a href="#1">多行命令</a><br><a href="#2">保持空间</a><br><a href="#3">排除命令</a><br><a href="#4">改变流</a><br><a href="#5">模式替换</a><br><a href="#6">其他技巧</a></p>
-</blockquote>
-<h4 id="多行命令"><a href="#多行命令" class="headerlink" title="多行命令"></a><a name="1">多行命令</a></h4><ul>
-<li><p>next命令<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;告诉sed编辑器移动到数据流的下一个文本行中，不用重新回到命令的最开始再执行一遍。next命令改变了在移动到下一行文本前执行完所有定义的命令，而是联合下一行处理。</p>
+        <ul>
+<li><p>1.importBeanDefinitionResource</p>
 <ul>
-<li><p>单行n</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/header/&#123;n ; d&#125;'</span> data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先匹配到/header/行，然后执行{}中的命令列表。n表示将下一行移动到模式空间中,d是用来删除模式空间内容。</p>
+<li>1.不存在resource属性，不处理</li>
+<li>2.解析其中的环境变量</li>
+<li>3.判断resource对应的是不是绝对路径</li>
+<li>4.考虑这两种情况进行加载beanDefinition</li>
+<li>5.通知监听器</li>
+</ul>
 </li>
-<li><p>合并N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrator group meeting will be held.</span><br><span class="line">All System Administrators should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'N ; s/System Administrator/Desktop User/'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrators group meeting will be held.</span><br><span class="line">All Desktop Users should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先查找含有first的那行文不，然后N将下一行合并到那行，使用s进行替换。N表示将下一行追加到模式空间中,s是用来替换模式空间的内容。适合用来查找分散在两行中的文不短语等。<br><strong>注意:</strong>当匹配行在数据流的最后一行，N会错过，因为没有其他行可以读入模式空间中。这样需要将该命令放到N的前面处理。</p>
+<li><p>2.processAliasRegistration</p>
+<ul>
+<li>1.找到beanName</li>
+<li>2.找到alias</li>
+<li>3.判断beanName和alias非空</li>
+<li>4.将beanName和alias注册<ul>
+<li>4.1 如果beanName和alias重名，删除对应的alias</li>
+<li>4.2 否则找出alias对应的已经注册的beanName,如果存在而且不允许覆盖，则抛出异常</li>
+<li>4.3 检查alias的循环依赖问题</li>
+<li>4.4 如果不存在循环依赖，则进行注册</li>
+</ul>
 </li>
-<li><p>删除N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data5.txt</span><br><span class="line"></span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/^$/&#123;N ; /header/D&#125;'</span> data5.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先找到空行,然后将下一行合并到模式空间后，匹配以header开头的模式空间内容，匹配到则删除模式空间中的第一行。D是删除空间中的第一行，d是删除空间中的所有行。</p>
+<li>5.通知监听器</li>
+</ul>
 </li>
-<li><p>打印N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">'N ; /System\nAdministrator/P'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先将下一追加到模式空间，然后进行匹配模式打印，将打印空间中的第一行内容。</p>
-        
-          <a class="article-more-a" href="/2019/03/27/sed进阶/#more">more >></a>
-        
-      
-
-      
-    </li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/27/sed进阶/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-redis数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/25/redis数据类型/">redis数据类型</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/25/redis数据类型/" class="archive-article-date">
-  	<time datetime="2019-03-25T04:26:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-table {
-    display: block;
-    overflow-x: auto;  //显示滚动条
-    white-space: nowrap; //表格内容强制不换行
-}
-</style>
-
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>设置值</th>
-<th>获取值</th>
-<th>删除值</th>
-<th>查看值</th>
-<th>存在值</th>
-<th>运算</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>string</td>
-<td>set,mset,append</td>
-<td>get,mget</td>
-<td>setrange</td>
-<td></td>
-<td></td>
-<td>strlen</td>
-</tr>
-<tr>
-<td>list</td>
-<td>lpush,rpush,linsert</td>
-<td>lindex</td>
-<td>lpop,rpop,ltrim,brpop,blpop</td>
-<td>lrange</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>hash</td>
-<td>hset,hmset</td>
-<td>hget,hmget</td>
-<td>hdel</td>
-<td>hgetall,hscan</td>
-<td>hexists</td>
-<td></td>
-</tr>
-<tr>
-<td>set</td>
-<td>sadd</td>
-<td></td>
-<td>srem</td>
-<td>sscan,scard</td>
-<td>sismember</td>
-<td>sunion,sunionstore,sinter,sinterstore,sdiff,sdiffstore</td>
-</tr>
-<tr>
-<td>zset</td>
-<td>zadd</td>
-<td></td>
-<td>zrem</td>
-<td>zrevrange,zrevrank,zscore,zscan,zcard</td>
-<td></td>
-<td>zunionstore,zinterstore,zdiffstore</td>
-</tr>
-<tr>
-<td>HLL</td>
-<td>pfadd</td>
-<td></td>
-<td></td>
-<td>pfcount</td>
-<td></td>
-<td>pfmerge</td>
-</tr>
-<tr>
-<td>Geo</td>
-<td>geoadd,zadd</td>
-<td>geopos</td>
-<td>zrem</td>
-<td>zrevrange,zrevrank,zscore,zscan,zcard</td>
-<td></td>
-<td>georadius,geodist,georadiusbymemeber,zunionstore,zinterstore,zdiffstore</td>
-</tr>
-</tbody>
-</table>
+<li><p>3.processBeanDefinition</p>
+<ul>
+<li>1.获取BeanDefinitionHolder</li>
+<li>2.对该beanDefinition进行装饰<ul>
+<li>2.1遍历所有属性，看看是否有适用于修饰的属性</li>
+<li>2.2遍历所有子节点，看看是否适用于修饰的属性<ul>
+<li>2.2.2 如果是默认的命名空间则不处理，因为到这里默认命名空间的已经处理完成了。<br>否则依据命名空间找到对应的处理器。如果能找到处理器，则使用它进行装饰</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>3.注册beanDefinition<ul>
+<li>3.1 获取beanName作为标识进行注册<ul>
+<li>3.1.1 如果bean是AbstractBeanDefinition类型的beanDefinition,则需要进行校验。比如bean属性中的methodOverrides是否与工厂方法并存，或者指向的方法不存在</li>
+<li>3.1.2 如果该beanDefinition已经注册了如果不允许覆盖则抛出异常。</li>
+<li>3.1.3 如果没有注册,记录下beanName，统一注册</li>
+<li>3.1.4 清空解析前留下的beanName缓存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4.通知监听器</li>
+</ul>
+</li>
+<li><p>4.doRegisterBeanDefinitions<br>  嵌套bean情况</p>
+</li>
+<li><p>5.自定义标签</p>
+<ul>
+<li>1.依据元素来获取命名空间</li>
+<li>2.根据命名空间找对应的处理器<ul>
+<li>2.1获取所有已经配置的handlerMapings<ul>
+<li>2.1.1 如果handlerMappings为空，从META-INF/Spring.handlers中获取properties填充到handlerMappings中</li>
+<li>2.1.2 如果不为空，直接返回（缓存）</li>
+</ul>
+</li>
+<li>2.2依据命名空间获取其中的handlerOrClassName</li>
+<li>2.3如果handlerOrClassName是handler，则直接返回。否则是字符串，则使用反射转换为类。调用该类对象的init()方法<br>将该类记录在handlerMappings中</li>
+</ul>
+</li>
+<li>3.1获取元素的解析器<ul>
+<li>3.1.1 获取元素名称为user</li>
+<li>3.1.2 从parses中获取对应已经使用init()方法注册的自定义解析器</li>
+</ul>
+</li>
+<li>3.2 使用自定义解析器来进行解析<ul>
+<li>3.2.1 调用parseInternal方法<ul>
+<li>3.2.1.1 设置beanClass,scope,lazyInit等属性</li>
+<li>3.2.1.2 调用自定义解析的doParse方法（模板方法）</li>
+</ul>
+</li>
+<li>3.2.2 将解析后的AbstractBeanDefinition转换为BeanDefinitionHolder并注册</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
       
 
@@ -533,7 +726,11 @@ table {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
         		</li>
       		
 		</ul>
@@ -543,7 +740,7 @@ table {
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/25/redis数据类型/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/03/29/spring-source-label/">展开全文 >></a>
         </p>
       
 
@@ -575,7 +772,7 @@ table {
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 
@@ -670,11 +867,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">designmode</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color4">interview-jingdong</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">interview</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -694,11 +899,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
