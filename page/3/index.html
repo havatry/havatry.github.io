@@ -152,6 +152,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jvm-layout" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/jvm-layout/">jvm内存区域</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/jvm-layout/" class="archive-article-date">
+  	<time datetime="2019-04-21T08:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="内存区域"><a href="#内存区域" class="headerlink" title="内存区域"></a>内存区域</h2><ul>
+<li>程序计数器<br>&nbsp;&nbsp;&nbsp;&nbsp;当前所执行字节码的行号指示器，字节码解释器就是改变这个计数器的值来选取下一条需要执行的字节码指令，指令包括分支、循环、跳转、异常处理、线程恢复等。为了线程切换后能恢复到正确的执行位置，每条线程有一个独立的程序计数器，各条线程的计数器互不影响，独立存储，为线程私有的内存。如果线程执行Java方法，计数器记录的是正在执行的虚拟机字节码指令地址，否则如果执行Native方法，计数器值为空。这是唯一一个没有规定任何OOM的区域。<br>
+        
+          <a class="article-more-a" href="/2019/04/21/jvm-layout/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/jvm-layout/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mysql-index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -469,95 +552,6 @@ img {
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/04/12/linux-bootstep/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jdk-linkedhashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/jdk-linkedhashmap/">LinkedHashMap源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/10/jdk-linkedhashmap/" class="archive-article-date">
-  	<time datetime="2019-04-10T11:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等。<br>本文主要目录如下<br><a href="#linkedhashmap1">字段数值</a><br><a href="#linkedhashmap2">构造函数</a><br><a href="#linkedhashmap3">newNode函数</a><br><a href="#linkedhashmap4">afterNodeAccess函数</a><br><a href="#linkedhashmap5">afterNodeInsertion函数</a><br><a href="#linkedhashmap6">containsValue函数</a><br><a href="#linkedhashmap7">get函数</a></p>
-</blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedhashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedHashMap继承自HashMap，定义的属主要有头部节点和尾部节点以及访问顺序。<br><img src="/images/源码分析/jdk/LinkedHashMap_field.png" alt="字段数值"><br>
-        
-          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/">展开全文 >></a>
         </p>
       
 
