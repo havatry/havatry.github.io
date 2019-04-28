@@ -152,6 +152,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-designmode-memento" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/30/designmode-memento/">备忘录模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/30/designmode-memento/" class="archive-article-date">
+  	<time datetime="2019-03-30T03:04:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>概述</p>
+<ul>
+<li><p>1.定义<br>也称为快照或者Token模式<br>在不破坏封装性的前提下，捕获一个对象的内部状态，并在对象之外保存这个状态。可以在此后将对象恢复到原先保存的状态。</p>
+</li>
+<li><p>2.角色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//发起人角色:记录当时时刻的内部状态，负责定义哪些属于备份范围内的状态，负责创建和恢复备忘数据</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Originator</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String state=<span class="string">""</span>;<span class="comment">//内部状态</span></span><br><span class="line">	<span class="comment">//getState和setState省略</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Memento <span class="title">createMemento</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Memento(<span class="keyword">this</span>.state);<span class="comment">//创建备忘录</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">restoreMemento</span><span class="params">(Memento memento)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.setState(memento.getState());<span class="comment">//恢复一个备忘录</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//备忘录角色:负责存储发起人角色的内部状态，在需要的时候提供发起人需要的内部状态数据</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Memento</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String state;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Memento</span><span class="params">(String state)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.state=state;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//忽略getState和setState方法</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//负责人角色:对备忘录角色进行管理，保存，提供备忘录</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Caretaker</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Memento memento;</span><br><span class="line">	<span class="comment">//忽略get和set方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.优缺点</p>
+</li>
+<li><p>4.应用场景<br>需要保存和恢复数据的相关状态场景<br>提供一个可回滚的操作<br>需要监控副本的场景<br>数据库连接的事务管理就是使用备忘录模式</p>
+<p>注意事项:<br>  处理备忘录的生命周期<br>  备忘录消耗很大资源，不要频繁建立</p>
+</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Backup</span> </span>&#123;</span><br><span class="line">	String content;<span class="comment">//备份的内容</span></span><br><span class="line">	<span class="keyword">int</span> version;<span class="comment">//版本</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Backup</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">		<span class="keyword">this</span>.content=content;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Document</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> String content;<span class="comment">//备份状态</span></span><br><span class="line">	<span class="keyword">public</span> String otherContent;<span class="comment">//不需要备份的状态</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//保存某个状态</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Backup <span class="title">save</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"保存备份"</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Backup(content);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//恢复到某个状态</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resume</span><span class="params">(Backup backup)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"恢复备份"</span>);</span><br><span class="line">		content=backup.content;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="string">"content:"</span>+content+<span class="string">",otherContent:"</span>+otherContent;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VersionControlSystem</span> </span>&#123;</span><br><span class="line">	LinkedList&lt;Backup&gt; backups=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">	<span class="keyword">int</span> nextVersion;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//添加备份</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Backup backup)</span> </span>&#123;</span><br><span class="line">		backup.version=++nextVersion;</span><br><span class="line">		backups.add(backup);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//获取某个版本的备份</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Backup <span class="title">get</span><span class="params">(<span class="keyword">int</span> version)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(Backup backup:backups)</span><br><span class="line">			<span class="keyword">if</span>(backup.version==version)</span><br><span class="line">				<span class="keyword">return</span> backup;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//获取最后一个版本的备份</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Backup <span class="title">getLastVersion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> backups.getLast();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="keyword">import</span> util.design_mode.Document;</span><br><span class="line"><span class="keyword">import</span> util.design_mode.VersionControlSystem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MementoDemo</span> </span>&#123;</span><br><span class="line">	<span class="comment">//测试备忘录模式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		VersionControlSystem vcs=<span class="keyword">new</span> VersionControlSystem();</span><br><span class="line">		</span><br><span class="line">		Document document=<span class="keyword">new</span> Document();</span><br><span class="line">		document.content=<span class="string">"content1"</span>;</span><br><span class="line">		document.otherContent=<span class="string">"otherContent1"</span>;</span><br><span class="line">		System.out.println(document);</span><br><span class="line">		vcs.add(document.save());<span class="comment">//保存备份</span></span><br><span class="line">		</span><br><span class="line">		document.content=<span class="string">"content2"</span>;</span><br><span class="line">		document.otherContent=<span class="string">"otherContent2"</span>;</span><br><span class="line">		System.out.println(document);</span><br><span class="line">		vcs.add(document.save());<span class="comment">//保存备份</span></span><br><span class="line">		</span><br><span class="line">		document.content=<span class="string">"content3"</span>;</span><br><span class="line">		document.otherContent=<span class="string">"otherContent3"</span>;</span><br><span class="line">		System.out.println(document);</span><br><span class="line">		vcs.add(document.save());</span><br><span class="line">		</span><br><span class="line">		document.resume(vcs.get(<span class="number">1</span>));<span class="comment">//恢复版本1</span></span><br><span class="line">		System.out.println(document);</span><br><span class="line">		document.resume(vcs.getLastVersion());<span class="comment">//恢复最新版本</span></span><br><span class="line">		System.out.println(document);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">content:content1,otherContent:otherContent1</span><br><span class="line">保存备份</span><br><span class="line">content:content2,otherContent:otherContent2</span><br><span class="line">保存备份</span><br><span class="line">content:content3,otherContent:otherContent3</span><br><span class="line">保存备份</span><br><span class="line">恢复备份</span><br><span class="line">content:content1,otherContent:otherContent3</span><br><span class="line">恢复备份</span><br><span class="line">content:content3,otherContent:otherContent3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">designmode</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/30/designmode-memento/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-designmode-command" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -525,162 +620,6 @@
 
 
   
-    <article id="post-spring-source-createBean" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>1.转换name获取beanName(别名或者FactoryBean)</li>
-<li>2.依据beanName找出单例的bean，在缓存中情况 getSingleton()<ul>
-<li>2.1如果允许提前曝光，则从singleFactories(beanName-&gt;ObjectFactory)中获取ObjectFactory</li>
-<li>2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getObject方法</li>
-<li>2.3将提前曝光的beanName和ObjectFactory(产生该bean的Factory)保存到earlySingleObjects(beanName-&gt;bean)中</li>
-<li>2.4删除singletonFactories中的beanName记录(互斥，因为首先从earlySingleObjects查找)</li>
-</ul>
-</li>
-<li>3.获取对应实例 getObjectForBeanInstance()<ul>
-<li>3.1如果是name是工厂name(带&amp;)，但是该bean又不是FactoryBean实例，抛出异常</li>
-<li>3.2如果想获取工厂实例或者不是FactroyBean类型，那么直接返回</li>
-<li>3.3否则从工厂bean中获取对象(getObjectForBeanInstance)<ul>
-<li>3.3.1 权限验证</li>
-<li>3.3.2 直接调用factory的getObject方法获取bean(**)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.如果单例bean不存在缓存中，则从头开始加载bean getSingle(…)<ul>
-<li>4.1检查bean是否已经加载</li>
-<li>4.2如果没有加载，记录beanName处于正在加载状态的map中singletonsCurrentlyICreation进行单例bean初始化</li>
-<li>4.3 调用createBean方法<ul>
-<li>4.3.1.1 验证以及准备覆盖的方法<ul>
-<li>4.3.1.1.1 遍历beandefinition的方法覆盖</li>
-<li>4.3.1.1.2 获取对应类中的方法名个数</li>
-<li>4.3.1.1.3 如果该方法个数为0，抛出异常。为1，设置方法没有覆盖，提前验证</li>
-</ul>
-</li>
-<li>4.3.1.2 实例化的前置处理<ul>
-<li>4.3.1.2.1 实例化前应用处理器<ul>
-<li>4.3.1.2.1.1 遍历处理器，如果是InstantiationAwareBeanPostProcessor类型，则调用其postProcessBeforeInstantiation方法</li>
-</ul>
-</li>
-<li>4.3.1.2.2 在实例化后应用处理器<ul>
-<li>4.3.1.2.2.1 遍历bean后处理器，调用其postProcessAfterInitialization方法</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.3.1.3 如果上一步的返回bean不为空，直接返回。否则进行常规的bean创建<ul>
-<li>4.3.1.3.1如果是单例bean，则先清除缓存</li>
-<li>4.3.1.3.2使用对应策略创建新的实例，如工厂方法，构造函数等<ul>
-<li>4.3.1.3.2.1 如果工厂方法不为空，使用工厂方法初始化</li>
-<li>4.3.1.3.2.2 否则使用构造函数初始化</li>
-<li>4.3.1.3.2.3 如果构造函数有多个，且以及解析过了，那么使用解析好的构造函数(**略)</li>
-<li>4.3.1.3.2.4 如果没有解析过，则需要依据参数先解析构造函数，再使用构造函数解析</li>
-</ul>
-</li>
-<li>4.3.1.3.3 bean合并处理，Autowired注解通过此实现类型预解析</li>
-<li>4.3.1.3.4 处理循环依赖问题<ul>
-<li>4.3.1.3.4.1判断是否需要提前曝光（单例，允许循环依赖，当前bean正在创建）</li>
-<li>4.3.1.3.4.2将该bean的ObjectFactory加入到singleFatories中（AOP)<ul>
-<li>4.3.1.3.4.2.1 ObjectFactory的getObject方法返回getEarlyBeanReference，保证属性地址一样，解决了循环依赖问题</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>4.3.1.3.5 属性注入<ul>
-<li>4.3.1.3.5.1 如果处理器是InstantiationAwareBeanPostProcessors类型，则调用其postProcessAfterInstantiation方法。</li>
-<li>4.3.1.3.5.2 如果有Autowireby，则依据名称自动注入或者依据类型自动注入(**略)</li>
-</ul>
-</li>
-<li>4.3.1.3.6 应用属性值，将获取的属性应用到实例化bean中</li>
-<li>4.3.1.3.7 初始化bean<ul>
-<li>4.3.1.3.7.1 为实现BeanNameAware，BeanClassLoaderAware,BeanFactoryAware类型的bean设置资源</li>
-<li>4.3.1.3.7.2 调用bean后处理器的postProccessBeforeInitialization方法</li>
-<li>4.3.1.3.7.3 如果bean实现了initializingBean接口，则调用其afterPropertiesSet方法。如果还有init-method属性，则调用其对应的方法</li>
-<li>4.3.1.3.7.4 注册DisposableBean</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>5.类型转换</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-createBean/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
@@ -826,15 +765,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">

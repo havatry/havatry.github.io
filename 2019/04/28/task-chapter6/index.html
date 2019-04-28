@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Havatry</title>
+  <title>任务执行 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+  <meta name="description" content="img {     width: 650px; }   执行流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以">
+<meta name="keywords" content="java,thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="任务执行">
+<meta property="og:url" content="http://yoursite.com/2019/04/28/task-chapter6/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="img {     width: 650px; }   执行流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Executor_class.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ExecutorService_methods.png">
+<meta property="og:updated_time" content="2019-04-28T06:13:39.079Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Havatry">
+<meta name="twitter:title" content="任务执行">
+<meta name="twitter:description" content="img {     width: 650px; }   执行流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以">
+<meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/Executor_class.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -150,143 +158,118 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-task-chapter6" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
+    <h1 class="article-title" itemprop="name">
+      任务执行
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/04/28/task-chapter6/" class="archive-article-date">
+  	<time datetime="2019-04-28T05:14:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以及数据库服务器。这样既可以实现任务的独立性也可以实现合理的任务规模。<br>&nbsp;&nbsp;&nbsp;&nbsp;实现任务的策略大致有两种。一是串行执行任务，另一个是显示为任务创建线程。后者的优势在于任务过程和主线程分离开来，任务可以并行处理，任务代码必须是线程安全的。但是后者的劣势是线程声明周期的开销非常高，因为线程的创建和销毁的性能销毁，尤其是大多数轻量级的处理过程；资源消耗，线程太多超出处理器数量的，会被闲置在内存中，不好回收同时也占用大量内存；创建的线程数量受限制于操作系统；不能实现高可用性，会受到恶意共计以及高负载情况下的性能问题。<br><a id="more"></a></p>
+<h2 id="Executor框架"><a href="#Executor框架" class="headerlink" title="Executor框架"></a>Executor框架</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Executor框架采用线程池防止高负荷应用程序耗尽内存，将任务的提交过程和执行过程解耦开来，同时提供了对线程周期的支持的基于生产者-消费者模式的框架。<br><img src="/images/源码分析/jdk/Executor_class.png" alt="Executor框架"></p>
+<ul>
+<li>线程池<br>&nbsp;&nbsp;&nbsp;&nbsp;线程池是管理一组同构工作线程的资源池。工作者线程每次从工作队列中获取一个任务，执行任务，然后返回线程池并等待下一个任务。其好处在于<strong>通过重用现有的线程而不是创建新线程，避免处理请求的大量创建和销毁线程的开销。同时，当请求到达的时候，工作线程通常已经存储，因此不会由于等待创建线程而延迟任务的执行，提高响应性。可以保存处理器在忙碌状态，同时可以防止过多线程相互竞争资源而使得应用程序的内存耗尽或者失败</strong><ul>
+<li>FixedThreadPool<br>&nbsp;&nbsp;&nbsp;&nbsp;固定长度的线程池，每当提交一个任务就开始创建线程，直到达到线程的最大数量</li>
+<li>CachedThreadPool<br>&nbsp;&nbsp;&nbsp;&nbsp;缓存的线程池，如果超出开始准备回收，同时也会添加新的线程， 线程池没有规模限制</li>
+<li>SingleThreadPool<br>&nbsp;&nbsp;&nbsp;&nbsp;单个工作者的线程，如果该线程异常，则会再创建一个。能保证任务在队列中能串行执行(FIFO,LIFO,优先级)</li>
+<li>ScheduledThreadPool<br>&nbsp;&nbsp;&nbsp;&nbsp;固定长度的线程池，以延迟或者定时的方式来执行任务。其和Timer区别在于:Timer在执行索引定时任务时候只会创建一个线程，如果一个任务的执行时间很长，那么将破坏其他TimerTask的定时精确性，比如任务的延迟时间的重叠时候。同时Timer会抛出一个未检查的异常，Timer并不会捕获异常，因此抛出该异常会立即终止定时线程，这时Timer也不会恢复线程，而是认为整个Timer都被取消了，因而在执行的任务停止，队列中的任务也不会执行，这称为线程泄露。</li>
+</ul>
+</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;关于线程池管理的工作是同构的。如果是异构的，也就是线程A和线程B执行不同类型的任务，比如前者执行下载图像，后者执行渲染页面。虽然两者可以并行，但是渲染的速度远快于下载图像的速度，假设A的执行时间是B的10倍，那么加速比也只能是9%.(加速比:(1+10)-10/(1+10),并行执行相比串行执行的加速比)</p>
+<ul>
+<li>线程周期<br>&nbsp;&nbsp;&nbsp;&nbsp;Executor扩展了ExecutorService接口，解决执行服务的生命周期的问题。线程的生命周期有三种状态:运行、关闭、已终止。ExecutorService在初始创建的时候处于运行状态,当调用shutdown或者shutdownNow方法的时候将处于关闭状态。关闭后将由”拒绝执行处理器”来抛弃新加的任务，抛出RejectedExecutionException。当所有任务都完成后，ExecutorService转入终止状态。通过awaitTrmination或者isTerminated来等待或者轮询ExecutorService是否处于终止状态。<br><img src="/images/源码分析/jdk/ExecutorService_methods.png" alt="线程周期"></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/27/sed进阶/" class="archive-article-date">
-  	<time datetime="2019-03-27T03:18:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/27/mysql-query/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mysql查询</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/27/sed进阶/">sed进阶</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/25/redis数据类型/" class="archive-article-date">
-  	<time datetime="2019-03-25T04:26:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/25/redis数据类型/">redis数据类型</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span>
-    </nav>
   
 
 
@@ -310,8 +293,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
