@@ -9,7 +9,7 @@
   <title>京东一面 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="hashmap为什么不是线程安全的 jdk1.7的hashmaphashmap在扩容的时候，采用头插法，用于避免遍历到尾部的用时。但是这样就引起了无限循环的问题当线程A在执行的时候，此时B已经完成了扩容，然后A继续执行e.next=newTab[i]的时候，会将key=3直接指向了key=7的记录，从而造成环路。同时还存在更新丢失，多个线程对同一个table的元素修改时候发生后者覆盖前者。也会出现">
-<meta name="keywords" content="interview-jingdong">
+<meta name="keywords" content="interview">
 <meta property="og:type" content="article">
 <meta property="og:title" content="京东一面">
 <meta property="og:url" content="http://yoursite.com/2019/04/24/interview-jingdong/index.html">
@@ -17,7 +17,7 @@
 <meta property="og:description" content="hashmap为什么不是线程安全的 jdk1.7的hashmaphashmap在扩容的时候，采用头插法，用于避免遍历到尾部的用时。但是这样就引起了无限循环的问题当线程A在执行的时候，此时B已经完成了扩容，然后A继续执行e.next=newTab[i]的时候，会将key=3直接指向了key=7的记录，从而造成环路。同时还存在更新丢失，多个线程对同一个table的元素修改时候发生后者覆盖前者。也会出现">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/jdk7_hashmap_resize.png">
-<meta property="og:updated_time" content="2019-04-24T12:23:51.268Z">
+<meta property="og:updated_time" content="2019-05-02T04:17:54.207Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="京东一面">
 <meta name="twitter:description" content="hashmap为什么不是线程安全的 jdk1.7的hashmaphashmap在扩容的时候，采用头插法，用于避免遍历到尾部的用时。但是这样就引起了无限循环的问题当线程A在执行的时候，此时B已经完成了扩容，然后A继续执行e.next=newTab[i]的时候，会将key=3直接指向了key=7的记录，从而造成环路。同时还存在更新丢失，多个线程对同一个table的元素修改时候发生后者覆盖前者。也会出现">
@@ -197,7 +197,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">interview-jingdong</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
         		</li>
       		
 		</ul>
@@ -353,18 +353,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">interview-jingdong</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">interview</a>
               </li>
              
@@ -402,6 +390,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">lock</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -152,19 +152,281 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-task-chapter6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-mysql-datatype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/task-chapter6/">任务执行</a>
+      <a class="article-title" href="/2019/05/02/mysql-datatype/">mysql数据类型</a>
     </h1>
   
 
         
-        <a href="/2019/04/28/task-chapter6/" class="archive-article-date">
+        <a href="/2019/05/02/mysql-datatype/" class="archive-article-date">
+  	<time datetime="2019-05-02T02:19:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="数据类型优化"><a href="#数据类型优化" class="headerlink" title="数据类型优化"></a>数据类型优化</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;通常更小的更好。应该尽量使用可以正确存储数据的最小数据类型，因为他们计算更快、需要的内存磁盘和CPU缓存更少，但是要确保没有低估需要存储值的范围，否则后期调整比较耗时。第二是简单就好，因为其需要更少的CPU周期，比如整数代替字符串从而避免校对规则和字符集，使用内建类型而不是字符串表示日期，使用整数表示IP地址。第三是尽量避免使用NULL。因为NULL使得索引和值比较更复杂，当NULL列被索引，每个索引需要一个额外的字节，在MyISAM中可能会导致固定大小索引变成可变大小的索引。但是InnoDB使用一个bit位来存储NULL值，因此会有空间节省。</p>
+<ul>
+<li><p>整数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;整数可以选unsigned属性，表示非负值。整数计算时候都是使用64位的bigint整数，即使在32位环境也是这样。mysql可以指定整数宽度，但是没啥用处，只是用来显示字符个数，对于存储和计算来说int(1)和int(32)是一样的。</p>
+</li>
+<li><p>实数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;CPU不支持decimal直接计算，mysql服务器自身实现了decimal的高精度计算，但是速度比原生的浮点数计算要慢。decimal可以指定小数点后所允许的最大位数，每4个字节存9个数字。比如decimal(18,9)则占用4+1+4=9个字节。decimal最多允许65个数字。float占4个字节,能表示范围[1.4e-45,3.4e38]。double占8个字节，能表示范围[4.9e-324,1.8e308]。一般来说只有需要精确计算时候才使用decimal，比如存储财务数据。否则还是考虑使用bigint来代替，进行乘除运算即可。</p>
+        
+          <a class="article-more-a" href="/2019/05/02/mysql-datatype/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/02/mysql-datatype/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-concurrency-optimize" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/01/concurrency-optimize/">高并发锁</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/01/concurrency-optimize/" class="archive-article-date">
+  	<time datetime="2019-05-01T07:27:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="坏锁"><a href="#坏锁" class="headerlink" title="坏锁"></a>坏锁</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;关于坏锁的经典问题便是哲学家进餐。这种情况是最简单的坏锁形式，由于存储环路的锁依赖关系而一直等待下去。对于数据库系统的设计中考虑了对坏锁的检测和从坏锁中恢复的机制。但是JVM在解决坏锁方法并没有数据库那么强，当发生这种情况只能重启，并希望不要再发生同样的情况。</p>
+<ul>
+<li>锁顺序坏锁<br>&nbsp;&nbsp;&nbsp;&nbsp;两个线程试图以不太的顺序来获得相同的锁。此为一个方法中两个synchronized的方式交替锁定不同对象，而另一个方法中synchronized方式交替相反，当不同顺序执行时候发生坏锁，常见。<br>
+        
+          <a class="article-more-a" href="/2019/05/01/concurrency-optimize/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">lock</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/01/concurrency-optimize/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-springboot-web" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/01/springboot-web/">springboot-web</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/01/springboot-web/" class="archive-article-date">
+  	<time datetime="2019-05-01T02:25:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot自动配置有ServerPropertiesAutoConfiguration和ServerProperties自动配置tomcat容器,HttpEncodingAutoConfiguration和HttpEncodingProperties自动配置http编码,MultipartAutoConfiguration和MultipartProperties自动配置上传文件属性,JacksonHttpMessageConvertersConfiguration自动配置mappingJackson2HttpMessageConverter和mappingJackson2XmlHttpMessageConverter,WebMccAutoConfiguration和WebMvcProperties自动配置SpringMVC。</p>
+<h2 id="Thymeleaf模板引擎"><a href="#Thymeleaf模板引擎" class="headerlink" title="Thymeleaf模板引擎"></a>Thymeleaf模板引擎</h2><ul>
+<li><p>引入Thymeleaf模板</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建页面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 页面放在resources/templates目录下 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- th命名空间 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">"text/html;charset=UTF-8"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-ua-compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- @&#123;&#125;引用web静态资源，相比JSP不易出错 --&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- Bootstrap和jquery放在resource/static目录下 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">th:href</span>=<span class="string">"@&#123;bootstrap/css/bootstrap.min.css&#125;"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">th:href</span>=<span class="string">"@&#123;bootstrap/css/bootstrap-theme.min.css&#125;"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel-primary"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-heading"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">"panel-title"</span>&gt;</span>访问model<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-body"</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 访问model中数据 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;singlePerson.name&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 数据判断，支持比较条件和SpringEL表达式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:if</span>=<span class="string">"$&#123;not #lists.isEmpty(people)&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel-primary"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-title"</span>&gt;</span>列表<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-body"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"list-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"list-group-item"</span> <span class="attr">th:each</span>=<span class="string">"person:$&#123;people&#125;"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;person.name&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;person.age&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">				<span class="comment">&lt;!-- 在javascrpt中访问model数据 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">button</span> <span class="attr">class</span>=<span class="string">"btn"</span> <span class="attr">th:onclick</span>=<span class="string">"getName([[$&#123;person.name&#125;]]);"</span>&gt;</span>获得名称<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">th:src</span>=<span class="string">"@&#123;jquery-3.4.0.min.js&#125;"</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">th:src</span>=<span class="string">"@&#123;bootstrap/js/bootstrap.min.js&#125;"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 使得javascript可以在model中访问数据 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">th:inline</span>=<span class="string">"javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">	<span class="comment">&lt;!-- 在javascrpt中访问model数据 --&gt;</span></span></span><br><span class="line"><span class="undefined">    var single=[[$&#123;singlePerson&#125;]];</span></span><br><span class="line"><span class="undefined">    console.log(single.name+"/"+single.age);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function getName(name) &#123;</span></span><br><span class="line"><span class="undefined">        console.log(name);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/05/01/springboot-web/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/01/springboot-web/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-concurrency-task" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/concurrency-task/">线程池</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/concurrency-task/" class="archive-article-date">
   	<time datetime="2019-04-28T05:14:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
 </a>
         
@@ -180,7 +442,7 @@ img {
 
 <h2 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以及数据库服务器。这样既可以实现任务的独立性也可以实现合理的任务规模。<br>&nbsp;&nbsp;&nbsp;&nbsp;实现任务的策略大致有两种。一是串行执行任务，另一个是显示为任务创建线程。后者的优势在于任务过程和主线程分离开来，任务可以并行处理，任务代码必须是线程安全的。但是后者的劣势是线程声明周期的开销非常高，因为线程的创建和销毁的性能销毁，尤其是大多数轻量级的处理过程；资源消耗，线程太多超出处理器数量的，会被闲置在内存中，不好回收同时也占用大量内存；创建的线程数量受限制于操作系统；不能实现高可用性，会受到恶意共计以及高负载情况下的性能问题。<br>
         
-          <a class="article-more-a" href="/2019/04/28/task-chapter6/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/28/concurrency-task/#more">more >></a>
         
       
 
@@ -208,7 +470,7 @@ img {
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/task-chapter6/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/28/concurrency-task/">展开全文 >></a>
         </p>
       
 
@@ -322,264 +584,9 @@ img {
 
 
   
-    <article id="post-jvm-classload" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/jvm-classload/">jvm类加载</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/jvm-classload/" class="archive-article-date">
-  	<time datetime="2019-04-24T14:32:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>通过一个类的全限定名来获取定义此类的二进制字节流。将这个字节流代表的静态存储结构转换为方法去的运行时数据结构。在内存中生成一个代表这个类的java.lang.Class对象作为方法区这个类的各种数据的访问入口。</p>
-<ul>
-<li>从ZIP包中读取，比如JAR,EAR,WAR格式文件</li>
-<li>从网络中读取，比如Applet</li>
-<li>运行时计算生成，比如动态代理</li>
-<li>由其他文件生成，比如JSP应用</li>
-<li>从数据库中读取，比如SAP Netweaver<br>程序可以自定义的类加载器控制字节流的获取方式，比如重写loadClass方法。但是对于数组类，是通过Java虚拟机直接创建的。一个数组类的创建过程如下。</li>
-<li>如果数组是引用类型，采用上面定义的加载过程加载，在加载该组件类型的类加载器的类名称空间上被标识。</li>
-<li>如果不是引用类型，而是int[]类型，那么会把数组C标记为与引导类加载器关联。</li>
-<li>数组类的可见性和它的实际元素类型的可见性一致，如果实际元素类型是基本类型，那么可见性为public<br>加载完成后，会存储在方法区之中，然后在内存中实例化一个java.lang.Class对象，这个对象作为程序访问方法区中的这些类型数据的外部接口。<br><br>
-        
-          <a class="article-more-a" href="/2019/04/24/jvm-classload/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/jvm-classload/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jvm-compile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/jvm-compile/">jvm编译器</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/jvm-compile/" class="archive-article-date">
-  	<time datetime="2019-04-24T13:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Javac编译器"><a href="#Javac编译器" class="headerlink" title="Javac编译器"></a>Javac编译器</h2><ul>
-<li><p>解析与填充符号表</p>
-<ul>
-<li>词法、语法分析<br>将源代码的字符流转变为标记(Token)集合，标记是编译过程中最小元素，关键字、变量名、字面量、运算符等。由Scanner类实现。语法分析是语句标记序列构建抽象语法树。由Parser类实现。</li>
-<li>填充符号表<br>符号表是一组符号地址和符号信息构成的表格。其中的信息在编译的不同阶段都要用到。在语义分析中，符号表的内容将用于检查一个名字的时候和原先的说明是否一致和产生中间代码。在目标代码生成阶段，对符号名进行地址分配时候，符号表是地址分配的依据。由Enter类实现。</li>
-</ul>
-</li>
-<li><p>注解处理器<br>在运行期间发挥作用，在插件中可以读取、修改、添加抽象语法树中的任意元素。如果作了修改，编译器将回到解析以及填充符号表的过程重新处理，直到所有插入式注解处理器都没有再对语法树进行修改为止，每一次循环称为一个Round，也就是回环过程。这样可以干涉编译器的行为，完成一些创意的行为。</p>
-</li>
-<li><p>语义分析<br>对结构上正确的源程序进行上下文有关性质的审查，比如类型检查。</p>
-<ul>
-<li>标注检查<br>检查变量使用前是否被声明，变量和赋值直接的数据类型是否匹配，以及常量折叠。由Attr类和Check类实现。</li>
-<li>数据以及控制流分析<br>对程序上下文逻辑更进一步验证，检查程序局部变量使用前是否已经赋值、方法每个路径是否都有返回值、是否所有的受查异常都被正确处理等。由Flow类实现。</li>
-<li>解语法糖<br>Java属于低语法糖，比如泛型、变长参数、自动装箱/拆箱等，会在编译阶段还原为简单的基础语法结构。由TransTypes类和Lower类实现。</li>
-<li>字节码生成<br>将前面各个步骤所生成的信息转换为字节码写到磁盘中，编译器还进行少量的代码添加和转换工作。比如<init>和<clinit>方法就是在这个阶段收敛到语法树中。这里的<init>是默认构造函数。完成收敛工作，比如对语句块、变量初始化、调用父类实例构造器（因为保证先执行父类构造器）等操作收敛。添加是在填充符号表的时候完成。生成class文件。<br><br>
-        
-          <a class="article-more-a" href="/2019/04/24/jvm-compile/#more">more >></a>
-        
-      
-
-      
-    </init></clinit></init></li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/jvm-compile/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-interview-jingdong" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/interview-jingdong/">京东一面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/interview-jingdong/" class="archive-article-date">
-  	<time datetime="2019-04-24T12:04:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="hashmap为什么不是线程安全的"><a href="#hashmap为什么不是线程安全的" class="headerlink" title="hashmap为什么不是线程安全的"></a>hashmap为什么不是线程安全的</h2><ul>
-<li><p>jdk1.7的hashmap<br>hashmap在扩容的时候，采用头插法，用于避免遍历到尾部的用时。但是这样就引起了无限循环的问题<br><img src="/images/源码分析/jdk/jdk7_hashmap_resize.png" alt="jdk1.7的hashmap"><br>当线程A在执行的时候，此时B已经完成了扩容，然后A继续执行e.next=newTab[i]的时候，会将key=3直接指向了key=7的记录，从而造成环路。<br>同时还存在更新丢失，多个线程对同一个table的元素修改时候发生后者覆盖前者。也会出现删除不可见，从而NPE异常。</p>
-</li>
-<li><p>jdk1.8的hashmap<br>借助了两个指针，分别指向链表的前后两个，每次在后面插入元素，使得一方面性能提高，同时避免了环路。使用了红黑树结构优化。</p>
-</li>
-</ul>
-<h2 id="如何找出链表的三分之一点"><a href="#如何找出链表的三分之一点" class="headerlink" title="如何找出链表的三分之一点"></a>如何找出链表的三分之一点</h2><p>借助三个指针，第一个指针每次走三步，第二个指针每次走两步，第三个指针每次走一步。当第一个指针到达尾部的时候，第二个和第三个指针的位置分别是两个三等分点。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">interview-jingdong</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/interview-jingdong/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -674,18 +681,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">interview-jingdong</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">interview</a>
               </li>
              
@@ -723,6 +718,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">lock</a>
               </li>
              
               <li class="article-tag-list-item">

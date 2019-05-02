@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Havatry">
 <meta property="og:description" content="1.转换name获取beanName(别名或者FactoryBean) 2.依据beanName找出单例的bean，在缓存中情况 getSingleton() 2.1如果允许提前曝光，则从singleFactories(beanName-&amp;gt;ObjectFactory)中获取ObjectFactory 2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getO">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-29T10:58:23.323Z">
+<meta property="og:updated_time" content="2019-05-01T08:27:10.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Bean创建">
 <meta name="twitter:description" content="1.转换name获取beanName(别名或者FactoryBean) 2.依据beanName找出单例的bean，在缓存中情况 getSingleton() 2.1如果允许提前曝光，则从singleFactories(beanName-&amp;gt;ObjectFactory)中获取ObjectFactory 2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getO">
@@ -194,6 +194,9 @@
 </li>
 </ul>
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li>4.如果单例bean不存在缓存中，则从头开始加载bean getSingle(…)<ul>
 <li>4.1检查bean是否已经加载</li>
 <li>4.2如果没有加载，记录beanName处于正在加载状态的map中singletonsCurrentlyICreation进行单例bean初始化</li>
@@ -290,17 +293,17 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/03/30/designmode-mediator/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/03/31/java-network/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          中介模式
+          网络
         
       </div>
     </a>
   
   
-    <a href="/2019/03/27/sed进阶/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/03/27/shell-sed/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">sed进阶</div>
       <i class="icon-circle-right"></i>
     </a>
@@ -427,18 +430,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">designmode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">interview-jingdong</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">interview</a>
               </li>
              
@@ -476,6 +467,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">lock</a>
               </li>
              
               <li class="article-tag-list-item">
