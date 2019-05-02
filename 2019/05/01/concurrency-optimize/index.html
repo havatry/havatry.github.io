@@ -9,14 +9,14 @@
   <title>高并发锁 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="坏锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;关于坏锁的经典问题便是哲学家进餐。这种情况是最简单的坏锁形式，由于存储环路的锁依赖关系而一直等待下去。对于数据库系统的设计中考虑了对坏锁的检测和从坏锁中恢复的机制。但是JVM在解决坏锁方法并没有数据库那么强，当发生这种情况只能重启，并希望不要再发生同样的情况。  锁顺序坏锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;两个线程试图以不太的顺序来">
-<meta name="keywords" content="java,lock">
+<meta name="keywords" content="java,thread">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高并发锁">
 <meta property="og:url" content="http://yoursite.com/2019/05/01/concurrency-optimize/index.html">
 <meta property="og:site_name" content="Havatry">
 <meta property="og:description" content="坏锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;关于坏锁的经典问题便是哲学家进餐。这种情况是最简单的坏锁形式，由于存储环路的锁依赖关系而一直等待下去。对于数据库系统的设计中考虑了对坏锁的检测和从坏锁中恢复的机制。但是JVM在解决坏锁方法并没有数据库那么强，当发生这种情况只能重启，并希望不要再发生同样的情况。  锁顺序坏锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;两个线程试图以不太的顺序来">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-02T04:16:06.087Z">
+<meta property="og:updated_time" content="2019-05-02T04:26:36.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高并发锁">
 <meta name="twitter:description" content="坏锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;关于坏锁的经典问题便是哲学家进餐。这种情况是最简单的坏锁形式，由于存储环路的锁依赖关系而一直等待下去。对于数据库系统的设计中考虑了对坏锁的检测和从坏锁中恢复的机制。但是JVM在解决坏锁方法并没有数据库那么强，当发生这种情况只能重启，并希望不要再发生同样的情况。  锁顺序坏锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;两个线程试图以不太的顺序来">
@@ -228,7 +228,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">lock</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
         		</li>
       		
 		</ul>
@@ -421,10 +421,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">lock</a>
               </li>
              
               <li class="article-tag-list-item">

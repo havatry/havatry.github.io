@@ -182,14 +182,14 @@ img {
 <ul>
 <li><p>整数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;整数可以选unsigned属性，表示非负值。整数计算时候都是使用64位的bigint整数，即使在32位环境也是这样。mysql可以指定整数宽度，但是没啥用处，只是用来显示字符个数，对于存储和计算来说int(1)和int(32)是一样的。</p>
 </li>
-<li><p>实数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;CPU不支持decimal直接计算，mysql服务器自身实现了decimal的高精度计算，但是速度比原生的浮点数计算要慢。decimal可以指定小数点后所允许的最大位数，每4个字节存9个数字。比如decimal(18,9)则占用4+1+4=9个字节。decimal最多允许65个数字。float占4个字节,能表示范围[1.4e-45,3.4e38]。double占8个字节，能表示范围[4.9e-324,1.8e308]。一般来说只有需要精确计算时候才使用decimal，比如存储财务数据。否则还是考虑使用bigint来代替，进行乘除运算即可。</p>
+<li><p>实数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;CPU不支持decimal直接计算，mysql服务器自身实现了decimal的高精度计算，但是速度比原生的浮点数计算要慢。decimal可以指定小数点后所允许的最大位数，每4个字节存9个数字。比如decimal(18,9)则占用4+1+4=9个字节。decimal最多允许65个数字。float占4个字节,能表示范围[1.4e-45,3.4e38]。double占8个字节，能表示范围[4.9e-324,1.8e308]。一般来说只有需要精确计算时候才使用decimal，比如存储财务数据。否则还是考虑使用bigint来代替，进行乘除运算即可。<br>
         
           <a class="article-more-a" href="/2019/05/02/mysql-datatype/#more">more >></a>
         
       
 
       
-    </li></ul></div>
+    </p></li></ul></div>
     <div class="article-info article-info-index">
       
       
@@ -280,7 +280,7 @@ img {
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">lock</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
         		</li>
       		
 		</ul>
@@ -718,10 +718,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">lock</a>
               </li>
              
               <li class="article-tag-list-item">

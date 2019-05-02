@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://yoursite.com/images/Mysql/nonnormal_design1.png">
 <meta property="og:image" content="http://yoursite.com/images/Mysql/nonnormal_design2.png">
 <meta property="og:image" content="http://yoursite.com/images/Mysql/myisam_store.png">
-<meta property="og:updated_time" content="2019-05-02T04:11:09.980Z">
+<meta property="og:updated_time" content="2019-05-02T04:24:19.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql数据类型">
 <meta name="twitter:description" content="img {     width: 650px; }   数据类型优化&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;通常更小的更好。应该尽量使用可以正确存储数据的最小数据类型，因为他们计算更快、需要的内存磁盘和CPU缓存更少，但是要确保没有低估需要存储值的范围，否则后期调整比较耗时。第二是简单就好，因为其需要更少的CPU周期，比如整数代替字符串从而避免校对规则和字符集，使用内建类型而不是字符串表">
@@ -190,8 +190,8 @@ img {
 <ul>
 <li><p>整数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;整数可以选unsigned属性，表示非负值。整数计算时候都是使用64位的bigint整数，即使在32位环境也是这样。mysql可以指定整数宽度，但是没啥用处，只是用来显示字符个数，对于存储和计算来说int(1)和int(32)是一样的。</p>
 </li>
-<li><p>实数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;CPU不支持decimal直接计算，mysql服务器自身实现了decimal的高精度计算，但是速度比原生的浮点数计算要慢。decimal可以指定小数点后所允许的最大位数，每4个字节存9个数字。比如decimal(18,9)则占用4+1+4=9个字节。decimal最多允许65个数字。float占4个字节,能表示范围[1.4e-45,3.4e38]。double占8个字节，能表示范围[4.9e-324,1.8e308]。一般来说只有需要精确计算时候才使用decimal，比如存储财务数据。否则还是考虑使用bigint来代替，进行乘除运算即可。</p>
-<a id="more"></a></li>
+<li><p>实数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;CPU不支持decimal直接计算，mysql服务器自身实现了decimal的高精度计算，但是速度比原生的浮点数计算要慢。decimal可以指定小数点后所允许的最大位数，每4个字节存9个数字。比如decimal(18,9)则占用4+1+4=9个字节。decimal最多允许65个数字。float占4个字节,能表示范围[1.4e-45,3.4e38]。double占8个字节，能表示范围[4.9e-324,1.8e308]。一般来说只有需要精确计算时候才使用decimal，比如存储财务数据。否则还是考虑使用bigint来代替，进行乘除运算即可。<br><a id="more"></a></p>
+</li>
 <li><p>字符串类型<br>&nbsp;&nbsp;&nbsp;&nbsp;varchar存储可变长度。在mysql没有指定row_format=fixed时候，其仅仅使用必要的空间。varchar需要1或者2个字节来额外记录字符串的长度，比如varchar(1000)则需要1002个字节。但是varchar是变成的，这样在更新时候如果字符串变成了，在myisam中会拆成不同的片段存储，innodb会导致页分裂(页分裂是从磁盘中新申请一个页，然后将记录后面的后移，溢出到新加页面上，新加页面放到当前页的后面，改下页面指针)。在innodb中会将过长的varchar类型转换为blob。varchar(5)和varchar(200)如果仅仅有5个字节，那么前者高效。因为更长的列会消耗更多内存，mysql通常会分配固定大小内存来保存内部值，尤其是使用内存临时表或者磁盘临时表的时候。当临时表大小超过max_heap_table_size=16777216或者tmp_table_size=16777216的时候会从内存临时表变成磁盘临时表，因此对于大数据尽量使用前k个字符来进行排序。<br>&nbsp;&nbsp;&nbsp;&nbsp;char类型是定长的。当存储char类型数据时候，mysql会删除所有的末尾空格，在插入时候会进行空格填充（填充和删除空格在服务器层处理的，而不是存储引擎层。对于二进制是填充或者删除\0，二进制数据比较操作简单而且大小写敏感）。char不容易产生碎片。char在存储非常短的列有优势，因为不需要额外的一或者二个字节记录长度。char适合存储很短字符串或者所有值接近一个长度，比如存储密码的md5值。<br>&nbsp;&nbsp;&nbsp;&nbsp;memory存储引擎只支持定长的行，即使是变长的也会依据最大长度来分配最大空间使之定长。</p>
 </li>
 <li><p>大数据类型<br>&nbsp;&nbsp;&nbsp;&nbsp;当blob太大的时候,innodb会使用专门的外部存储区域来进行存储，这时每个值行内需要1-4个字节存储一个指针，然后在外部存储区域存储的实际值。mysql会值对blob列的前max_sort_length字节进行排序，因此可以通过设置该值或者使用order by substring(column_blob,length)来进行小部分字符排序。mysql不能对blob列进行索引。text列和blob列类似。</p>
@@ -412,10 +412,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">lock</a>
               </li>
              
               <li class="article-tag-list-item">
