@@ -152,6 +152,176 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-concurrency-task" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/concurrency-task/">线程池</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/concurrency-task/" class="archive-article-date">
+  	<time datetime="2019-04-28T05:14:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以及数据库服务器。这样既可以实现任务的独立性也可以实现合理的任务规模。<br>&nbsp;&nbsp;&nbsp;&nbsp;实现任务的策略大致有两种。一是串行执行任务，另一个是显示为任务创建线程。后者的优势在于任务过程和主线程分离开来，任务可以并行处理，任务代码必须是线程安全的。但是后者的劣势是线程声明周期的开销非常高，因为线程的创建和销毁的性能销毁，尤其是大多数轻量级的处理过程；资源消耗，线程太多超出处理器数量的，会被闲置在内存中，不好回收同时也占用大量内存；创建的线程数量受限制于操作系统；不能实现高可用性，会受到恶意共计以及高负载情况下的性能问题。<br>
+        
+          <a class="article-more-a" href="/2019/04/28/concurrency-task/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/concurrency-task/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-mysql-query" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/27/mysql-query/">mysql查询</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/27/mysql-query/" class="archive-article-date">
+  	<time datetime="2019-04-27T05:38:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="查询流程"><a href="#查询流程" class="headerlink" title="查询流程"></a>查询流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。<br><img src="/images/Mysql/query_process.png" alt="查询流程"><br><br></p>
+<ul>
+<li>客户端/服务器通信协议<br>&nbsp;&nbsp;&nbsp;&nbsp;通信协议是半双工的。这种协议让mysql通信简单快手，但是不能进行流量控制，也就是说一端开始发送消息，另一端要完全接收后才能响应它。服务器当接收的数据包太多的时候，会不接收并抛出异常，该值由max_allowed_packet设置，默认是67108864。mysql一般要等所有数据都发送给客户端后才能释放该查询连接所占的资源，因此mysql使用库函数来缓存到内存中，客户端只需要从该缓存中获取结果就行。这样会导致当结果集很大的时候，会花费很多时间和空间来存储所有的结果集，但是这样可以更快释放资源和锁等。如果不使用该缓存特性，则在编程中控制，比如php的mysql_unbuffered_query()函数和perl的mysql_use_result=&gt;1的属性。<br>
+        
+          <a class="article-more-a" href="/2019/04/27/mysql-query/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/27/mysql-query/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-jvm-classload" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -407,159 +577,6 @@
 
 
   
-    <article id="post-interview-baidu" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/interview-baidu/">百度面试</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/interview-baidu/" class="archive-article-date">
-  	<time datetime="2019-04-24T08:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="JDK代理"><a href="#JDK代理" class="headerlink" title="JDK代理"></a>JDK代理</h2><p>格式 Proxy.newProxyInstance(subject.getClass().getClassLoader(),subject.getClass().getInterfaces(),new ProxyInvocationHandler(subject));<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> practice.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJdkProxy</span> </span>&#123;</span><br><span class="line">	  <span class="keyword">static</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">	    <span class="function"><span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span></span>;</span><br><span class="line">	    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">	  &#125;</span><br><span class="line">	   </span><br><span class="line">	  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">final</span> Subject subject=<span class="keyword">new</span> Subject()&#123;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">				System.out.println(<span class="string">"hi"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">				System.out.println(<span class="string">"hello"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">	    &#125;;</span><br><span class="line">	    Subject subjectProxy=(Subject) Proxy.newProxyInstance(subject.getClass().getClassLoader(), </span><br><span class="line">	    		subject.getClass().getInterfaces(), <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">					</span><br><span class="line">					<span class="meta">@Override</span></span><br><span class="line">					<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">						<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">						System.out.print(<span class="string">"say: "</span>);</span><br><span class="line">						<span class="keyword">return</span> method.invoke(subject, args);</span><br><span class="line">					&#125;</span><br><span class="line">	    &#125;);</span><br><span class="line">	    subjectProxy.sayHi();</span><br><span class="line">	    subjectProxy.sayHello();</span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
-<p>测试结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">say: hi</span><br><span class="line">say: hello</span><br></pre></td></tr></table></figure></p>
-        
-          <a class="article-more-a" href="/2019/04/24/interview-baidu/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/interview-baidu/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-interview-tencent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/interview-tencent/">腾讯一面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/interview-tencent/" class="archive-article-date">
-  	<time datetime="2019-04-24T05:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="epoll使用阻塞还是非阻塞"><a href="#epoll使用阻塞还是非阻塞" class="headerlink" title="epoll使用阻塞还是非阻塞"></a>epoll使用阻塞还是非阻塞</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;边缘触发ET模式,EpollOut事件触发条件如下:当初次建立连接时候；某次write写满了发送缓冲区，返回错误码EEAGAIN;对方读取了一些数据，又处于重新可写阶段。也就是EpollOut事件只有socket从不可读变成可读状态时候，才会触发一次。对于EpollOut事件，必须将文件描述符缓冲区一直写满,让error返回EAGAIN为止。<br>EpollIn事件触发条件如下:当对方有数据写入的时候触发。对于该事件需要将数据全部读完。<br>&nbsp;&nbsp;&nbsp;&nbsp;如果采用阻塞socket，对于读则出现在最后一次读数据后发生阻塞，而非阻塞socket则会返回&lt;0的数字，且error返回EAGAIN。如果采用阻塞socket，对于写则socket从不可写变成可写则是没有意义的，因为阻塞sokcet在写的时候直到所有数据写完后才不阻塞。同时由于阻塞socket可能会出现死锁，也就是对方读取了一半数据的问题。因此边缘触发ET模式下，socket必须设置为非阻塞。水平触发LT模式，由于会重复检查缓冲区读取，因此阻塞IO和非阻塞IO的差别不大，不会出现死锁问题，但是为了效率问题，可能在处理某个IO的时候阻塞一段事件影响其他IO的处理。同时对于阻塞还是非阻塞也受到fd的参数影响，比如fd只有100字节，那么写200字节会阻塞。<br>&nbsp;&nbsp;&nbsp;&nbsp;对于连接的fd来说，建议使用LT模式，因为ET模式会一次性处理全部请求，如果此时还有其他客户端连接则无法响应。<br>&nbsp;&nbsp;&nbsp;&nbsp;一个线程在读取完某个socket上的数据后开始处理这些数据，而数据的处理过程中该socket又有新数据可读，此时另外一个线程被唤醒来读取这些新的数据。于是，就出现了两个线程同时操作一个socket的局面。可以使用epoll的EPOLLONESHOT事件实现一个socket连接在任一时刻都被一个线程处理。 对于注册了EPOLLONESHOT事件的文件描述符，操作系统最多触发其上注册的一个可读，可写或异常事件，且只能触发一次。注册了EPOLLONESHOT事件的socket一旦被某个线程处理完毕，该线程就应该立即重置这个socket上的EPOLLONESHOT事件，以确保这个socket下一次可读时，其EPOLLIN事件能被触发，进而让其他工作线程有机会继续处理这个sockt。 尽管一个socket在不同事件可能被不同的线程处理，但同一时刻肯定只有一个线程在为它服务，这就保证了连接的完整性，从而避免了很多可能的竞态条件。<br>
-        
-          <a class="article-more-a" href="/2019/04/24/interview-tencent/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/interview-tencent/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -657,6 +674,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">interview</a>
               </li>
              
@@ -690,14 +715,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">thread</a>
               </li>
              
               <li class="article-tag-list-item">

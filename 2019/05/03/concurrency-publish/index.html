@@ -6,23 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>mysql查询 | Havatry</title>
+  <title>共享组合 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 650px; }   查询流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。  客户端/服务器通信协议&amp;nbsp;&amp;">
-<meta name="keywords" content="mysql">
+  <meta name="description" content="安全发布 对象逃逸&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如果在构造函数没有完成之前，将this对象发布出去，并且被外部调用了this的方法，此为this逃逸。比如在构造函数中使用线程允许本类方法等，解决方式可以在构造函数中声明，具体调用在构造函数完成之后。 线程封闭&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这是实现线程安全最简单的方式之一。比如Swing中将可视化组件、数据模型都封">
+<meta name="keywords" content="java,thread">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql查询">
-<meta property="og:url" content="http://yoursite.com/2019/04/27/mysql-query/index.html">
+<meta property="og:title" content="共享组合">
+<meta property="og:url" content="http://yoursite.com/2019/05/03/concurrency-publish/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 650px; }   查询流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。  客户端/服务器通信协议&amp;nbsp;&amp;">
+<meta property="og:description" content="安全发布 对象逃逸&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如果在构造函数没有完成之前，将this对象发布出去，并且被外部调用了this的方法，此为this逃逸。比如在构造函数中使用线程允许本类方法等，解决方式可以在构造函数中声明，具体调用在构造函数完成之后。 线程封闭&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这是实现线程安全最简单的方式之一。比如Swing中将可视化组件、数据模型都封">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/Mysql/query_process.png">
-<meta property="og:image" content="http://yoursite.com/images/Mysql/releaion_query.png">
-<meta property="og:updated_time" content="2019-04-27T08:51:10.732Z">
+<meta property="og:updated_time" content="2019-05-03T11:01:04.810Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql查询">
-<meta name="twitter:description" content="img {     width: 650px; }   查询流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。  客户端/服务器通信协议&amp;nbsp;&amp;">
-<meta name="twitter:image" content="http://yoursite.com/images/Mysql/query_process.png">
+<meta name="twitter:title" content="共享组合">
+<meta name="twitter:description" content="安全发布 对象逃逸&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如果在构造函数没有完成之前，将this对象发布出去，并且被外部调用了this的方法，此为this逃逸。比如在构造函数中使用线程允许本类方法等，解决方式可以在构造函数中声明，具体调用在构造函数完成之后。 线程封闭&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这是实现线程安全最简单的方式之一。比如Swing中将可视化组件、数据模型都封">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -158,70 +155,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-mysql-query" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-concurrency-publish" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      mysql查询
+      共享组合
     </h1>
   
 
         
-        <a href="/2019/04/27/mysql-query/" class="archive-article-date">
-  	<time datetime="2019-04-27T05:38:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-27</time>
+        <a href="/2019/05/03/concurrency-publish/" class="archive-article-date">
+  	<time datetime="2019-05-03T07:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="查询流程"><a href="#查询流程" class="headerlink" title="查询流程"></a>查询流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。<br><img src="/images/Mysql/query_process.png" alt="查询流程"><br><br></p>
+        <h2 id="安全发布"><a href="#安全发布" class="headerlink" title="安全发布"></a>安全发布</h2><ul>
+<li>对象逃逸<br>&nbsp;&nbsp;&nbsp;&nbsp;如果在构造函数没有完成之前，将this对象发布出去，并且被外部调用了this的方法，此为this逃逸。比如在构造函数中使用线程允许本类方法等，解决方式可以在构造函数中声明，具体调用在构造函数完成之后。</li>
+<li>线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;这是实现线程安全最简单的方式之一。比如Swing中将可视化组件、数据模型都封闭到事件分发线程中来实现线程安全性，使得在事件线程之外的其他线程无法访问这些对象。还要JDBC的Connectiin对象，在实现上由单个线程采用同步方式来处理，在Connection对象用完返回之前，连接此不会再将它分给其他线程。这样特殊管理模式实现线程封闭。<ul>
+<li>Ad-hoc线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;维护线程封闭性的职责完全由程序实现来承担，其是很脆弱的实现方式。一般可以由Volatile变量实现，只有单个线程对共享的volatile变量作修改才行。</li>
+<li>栈封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;使用局部变量才能访问对象，因此会封闭再执行线程中。但是要确保共享对象不会逃逸出去。</li>
+<li>ThreadLocal<br>&nbsp;&nbsp;&nbsp;&nbsp;为每个使用该变量的线程都存有一份独立的副本。比如将JDBC的Connection对象保存到ThreadLocal中。在频繁执行操作需要缓冲区的时候，同时避免每次执行时都重新分配该临时对象，而ThreadLocal在开始阶段已经全部分配好了。EJB框架中将事务上下文和某线程关联，需要使用ThreadLocal对象。但是滥用ThreadLocal会降低代码的可重用性质，并且增加了该机制代码和框架之间隐含的耦合性。</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
 <ul>
-<li>客户端/服务器通信协议<br>&nbsp;&nbsp;&nbsp;&nbsp;通信协议是半双工的。这种协议让mysql通信简单快手，但是不能进行流量控制，也就是说一端开始发送消息，另一端要完全接收后才能响应它。服务器当接收的数据包太多的时候，会不接收并抛出异常，该值由max_allowed_packet设置，默认是67108864。mysql一般要等所有数据都发送给客户端后才能释放该查询连接所占的资源，因此mysql使用库函数来缓存到内存中，客户端只需要从该缓存中获取结果就行。这样会导致当结果集很大的时候，会花费很多时间和空间来存储所有的结果集，但是这样可以更快释放资源和锁等。如果不使用该缓存特性，则在编程中控制，比如php的mysql_unbuffered_query()函数和perl的mysql_use_result=&gt;1的属性。<br><a id="more"></a></li>
-<li><p>查询缓存<br>&nbsp;&nbsp;&nbsp;&nbsp;如果查询缓存打开，则mysql先检查该缓存是否命中缓存中的数据。使用大小写敏感的哈希查找实现，即使查询只有一个字节不同，那么也不会匹配缓存结果。如果命中，那么还会检查一下权限后返回。</p>
+<li>安全发布<br>&nbsp;&nbsp;&nbsp;&nbsp;线程封闭可以保证对象不被发布，但是如果需要在多个线程之间共享对象，则需要确保安全发布。<ul>
+<li>不可变对象的安全发布<br>&nbsp;&nbsp;&nbsp;&nbsp;不可变对象需要满足三个性质:对象状态不可修改(只有一种状态，该状态由构造函数来控制，也就是被final修饰的对象)，所有域都是final类型，没有发生this逃逸。任何线程都可以在不需要额外同步情况下安全访问不可变对象，即使这个对象没有安全发布。</li>
+<li>事实不可变对象安全发布<br>&nbsp;&nbsp;&nbsp;&nbsp;如果对象从技术上是可变的，但是其状态在发布之后不会再改变，则称之为事实不可变对象。该对象发布之后不会被修改，那么对于其他再没有额外同步情况下安全访问这些对象的线程来说，安全发布是足够的。</li>
+<li>可变对象<br>&nbsp;&nbsp;&nbsp;&nbsp;如果对象再构造后可以修改，那么安全发布只能确保当时状态的可见性。因此需要安全发布，而且必须是线程安全的或者由某个锁保护着。</li>
+</ul>
 </li>
-<li><p>解析器<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql通过关键字将sql语句进行解析，生成一颗对应的解析树,mysql解析器将使用mysql语法规则验证和解析查询，比如错误关键字、使用关键字的顺序是否合理等语法错误。</p>
-</li>
-<li><p>预处理器<br>&nbsp;&nbsp;&nbsp;&nbsp;进一步解析解析树是否合法，比如检查数据表和数据列是否存在、别名是否有歧义、验证权限等。</p>
-</li>
-<li><p>查询优化器<br>&nbsp;&nbsp;&nbsp;&nbsp;在众多的执行方式中找到最好的执行计划。其尝试预处一个查询使用某种执行计划时的成本，并选择其中最小的一个。不考虑任何层面的缓存，假设读取任何数据都需要一次磁盘IO，每次读取的数据页默认是4KB.其缺点是1.预测不准确，因为依赖存储引擎提供的统计信息来评估的。2.执行计划中的成本估算不等同于实际的执行成本，因为受限于是否顺序读取页面或者页面是否在内存中，因此实际上执行计划是不清除要多少次物理IO。3.mysql是基于成本模型来选择最优的执行计划，但是不一定最快的。4.mysql不考虑并发的情况。5.mysql会受限于规则，比如存在全文索引则直接使用全文索引。6.mysql不考虑不在其控制范围的操作计入成本中，比如执行存储过程和用户自定义的函数。<br>&nbsp;&nbsp;&nbsp;&nbsp;查询优化器的优化策略大致分为静态优化和动态优化。前者直接对解析树进行分析和优化，后者则和查询的上下文有关，因此后者需多次重新评估。mysql的处理的优化类型如下。</p>
+<li>安全发布方式<br>&nbsp;&nbsp;&nbsp;&nbsp;1.静态初始化函数中初始化一个对象引用（加锁了）2.将对象的引用保存到volatile类型的域或者AtomicReferance对象中 3.将对象的引用保存到某个正确构造对象的final类型域中 4.将对象引用保存到一个由锁保护着的域中。</li>
+</ul>
+<h2 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;组合是将现有的一些线程安全组合为更大规模的组件或者程序。设计线程安全的类需要保护三个基本要素。1.找出构成对象状态的所有变量 2.找出约束状态变量的不变性条件 3.建立对象状态的并发访问关联策略。对一个不变性条件包含多个变量，那么执行任何访问相关变量的操作时候，都必须持有包含这些变量的锁。比如两个变量上界和下界，要满足不变性条件下界&lt;=上界。</p>
 <ul>
-<li>重新定义关联表的顺序<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会依据其模型来选择最佳的关联顺序。mysql使用泳道的原理来进行关联，首先从tab1中选择所有满足条件的列，然后依据这些列分别在tab2中进行关联。mysql会依据查询成本来从多个组合中选择一个合适的进行执行。可以使用STRAIGHT_JOIN关键字来强制mysql执行器按照本来的关联顺序进行执行。当使用该关键字后可以比较两次的查询成本，通过Last_query_cost来查看。当组合的数量比较多的时候，会出现搜索空间很大，mysql默认最多搜索到optimizer_search_depth值的表数量。该值默认为62。<br><img src="/images/Mysql/releaion_query.png" alt="重新定义关联表的顺序"><br><br></li>
-<li>将外连接转化为内连接<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会将外连接(左外连接和右外连接)转换为内连接。</li>
-<li>等价变换规则<br>&nbsp;&nbsp;&nbsp;&nbsp;将一些使用等价变化来简化表达式，比如(a&lt;b and b&lt;=c) and a=5 ==&gt; b&gt;5 and b=c and a=5;</li>
-<li>优化特定类型<ul>
-<li>优化count()<br>&nbsp;&nbsp;&nbsp;&nbsp;在myisam中没有where条件的count()直接从其维护的一个变量中获取数据表的总行数。因此可以使用常量代替count()表达式。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 对于查询select count() from a where id&gt;5;假设该查询扫描4097行。由于myisam对于带where语句的无法返回总行数,优化方式一是使用总行数减去&lt;=5情况的行数==&gt;select (select count() from a)-count() from a where id&lt;=5。优化方式二是使用估算值，利用explain的估算的行数，因为explain并不是真正的执行查询，所以查询很低;同理如果对精度要求不高，可以直接去掉多个约束条件。优化方式三是使用覆盖索引的扫描，避免回表验证。优化方式四是增加一个汇总表或者类似Memcached的外部缓存系统。</li>
-<li>优化min()/max()<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会将表达式min()和max()进行常量替换，因为在某列的索引上，最小和最大值分别在索引的最左端和最右端。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 理论上主键严格按照顺序排列，因此在找min(id)时候找到的第一个就是满足条件的，但是mysql只会做全表扫描。因此可以使用limit 1来代替获取最小主键。</li>
-<li>优化group by<br>&nbsp;&nbsp;&nbsp;&nbsp;group by采用临时表或者文件排序来做分组，使用SQL_BIG_RESULT和SQL_SMALL_RESULT来控制优化器使用的具体分组方式。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 优化方式一:使用查找表上面的标识列做完分组的依据，效率高，如果mysql不支持（比如设置了sql_mode)，那么可以用1.min和max函数非分组列绕过去，但是最好非分组列依赖分组的列；2.使用子查询，子查询的结果是分组列，然后再内连接到外面的分组列，返回非分组列的值==&gt;select name from person inner join (select id from person group by id) as a using(id)。由于select使用非分组列的结果常常是不定的，也就是当索引变化后，优化器将选择不同的优化策略会导致结果的不一致性，因此建议使用sql_mode的默认形式。</li>
-<li>优化group by with rollup<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会对返回的分组结果在做一次超级聚合。这会导致文件排序，因此最好在客户端使用汇总功能。</li>
-<li>优化limit<br>&nbsp;&nbsp;&nbsp;&nbsp;在偏移量很多的时候，mysql需要找出前面所有N条记录，然后只取后面的M条，因此对性能影响很大。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: select id,name from person limit 10000,20; 优化方式一:延迟关联，使得mysql扫描尽可能少的页面,获取需要的记录后回表关联==&gt;select id,name from person inner join (select id from person limit 10000,20) as lim using(id);//借助索引。优化方式二:在已知的位置上查询，将limit查询转换为where查询==&gt;select id,name from person where id between 1000 and 1019。优化方式三:书签记录,下次查询直接从该书签记录的位置开始扫描==&gt;select id,name from person where id&gt;lastid limit 20。优化方式四:预先计算的汇总表，将主键和总数列作为一个汇总表，并将汇总表的数总数索引。优化方式五:使用sphinx优化。</li>
-<li>优化UNION<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql通过创建并填充临时表的方式执行union查询，因此需要手工下推条件到union各个子查询中。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 优化方式一: 除非一定要消除重复行，否则一定要使用union all。优化方式二: 条件下推，或者一些限制条件下推，比如取总数前20个，则每个查询只需要返回前20个即可。</li>
-<li>优化SQL_CALC_FOUND_ROWS<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会依据该提示，扫描所有满足条件的行，然后再抛弃不需要的行，而不是满足limit行数后就终止扫描优化，因此该提示的代价很高。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 优化方式一:将具体的页数转换为下一页，每页显示20条记录，那么如果能查到数据显示还有下一页，否则无须显示，则达到总行数的目的。优化方式二:先获取并缓存大量数据，比如1000条。每次分页从该缓存中获取，也就是将方式一的范围扩大，也就是保存不丢弃，能再次使用。</li>
-</ul>
+<li>实例封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;将对象封装到另一个对象中，能够访问被封装对象的所有代码路径是已知的，易于对代码进行分析。通过将封闭机制和合适的加锁策略结合起来，能确保以线程安全的方式来使用非线程安全的对象。这要求对象封闭在类的成员变量，或者是局部变量或者是线程内。这是构建线程安全的类一种最简单方式。但是在获取底层对象时，如果底层对象是可变对象，还需要一些同步措施。在JVM走的Collections类库中封装的类等。</li>
+<li>使用锁机制<br>&nbsp;&nbsp;&nbsp;&nbsp;比实例封闭更进一步，包装类将非线程安全的对象，以私有锁的方式同步。私有锁使得锁得以封装，客户代码无法获取该锁，保证安全性。</li>
+<li>复制技术<br>&nbsp;&nbsp;&nbsp;&nbsp;即使包装类不是线程安全的，但是也可以使用复制技术，将非线程安全的底层类在每次操作后都返回一个副本，操作需要同步。类似String的实现一样。这样的缺点是:返回的信息不能及时反应变化，相当于一个<strong>一致性快照</strong>，同时对性能有开销,尽管底层类是可变对象。</li>
+<li><p>委托<br>&nbsp;&nbsp;&nbsp;&nbsp;在包装类中使用线程安全的已有类库，这样可以避免在每次方法操作上加上synchorized同步。当多个状态量需要满足一个不变性条件的时候，也就是多个状态量不是独立的，委托可能不起作用。这需要组合操作。</p>
+<ul>
+<li><p>委托给线程安全的类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelegtingVehicleTracker</span></span>&#123;</span><br><span class="line">	<span class="comment">//如果多个状态，需要多个独立的线程安全类实现</span></span><br><span class="line">	<span class="comment">//Point可以变化，也可以不变化</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> ConcurrentMap&lt;String,Point&gt; locations;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String,Point&gt; unmdifiableMap;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">DelegtingVehicleTracker</span><span class="params">(Map&lt;String,Point&gt; points)</span></span>&#123;</span><br><span class="line">		<span class="comment">//初始化成员变量</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//正常操作，不需要同步</span></span><br><span class="line">	....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>预估并转换为常数表达式<br>&nbsp;&nbsp;&nbsp;&nbsp;比如min()/max()/count()会转换为常数，其中count()对于myisam中的无where条件时候。同时，对于关联查询，当查询中存在常量的时候，会再查询过程中一直使用，这样在关联查询的inner join等中也会使用到该常数。</li>
-<li>覆盖索引扫描<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql在索引列中包含查询的所有列时候发生覆盖数据，无须回表。</li>
-<li>子查询优化<br>&nbsp;&nbsp;&nbsp;&nbsp;关联子查询的优化。在where in的查询语句中性能表现低。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: select * from person where id in(select id from other where o_id=1);mysql会将相关的外层表压到子查询中。优化方式一是采用exists ==&gt; select * from person where exists (select * from otehr where o_id=1 and person.id=other.id);。优化方式二:使用关联查询==&gt;select * from person inner join other using(id) where o_id=1;。优化方式三:使用group_concat函数==&gt;select <em> from person where find_in_set(id,(select group_concat(</em>) from otehr where o_id=1))。关于优化方式一和二，具体看QPS结果来选择。</li>
-<li>等值传递<br>&nbsp;&nbsp;&nbsp;&nbsp;如果两个列的值通过等式关联，那么mysql将其中一个列的where条件传递到另一个列上。select * from person inner join other using(id) where id&gt;5;==&gt;select * from person inner join other using(id) where person.id&gt;500 and other.id&gt;500;。</li>
-<li>列表in()<br>&nbsp;&nbsp;&nbsp;&nbsp;这里的in是一个列表的集合。mysql会将in的列表先进行排序，每次查找的时候进行二分查找，这是一个O(lgn)的操作。而不是等价转换为多个OR,因为后者的操作复杂度是O(n)</li>
-<li>排序优化<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql对于数据量小的则在内存中进行，否则会使用磁盘，该过程统一称为文件排序。在内存中使用快排，如果内存不够还会使用归并排序。mysql先查询所需要的所有列，然后在给定列上进行排序，最好直接返回排序结果。这比以前的两次传输要快，但是占的空间更大，因为这次需要所有的列，而以前只有排序的列。当查询的总列长度不超过max_length_for_sort_data的时候使用单次传输，该值默认是4096.否则使用两次传输(mysql4.1之前)。mysql在排序过程中使用的存储空间可能很大甚至比原表大，因为mysql在排序的时候，对每个排序记录都会分配一个足够长的定长空间来存放。</li>
-</ul>
-</li>
-<li><p>查询执行引擎<br>&nbsp;&nbsp;&nbsp;&nbsp;查询中，每个表由一个handler实例标识，优化器会依据这些实例的结果获取表的相关信息，比如所有列名等。</p>
-</li>
-<li><p>返回结果给客户端<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql还会返回影响的行数，如果查询可以缓存，则这个阶段会放到查询缓存中。当服务器处理完最好一个关联表的时候，开始生成的第一条结果就可以向客户端组不返回结果了。这样可以让服务器无须存储太多的结果，同时客户端可以第一时间获取到结果。结果集中每一行都是一个满足客户端/服务器通信协议的封装报文，通过TCP协议报文传输，也可能批量发送。</p>
+<li><p>委托失效</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NumberRange</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger lower=<span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger upper=<span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//因为这里是先判断后执行，不满足复合操作。</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLower</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(i&gt;upper.get())&#123;<span class="comment">//观测的upper.get()值可能失效，比如从大变小了</span></span><br><span class="line">			Exception;</span><br><span class="line">		&#125;</span><br><span class="line">		lower.set(i);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUpper</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(i&lt;lower.get())&#123;</span><br><span class="line">			Exception;</span><br><span class="line">		&#125;</span><br><span class="line">		upper.set(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="一些"><a href="#一些" class="headerlink" title="一些"></a>一些</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;对于查询，如果没有索引。存储引擎会扫描全表，然后将其中的记录传给服务器层面。该层面应用where过滤器，过滤掉部分不满足条件的行。如果需要排序或者联合或者group by等操作，需要将结果放入临时表中。当排序的时候对这些记录进行快排。当排序完成后，进行select操作将这些记录挑选出来放到库函数的缓冲区中，等待客户端的获取。</p>
+</li>
+<li><p>组合<br>&nbsp;&nbsp;&nbsp;&nbsp;为现有的类添加复合的原子操作，最安全的方法是修改现有类的源码，但是这样很难实现。可以借助辅助类来实现，在辅助类中实例化一个线程安全的底层类，但是需要使用该底层对象作为同步对象，如果直接在包装类上使用synchronized同步，则出现了两个锁对象的错误同步，这需要使用内部锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Helper</span>&lt;<span class="title">E</span>&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> List&lt;E&gt; list=Collections.synchronizedList(<span class="keyword">new</span> ArrayList&lt;E&gt;());</span><br><span class="line">	...</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">putIfAbsent</span><span class="params">(E x)</span></span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">$</span><br><span class="line"><span class="comment">//改进</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Helper</span>&lt;<span class="title">E</span>&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> List&lt;E&gt; list=Collections.synchronizedList(<span class="keyword">new</span> ArrayList&lt;E&gt;());</span><br><span class="line">	...</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">putIfAbsent</span><span class="params">(E x)</span></span>&#123;</span><br><span class="line">		<span class="keyword">synchronized</span>(list)&#123;</span><br><span class="line">			...</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
 
       
 
@@ -235,7 +225,11 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
         		</li>
       		
 		</ul>
@@ -254,18 +248,9 @@ img {
   
 <nav id="article-nav">
   
-    <a href="/2019/04/28/concurrency-task/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          线程池
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/24/jvm-classload/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">jvm类加载</div>
+    <a href="/2019/05/02/concurrency-lock/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">依赖同步</div>
       <i class="icon-circle-right"></i>
     </a>
   

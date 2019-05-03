@@ -152,6 +152,178 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-concurrency-publish" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/03/concurrency-publish/">共享组合</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/03/concurrency-publish/" class="archive-article-date">
+  	<time datetime="2019-05-03T07:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安全发布"><a href="#安全发布" class="headerlink" title="安全发布"></a>安全发布</h2><ul>
+<li>对象逃逸<br>&nbsp;&nbsp;&nbsp;&nbsp;如果在构造函数没有完成之前，将this对象发布出去，并且被外部调用了this的方法，此为this逃逸。比如在构造函数中使用线程允许本类方法等，解决方式可以在构造函数中声明，具体调用在构造函数完成之后。</li>
+<li>线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;这是实现线程安全最简单的方式之一。比如Swing中将可视化组件、数据模型都封闭到事件分发线程中来实现线程安全性，使得在事件线程之外的其他线程无法访问这些对象。还要JDBC的Connectiin对象，在实现上由单个线程采用同步方式来处理，在Connection对象用完返回之前，连接此不会再将它分给其他线程。这样特殊管理模式实现线程封闭。<ul>
+<li>Ad-hoc线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;维护线程封闭性的职责完全由程序实现来承担，其是很脆弱的实现方式。一般可以由Volatile变量实现，只有单个线程对共享的volatile变量作修改才行。</li>
+<li>栈封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;使用局部变量才能访问对象，因此会封闭再执行线程中。但是要确保共享对象不会逃逸出去。</li>
+<li>ThreadLocal<br>&nbsp;&nbsp;&nbsp;&nbsp;为每个使用该变量的线程都存有一份独立的副本。比如将JDBC的Connection对象保存到ThreadLocal中。在频繁执行操作需要缓冲区的时候，同时避免每次执行时都重新分配该临时对象，而ThreadLocal在开始阶段已经全部分配好了。EJB框架中将事务上下文和某线程关联，需要使用ThreadLocal对象。但是滥用ThreadLocal会降低代码的可重用性质，并且增加了该机制代码和框架之间隐含的耦合性。</li>
+</ul>
+</li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/05/03/concurrency-publish/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/03/concurrency-publish/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-concurrency-lock" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/02/concurrency-lock/">依赖同步</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/02/concurrency-lock/" class="archive-article-date">
+  	<time datetime="2019-05-02T07:50:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock不是一种替代内置锁的方法，而是当内置锁不合适的时候，作为一种可选择的高级功能。ReentrantLock提供了和synchronized相同的互斥性和内存可见性质。在获取ReentrantLock和退出同步代码块有着和synchronized相同的内存语义。同时ReentrantLock和synchronized都是可重入的锁。另外ReentrantLock还具有以下三个特性。</p>
+<ul>
+<li>可中断<br>&nbsp;&nbsp;&nbsp;&nbsp;可轮询锁，当发生锁冲突会立即返回，并过一段时间再重试,tryLock方法。这样可以避免坏锁和活锁。定时锁锁具有定时功能tryLock(time)。可中断锁lockInterruptibly方法可以再获取锁的同时响应中断。</li>
+<li>公平性<br>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock默认是非公平策略，但是可以通过构造函数来实现公平策略。公平策略下，线程按照他们发出的请求顺序来获得锁，但是在非公平策略下，是允许插队。在大多数情况下，非公平策略比公平策略的性能更高。比如在竞争激烈下，线程A持有锁，并且B请求这个锁，因此B被挂起。当A释放锁，此时B尝试再次获取锁，如果此时C也请求这个锁，那么C很可能在B被完全唤醒之前获取以及使用这个锁，这是一种双赢的情况。当持有锁的时间相对较长，或者请求锁的平均时间间隔较长，应该使用公平锁。大多数情况下实现了统计上的公平性就可以了。</li>
+<li>多个条件<br>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock可以new出多个条件，用来实现线程协作通信等。比如实现生产者-消费者模式。<br>
+        
+          <a class="article-more-a" href="/2019/05/02/concurrency-lock/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/02/concurrency-lock/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mysql-datatype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -346,22 +518,14 @@ img {
 }
 </style>
 
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot自动配置有ServerPropertiesAutoConfiguration和ServerProperties自动配置tomcat容器,HttpEncodingAutoConfiguration和HttpEncodingProperties自动配置http编码,MultipartAutoConfiguration和MultipartProperties自动配置上传文件属性,JacksonHttpMessageConvertersConfiguration自动配置mappingJackson2HttpMessageConverter和mappingJackson2XmlHttpMessageConverter,WebMccAutoConfiguration和WebMvcProperties自动配置SpringMVC。</p>
-<h2 id="Thymeleaf模板引擎"><a href="#Thymeleaf模板引擎" class="headerlink" title="Thymeleaf模板引擎"></a>Thymeleaf模板引擎</h2><ul>
-<li><p>引入Thymeleaf模板</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建页面</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 页面放在resources/templates目录下 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- th命名空间 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">"text/html;charset=UTF-8"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"x-ua-compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1"</span>/&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- @&#123;&#125;引用web静态资源，相比JSP不易出错 --&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- Bootstrap和jquery放在resource/static目录下 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">th:href</span>=<span class="string">"@&#123;bootstrap/css/bootstrap.min.css&#125;"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">th:href</span>=<span class="string">"@&#123;bootstrap/css/bootstrap-theme.min.css&#125;"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel-primary"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-heading"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">"panel-title"</span>&gt;</span>访问model<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-body"</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 访问model中数据 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;singlePerson.name&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 数据判断，支持比较条件和SpringEL表达式 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:if</span>=<span class="string">"$&#123;not #lists.isEmpty(people)&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel-primary"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-title"</span>&gt;</span>列表<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel-body"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"list-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">"list-group-item"</span> <span class="attr">th:each</span>=<span class="string">"person:$&#123;people&#125;"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;person.name&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">"$&#123;person.age&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">				<span class="comment">&lt;!-- 在javascrpt中访问model数据 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">button</span> <span class="attr">class</span>=<span class="string">"btn"</span> <span class="attr">th:onclick</span>=<span class="string">"getName([[$&#123;person.name&#125;]]);"</span>&gt;</span>获得名称<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">th:src</span>=<span class="string">"@&#123;jquery-3.4.0.min.js&#125;"</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">th:src</span>=<span class="string">"@&#123;bootstrap/js/bootstrap.min.js&#125;"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 使得javascript可以在model中访问数据 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">th:inline</span>=<span class="string">"javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">	<span class="comment">&lt;!-- 在javascrpt中访问model数据 --&gt;</span></span></span><br><span class="line"><span class="undefined">    var single=[[$&#123;singlePerson&#125;]];</span></span><br><span class="line"><span class="undefined">    console.log(single.name+"/"+single.age);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function getName(name) &#123;</span></span><br><span class="line"><span class="undefined">        console.log(name);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot自动配置有ServerPropertiesAutoConfiguration和ServerProperties自动配置tomcat容器,HttpEncodingAutoConfiguration和HttpEncodingProperties自动配置http编码,MultipartAutoConfiguration和MultipartProperties自动配置上传文件属性,JacksonHttpMessageConvertersConfiguration自动配置mappingJackson2HttpMessageConverter和mappingJackson2XmlHttpMessageConverter,WebMccAutoConfiguration和WebMvcProperties自动配置SpringMVC。<br>
         
           <a class="article-more-a" href="/2019/05/01/springboot-web/#more">more >></a>
         
       
 
       
-    </div>
+    </p></div>
     <div class="article-info article-info-index">
       
       
@@ -385,176 +549,6 @@ img {
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/05/01/springboot-web/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-concurrency-task" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/concurrency-task/">线程池</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/28/concurrency-task/" class="archive-article-date">
-  	<time datetime="2019-04-28T05:14:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以及数据库服务器。这样既可以实现任务的独立性也可以实现合理的任务规模。<br>&nbsp;&nbsp;&nbsp;&nbsp;实现任务的策略大致有两种。一是串行执行任务，另一个是显示为任务创建线程。后者的优势在于任务过程和主线程分离开来，任务可以并行处理，任务代码必须是线程安全的。但是后者的劣势是线程声明周期的开销非常高，因为线程的创建和销毁的性能销毁，尤其是大多数轻量级的处理过程；资源消耗，线程太多超出处理器数量的，会被闲置在内存中，不好回收同时也占用大量内存；创建的线程数量受限制于操作系统；不能实现高可用性，会受到恶意共计以及高负载情况下的性能问题。<br>
-        
-          <a class="article-more-a" href="/2019/04/28/concurrency-task/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/concurrency-task/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mysql-query" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/27/mysql-query/">mysql查询</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/27/mysql-query/" class="archive-article-date">
-  	<time datetime="2019-04-27T05:38:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="查询流程"><a href="#查询流程" class="headerlink" title="查询流程"></a>查询流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。<br><img src="/images/Mysql/query_process.png" alt="查询流程"><br><br></p>
-<ul>
-<li>客户端/服务器通信协议<br>&nbsp;&nbsp;&nbsp;&nbsp;通信协议是半双工的。这种协议让mysql通信简单快手，但是不能进行流量控制，也就是说一端开始发送消息，另一端要完全接收后才能响应它。服务器当接收的数据包太多的时候，会不接收并抛出异常，该值由max_allowed_packet设置，默认是67108864。mysql一般要等所有数据都发送给客户端后才能释放该查询连接所占的资源，因此mysql使用库函数来缓存到内存中，客户端只需要从该缓存中获取结果就行。这样会导致当结果集很大的时候，会花费很多时间和空间来存储所有的结果集，但是这样可以更快释放资源和锁等。如果不使用该缓存特性，则在编程中控制，比如php的mysql_unbuffered_query()函数和perl的mysql_use_result=&gt;1的属性。<br>
-        
-          <a class="article-more-a" href="/2019/04/27/mysql-query/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/27/mysql-query/">展开全文 >></a>
         </p>
       
 
@@ -681,6 +675,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">interview</a>
               </li>
              
@@ -714,14 +716,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">thread</a>
               </li>
              
               <li class="article-tag-list-item">

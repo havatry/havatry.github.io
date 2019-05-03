@@ -6,23 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>mysql查询 | Havatry</title>
+  <title>依赖同步 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 650px; }   查询流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。  客户端/服务器通信协议&amp;nbsp;&amp;">
-<meta name="keywords" content="mysql">
+  <meta name="description" content="ReentrantLock&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ReentrantLock不是一种替代内置锁的方法，而是当内置锁不合适的时候，作为一种可选择的高级功能。ReentrantLock提供了和synchronized相同的互斥性和内存可见性质。在获取ReentrantLock和退出同步代码块有着和synchronized相同的内存语义。同时ReentrantLock和synch">
+<meta name="keywords" content="java,thread">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql查询">
-<meta property="og:url" content="http://yoursite.com/2019/04/27/mysql-query/index.html">
+<meta property="og:title" content="依赖同步">
+<meta property="og:url" content="http://yoursite.com/2019/05/02/concurrency-lock/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 650px; }   查询流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。  客户端/服务器通信协议&amp;nbsp;&amp;">
+<meta property="og:description" content="ReentrantLock&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ReentrantLock不是一种替代内置锁的方法，而是当内置锁不合适的时候，作为一种可选择的高级功能。ReentrantLock提供了和synchronized相同的互斥性和内存可见性质。在获取ReentrantLock和退出同步代码块有着和synchronized相同的内存语义。同时ReentrantLock和synch">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/Mysql/query_process.png">
-<meta property="og:image" content="http://yoursite.com/images/Mysql/releaion_query.png">
-<meta property="og:updated_time" content="2019-04-27T08:51:10.732Z">
+<meta property="og:updated_time" content="2019-05-02T13:00:32.726Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql查询">
-<meta name="twitter:description" content="img {     width: 650px; }   查询流程&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。  客户端/服务器通信协议&amp;nbsp;&amp;">
-<meta name="twitter:image" content="http://yoursite.com/images/Mysql/query_process.png">
+<meta name="twitter:title" content="依赖同步">
+<meta name="twitter:description" content="ReentrantLock&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;ReentrantLock不是一种替代内置锁的方法，而是当内置锁不合适的时候，作为一种可选择的高级功能。ReentrantLock提供了和synchronized相同的互斥性和内存可见性质。在获取ReentrantLock和退出同步代码块有着和synchronized相同的内存语义。同时ReentrantLock和synch">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -158,70 +155,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-mysql-query" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-concurrency-lock" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      mysql查询
+      依赖同步
     </h1>
   
 
         
-        <a href="/2019/04/27/mysql-query/" class="archive-article-date">
-  	<time datetime="2019-04-27T05:38:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-27</time>
+        <a href="/2019/05/02/concurrency-lock/" class="archive-article-date">
+  	<time datetime="2019-05-02T07:50:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="查询流程"><a href="#查询流程" class="headerlink" title="查询流程"></a>查询流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。<br><img src="/images/Mysql/query_process.png" alt="查询流程"><br><br></p>
+        <h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock不是一种替代内置锁的方法，而是当内置锁不合适的时候，作为一种可选择的高级功能。ReentrantLock提供了和synchronized相同的互斥性和内存可见性质。在获取ReentrantLock和退出同步代码块有着和synchronized相同的内存语义。同时ReentrantLock和synchronized都是可重入的锁。另外ReentrantLock还具有以下三个特性。</p>
 <ul>
-<li>客户端/服务器通信协议<br>&nbsp;&nbsp;&nbsp;&nbsp;通信协议是半双工的。这种协议让mysql通信简单快手，但是不能进行流量控制，也就是说一端开始发送消息，另一端要完全接收后才能响应它。服务器当接收的数据包太多的时候，会不接收并抛出异常，该值由max_allowed_packet设置，默认是67108864。mysql一般要等所有数据都发送给客户端后才能释放该查询连接所占的资源，因此mysql使用库函数来缓存到内存中，客户端只需要从该缓存中获取结果就行。这样会导致当结果集很大的时候，会花费很多时间和空间来存储所有的结果集，但是这样可以更快释放资源和锁等。如果不使用该缓存特性，则在编程中控制，比如php的mysql_unbuffered_query()函数和perl的mysql_use_result=&gt;1的属性。<br><a id="more"></a></li>
-<li><p>查询缓存<br>&nbsp;&nbsp;&nbsp;&nbsp;如果查询缓存打开，则mysql先检查该缓存是否命中缓存中的数据。使用大小写敏感的哈希查找实现，即使查询只有一个字节不同，那么也不会匹配缓存结果。如果命中，那么还会检查一下权限后返回。</p>
-</li>
-<li><p>解析器<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql通过关键字将sql语句进行解析，生成一颗对应的解析树,mysql解析器将使用mysql语法规则验证和解析查询，比如错误关键字、使用关键字的顺序是否合理等语法错误。</p>
-</li>
-<li><p>预处理器<br>&nbsp;&nbsp;&nbsp;&nbsp;进一步解析解析树是否合法，比如检查数据表和数据列是否存在、别名是否有歧义、验证权限等。</p>
-</li>
-<li><p>查询优化器<br>&nbsp;&nbsp;&nbsp;&nbsp;在众多的执行方式中找到最好的执行计划。其尝试预处一个查询使用某种执行计划时的成本，并选择其中最小的一个。不考虑任何层面的缓存，假设读取任何数据都需要一次磁盘IO，每次读取的数据页默认是4KB.其缺点是1.预测不准确，因为依赖存储引擎提供的统计信息来评估的。2.执行计划中的成本估算不等同于实际的执行成本，因为受限于是否顺序读取页面或者页面是否在内存中，因此实际上执行计划是不清除要多少次物理IO。3.mysql是基于成本模型来选择最优的执行计划，但是不一定最快的。4.mysql不考虑并发的情况。5.mysql会受限于规则，比如存在全文索引则直接使用全文索引。6.mysql不考虑不在其控制范围的操作计入成本中，比如执行存储过程和用户自定义的函数。<br>&nbsp;&nbsp;&nbsp;&nbsp;查询优化器的优化策略大致分为静态优化和动态优化。前者直接对解析树进行分析和优化，后者则和查询的上下文有关，因此后者需多次重新评估。mysql的处理的优化类型如下。</p>
+<li>可中断<br>&nbsp;&nbsp;&nbsp;&nbsp;可轮询锁，当发生锁冲突会立即返回，并过一段时间再重试,tryLock方法。这样可以避免坏锁和活锁。定时锁锁具有定时功能tryLock(time)。可中断锁lockInterruptibly方法可以再获取锁的同时响应中断。</li>
+<li>公平性<br>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock默认是非公平策略，但是可以通过构造函数来实现公平策略。公平策略下，线程按照他们发出的请求顺序来获得锁，但是在非公平策略下，是允许插队。在大多数情况下，非公平策略比公平策略的性能更高。比如在竞争激烈下，线程A持有锁，并且B请求这个锁，因此B被挂起。当A释放锁，此时B尝试再次获取锁，如果此时C也请求这个锁，那么C很可能在B被完全唤醒之前获取以及使用这个锁，这是一种双赢的情况。当持有锁的时间相对较长，或者请求锁的平均时间间隔较长，应该使用公平锁。大多数情况下实现了统计上的公平性就可以了。</li>
+<li>多个条件<br>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock可以new出多个条件，用来实现线程协作通信等。比如实现生产者-消费者模式。<br><a id="more"></a>
+<h2 id="ReadWriteLock"><a href="#ReadWriteLock" class="headerlink" title="ReadWriteLock"></a>ReadWriteLock</h2>&nbsp;&nbsp;&nbsp;&nbsp;ReadWriteLock实现了标准的互斥锁，但是互斥往往过于强硬，也不必要限制了并发性。在许多情况下，读操作是占大多数，而且读操作一般不修改数据。此时读写锁应运而生。其规则是一个资源可以被多个读操作访问，或者被一个写操作访问，但是二者不能同时进行。ReadWriteLock特性如下。</li>
+<li>释放优先<br>&nbsp;&nbsp;&nbsp;&nbsp;在实现公平策略（非默认）下，等待时间最初的线程将优先获取锁。在非公平策略下，线程获得访问顺序是不确定的。</li>
+<li>读线程插队<br>&nbsp;&nbsp;&nbsp;&nbsp;当锁由读线程占用，但是有写线程在等待，那么新到达的读线程不能获取访问权，知道写线程执行完成释放锁为止。</li>
+<li>重入性<br>&nbsp;&nbsp;&nbsp;&nbsp;读锁和写锁都是可重入的</li>
+<li>降级<br>&nbsp;&nbsp;&nbsp;&nbsp;如果写线程持有写锁，那么可以在不释放该锁的情况下获取读写锁，从而降级为读线程</li>
+<li>升级<br>&nbsp;&nbsp;&nbsp;&nbsp;如果读线程持有读锁，那么不可以在不释放读锁的情况下获取写锁，因此不能升级为写线程<br>&nbsp;&nbsp;&nbsp;&nbsp;当锁持有时间较长并且大部分操作都不会修改被守护的资源，那么读写锁能提供并发性。</li>
+</ul>
+<h2 id="依赖同步"><a href="#依赖同步" class="headerlink" title="依赖同步"></a>依赖同步</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;创建状态依赖类最简单式在类库中对已有的状态依赖类基础上进行构造。在单线程中如果基于状态的前提条件未得到满足，那么这个条件不会为真，就返回false。但是在并发条件下就不一样了，因为其他线程可能会对该状态进行修改。这种问题的解决方式如下。</p>
 <ul>
-<li>重新定义关联表的顺序<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会依据其模型来选择最佳的关联顺序。mysql使用泳道的原理来进行关联，首先从tab1中选择所有满足条件的列，然后依据这些列分别在tab2中进行关联。mysql会依据查询成本来从多个组合中选择一个合适的进行执行。可以使用STRAIGHT_JOIN关键字来强制mysql执行器按照本来的关联顺序进行执行。当使用该关键字后可以比较两次的查询成本，通过Last_query_cost来查看。当组合的数量比较多的时候，会出现搜索空间很大，mysql默认最多搜索到optimizer_search_depth值的表数量。该值默认为62。<br><img src="/images/Mysql/releaion_query.png" alt="重新定义关联表的顺序"><br><br></li>
-<li>将外连接转化为内连接<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会将外连接(左外连接和右外连接)转换为内连接。</li>
-<li>等价变换规则<br>&nbsp;&nbsp;&nbsp;&nbsp;将一些使用等价变化来简化表达式，比如(a&lt;b and b&lt;=c) and a=5 ==&gt; b&gt;5 and b=c and a=5;</li>
-<li>优化特定类型<ul>
-<li>优化count()<br>&nbsp;&nbsp;&nbsp;&nbsp;在myisam中没有where条件的count()直接从其维护的一个变量中获取数据表的总行数。因此可以使用常量代替count()表达式。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 对于查询select count() from a where id&gt;5;假设该查询扫描4097行。由于myisam对于带where语句的无法返回总行数,优化方式一是使用总行数减去&lt;=5情况的行数==&gt;select (select count() from a)-count() from a where id&lt;=5。优化方式二是使用估算值，利用explain的估算的行数，因为explain并不是真正的执行查询，所以查询很低;同理如果对精度要求不高，可以直接去掉多个约束条件。优化方式三是使用覆盖索引的扫描，避免回表验证。优化方式四是增加一个汇总表或者类似Memcached的外部缓存系统。</li>
-<li>优化min()/max()<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会将表达式min()和max()进行常量替换，因为在某列的索引上，最小和最大值分别在索引的最左端和最右端。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 理论上主键严格按照顺序排列，因此在找min(id)时候找到的第一个就是满足条件的，但是mysql只会做全表扫描。因此可以使用limit 1来代替获取最小主键。</li>
-<li>优化group by<br>&nbsp;&nbsp;&nbsp;&nbsp;group by采用临时表或者文件排序来做分组，使用SQL_BIG_RESULT和SQL_SMALL_RESULT来控制优化器使用的具体分组方式。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 优化方式一:使用查找表上面的标识列做完分组的依据，效率高，如果mysql不支持（比如设置了sql_mode)，那么可以用1.min和max函数非分组列绕过去，但是最好非分组列依赖分组的列；2.使用子查询，子查询的结果是分组列，然后再内连接到外面的分组列，返回非分组列的值==&gt;select name from person inner join (select id from person group by id) as a using(id)。由于select使用非分组列的结果常常是不定的，也就是当索引变化后，优化器将选择不同的优化策略会导致结果的不一致性，因此建议使用sql_mode的默认形式。</li>
-<li>优化group by with rollup<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会对返回的分组结果在做一次超级聚合。这会导致文件排序，因此最好在客户端使用汇总功能。</li>
-<li>优化limit<br>&nbsp;&nbsp;&nbsp;&nbsp;在偏移量很多的时候，mysql需要找出前面所有N条记录，然后只取后面的M条，因此对性能影响很大。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: select id,name from person limit 10000,20; 优化方式一:延迟关联，使得mysql扫描尽可能少的页面,获取需要的记录后回表关联==&gt;select id,name from person inner join (select id from person limit 10000,20) as lim using(id);//借助索引。优化方式二:在已知的位置上查询，将limit查询转换为where查询==&gt;select id,name from person where id between 1000 and 1019。优化方式三:书签记录,下次查询直接从该书签记录的位置开始扫描==&gt;select id,name from person where id&gt;lastid limit 20。优化方式四:预先计算的汇总表，将主键和总数列作为一个汇总表，并将汇总表的数总数索引。优化方式五:使用sphinx优化。</li>
-<li>优化UNION<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql通过创建并填充临时表的方式执行union查询，因此需要手工下推条件到union各个子查询中。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 优化方式一: 除非一定要消除重复行，否则一定要使用union all。优化方式二: 条件下推，或者一些限制条件下推，比如取总数前20个，则每个查询只需要返回前20个即可。</li>
-<li>优化SQL_CALC_FOUND_ROWS<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql会依据该提示，扫描所有满足条件的行，然后再抛弃不需要的行，而不是满足limit行数后就终止扫描优化，因此该提示的代价很高。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: 优化方式一:将具体的页数转换为下一页，每页显示20条记录，那么如果能查到数据显示还有下一页，否则无须显示，则达到总行数的目的。优化方式二:先获取并缓存大量数据，比如1000条。每次分页从该缓存中获取，也就是将方式一的范围扩大，也就是保存不丢弃，能再次使用。</li>
+<li><p>将前提条件不成功直接返回给调用者<br>&nbsp;&nbsp;&nbsp;&nbsp;比如当前提条件不满足，则抛出一个异常给调用者。这样实现简单，但是使用很麻烦。因为“缓存已满”并不是一个有界缓存的异常条件。改进一下，可以返回一个错误值，但是这样并没有根本问题，因为调用者还是要必须自己处理然后重试。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GrumpyBoundeBuffer</span>&lt;<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">BaseBoundeBuffer</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="title">GrumpyBoundeBuffer</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//Created constructor stubs</span></span><br><span class="line">		<span class="keyword">super</span>(capacity);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(V v)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(isFull())&#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"buffer is full"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		doPut(v);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> V <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(isEmpty())&#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"buffer is empty"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> doTake();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>轮询和睡眠<br>&nbsp;&nbsp;&nbsp;&nbsp;上面的可以使用忙等待或者自旋等待，在GrumpyBoundBuffer中一直while循环，直到前提条件成立。这样虽然能提高响应性，但是浪费了很多CPU资源。下面使用轮询和睡眠的方式来实现的改进。这种方式在前提不成立的时候睡眠一段时间，然后再轮询前提条件。这样降低了响应性，但是减少了CPU周期的浪费。无论式轮询睡眠还是自旋等待都避免了调用者的处理重试。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SleepyBoundedBuffer</span>&lt;<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">BaseBoundeBuffer</span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="title">SleepyBoundedBuffer</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//Created constructor stubs</span></span><br><span class="line">		<span class="keyword">super</span>(capacity);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(V v)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		<span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">			<span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">				<span class="keyword">if</span>(!isFull())&#123;</span><br><span class="line">					doPut(v);</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			Thread.sleep(<span class="number">3_000</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> V <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">			<span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">				<span class="keyword">if</span>(!isEmpty())&#123;</span><br><span class="line">					<span class="keyword">return</span> doTake();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			Thread.sleep(<span class="number">3_000</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>条件队列<br>&nbsp;&nbsp;&nbsp;&nbsp;为了解决轮询睡眠的响应性，引入条件队列。条件队列可以确保当某个条件为真的时候，线程立即醒来。条件队列中的元素式一个个正在等待相关条件的线程。Java中任何对象都可以作为锁，也可以作为条件队列。调用对象X中条件队列的任何方法，都必须持有对象X的锁，因为等待由状态构成的条件与维护状态一致性这两种机制必须紧密地绑定在一起。和轮询睡眠相比，条件队列没有改变原来语义，只是在多个方面进行了优化，比如CPU效率、上下文切换和响应性。如果轮询睡眠无法实现的功能，条件队列也无法实现。条件队列使得构建高效和高可响应性的状态依赖类变得更容易。</p>
+<ul>
+<li>条件谓词<br>&nbsp;&nbsp;&nbsp;&nbsp;使用条件队列第一步式找出对象在哪个条件谓词上面等待，比如“缓存不满”或者“缓存不空”。条件谓词是使得某个操作成为状态依赖操作的前提条件。在条件等待中存在三元关系，加锁、wait和条件谓词。其中wait方法会自动释放锁，当被唤醒时候重新和其他线程竞争获取锁。每个wait方法都隐式和条件谓词关联。同时加锁操作必须在wait和条件谓词的周围。</li>
+<li>wait方法<br>&nbsp;&nbsp;&nbsp;&nbsp;wait方法返回并不要意味着正在等待的条件谓词变为真，因为多个条件在条件队列中，比如和锁X关联的两个条件，当notifyall的时候通知了所有线程，也就是有的条件并没有得到满足，对应线程也被唤醒了。同时wait方法还可以假装返回，而不是因为某个线程调用了通知方法。另一方面，在线程被唤醒到重新获得锁这段时间，可能有其他线程已经获取该锁并修改了对象的状态，使得前提条件又不成立。或者wait返回时候，前提条件一直为false,因为不知道哪个其他线程无意调用了notify或者notifyall。因此在每次从wait中唤醒的线程，都必须再次测试条件谓词。同时也避免了丢失信号的，因为即使信号丢失了，但是前提条件已经满足了啊。信息丢失也是活跃性故障。</li>
+<li>通知<br>&nbsp;&nbsp;&nbsp;&nbsp;notify和notifyall，两者都是唤醒等待的线程，但是有所区别。前者是将等待的线程中随机通知一个唤醒，而后者是通知所有线程唤醒。单一通知存在信号丢失问题，同时可能通知一个前提条件并不满足的线程，也称为被劫持信息问题和信息丢失问题一样:线程等待一个已经发生过的信号。但是notifyall很低效，因为唤醒每个线程，这样使得在锁上的竞争变大，然后出现大量的上下文切换和竞争锁操作，这样最后又有n-1的线程回到阻塞状态。nitifyall最坏情况下会导致O(n^2)次唤醒操作，而notify只需要n次即可。（性能和安全往往两者不可兼得）。只有满足所有等待线程的类型是一样的（只有一个条件谓词并且每个线程被唤醒后执行相同的操作，或者单进单出（最多只能唤醒一个线程执行）。<br>&nbsp;&nbsp;&nbsp;&nbsp;条件队列规范有1.对于状态依赖的类，要么将其等待和通知等协议完全向子类公开，要么完全阻止子类参与到等待和通知等过程。后者可以使用final类型方法或者将条件队列、锁、状态变量隐藏起来。2.封装条件队列，除了使用条件队列的类，不能在其他地方访问它。3.入口协议和出口协议，入口协议即该操作的条件谓词，出口协议是被该操作修改的所有状态变量，如果使得条件谓词为真，则通知相关的条件队列。比如AQS类中要求返回true或者false来表明该操作是否解除了一个或者多个等待线程的阻塞。</li>
 </ul>
 </li>
-<li>预估并转换为常数表达式<br>&nbsp;&nbsp;&nbsp;&nbsp;比如min()/max()/count()会转换为常数，其中count()对于myisam中的无where条件时候。同时，对于关联查询，当查询中存在常量的时候，会再查询过程中一直使用，这样在关联查询的inner join等中也会使用到该常数。</li>
-<li>覆盖索引扫描<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql在索引列中包含查询的所有列时候发生覆盖数据，无须回表。</li>
-<li>子查询优化<br>&nbsp;&nbsp;&nbsp;&nbsp;关联子查询的优化。在where in的查询语句中性能表现低。<br>&nbsp;&nbsp;&nbsp;&nbsp;example: select * from person where id in(select id from other where o_id=1);mysql会将相关的外层表压到子查询中。优化方式一是采用exists ==&gt; select * from person where exists (select * from otehr where o_id=1 and person.id=other.id);。优化方式二:使用关联查询==&gt;select * from person inner join other using(id) where o_id=1;。优化方式三:使用group_concat函数==&gt;select <em> from person where find_in_set(id,(select group_concat(</em>) from otehr where o_id=1))。关于优化方式一和二，具体看QPS结果来选择。</li>
-<li>等值传递<br>&nbsp;&nbsp;&nbsp;&nbsp;如果两个列的值通过等式关联，那么mysql将其中一个列的where条件传递到另一个列上。select * from person inner join other using(id) where id&gt;5;==&gt;select * from person inner join other using(id) where person.id&gt;500 and other.id&gt;500;。</li>
-<li>列表in()<br>&nbsp;&nbsp;&nbsp;&nbsp;这里的in是一个列表的集合。mysql会将in的列表先进行排序，每次查找的时候进行二分查找，这是一个O(lgn)的操作。而不是等价转换为多个OR,因为后者的操作复杂度是O(n)</li>
-<li>排序优化<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql对于数据量小的则在内存中进行，否则会使用磁盘，该过程统一称为文件排序。在内存中使用快排，如果内存不够还会使用归并排序。mysql先查询所需要的所有列，然后在给定列上进行排序，最好直接返回排序结果。这比以前的两次传输要快，但是占的空间更大，因为这次需要所有的列，而以前只有排序的列。当查询的总列长度不超过max_length_for_sort_data的时候使用单次传输，该值默认是4096.否则使用两次传输(mysql4.1之前)。mysql在排序过程中使用的存储空间可能很大甚至比原表大，因为mysql在排序的时候，对每个排序记录都会分配一个足够长的定长空间来存放。</li>
+<li>Condition对象<br>&nbsp;&nbsp;&nbsp;&nbsp;因为内置锁只能关联一个条件队列，而Condition使得锁可以关联多个条件队列。这样满足了所有等待线程的类型是一样的这个语境。同时类似ReentrantLock和Synchnorized对比一样，Condition的优势也是这样。这样Condition对象的signal操作基本满足要求，而且效率很高。</li>
+<li>AQS<br>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock和Semaphore这两个类很相似，只是它们都是基于AQS构造。因此二者可以很简单的互相实现。AQS是一个用于构建锁和同步器的框架，除了ReentrantLock和Semaphore，还要CountDownLatch，ReentrantReadWriteLock，SynchronousQueue和FutureTask都是基于AQS构造的高效类。AQS极大地减少了实现工作，不必处理在多个位置上发生竞争的问题，只可能在一个时刻发生阻塞（否则对于自定义信号量实现可能在获取锁，以及信号量不可用的时候)，从而降低了上下文开销，提高吞吐量，同时AQS充分考虑了伸缩性。</li>
 </ul>
-</li>
-<li><p>查询执行引擎<br>&nbsp;&nbsp;&nbsp;&nbsp;查询中，每个表由一个handler实例标识，优化器会依据这些实例的结果获取表的相关信息，比如所有列名等。</p>
-</li>
-<li><p>返回结果给客户端<br>&nbsp;&nbsp;&nbsp;&nbsp;mysql还会返回影响的行数，如果查询可以缓存，则这个阶段会放到查询缓存中。当服务器处理完最好一个关联表的时候，开始生成的第一条结果就可以向客户端组不返回结果了。这样可以让服务器无须存储太多的结果，同时客户端可以第一时间获取到结果。结果集中每一行都是一个满足客户端/服务器通信协议的封装报文，通过TCP协议报文传输，也可能批量发送。</p>
-</li>
-</ul>
-<h2 id="一些"><a href="#一些" class="headerlink" title="一些"></a>一些</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;对于查询，如果没有索引。存储引擎会扫描全表，然后将其中的记录传给服务器层面。该层面应用where过滤器，过滤掉部分不满足条件的行。如果需要排序或者联合或者group by等操作，需要将结果放入临时表中。当排序的时候对这些记录进行快排。当排序完成后，进行select操作将这些记录挑选出来放到库函数的缓冲区中，等待客户端的获取。</p>
 
       
 
@@ -235,7 +218,11 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
         		</li>
       		
 		</ul>
@@ -254,18 +241,18 @@ img {
   
 <nav id="article-nav">
   
-    <a href="/2019/04/28/concurrency-task/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/05/03/concurrency-publish/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          线程池
+          共享组合
         
       </div>
     </a>
   
   
-    <a href="/2019/04/24/jvm-classload/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">jvm类加载</div>
+    <a href="/2019/05/02/mysql-datatype/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mysql数据类型</div>
       <i class="icon-circle-right"></i>
     </a>
   
