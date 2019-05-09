@@ -6,15 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: liunx | Havatry</title>
+  <title>抖音面试 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/tags/liunx/index.html">
+  <meta name="description" content="img{     width:650px; }   CAP理论 引入&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CAP理论由Eric Brewer于2000年提出，被称为分布式领域重要理论。C:一致性，分布式系统中的所有数据备份在同一时刻是否同样的值。A:可用性,在集群中一部分节点出现故障后，集群整体是否还能响应客户端的读写请求。P:分区容忍性,对通信的时限要求,分布式架构P是一个必选项。">
+<meta name="keywords" content="interview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="抖音面试">
+<meta property="og:url" content="http://yoursite.com/2019/05/08/interview-bytedance/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="img{     width:650px; }   CAP理论 引入&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CAP理论由Eric Brewer于2000年提出，被称为分布式领域重要理论。C:一致性，分布式系统中的所有数据备份在同一时刻是否同样的值。A:可用性,在集群中一部分节点出现故障后，集群整体是否还能响应客户端的读写请求。P:分区容忍性,对通信的时限要求,分布式架构P是一个必选项。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/Java/interview/binaryFrame.png">
+<meta property="og:image" content="http://yoursite.com/images/Java/interview/headercomprese.png">
+<meta property="og:image" content="http://yoursite.com/images/Java/interview/shareroad.png">
+<meta property="og:image" content="http://yoursite.com/images/Java/interview/conhash.png">
+<meta property="og:updated_time" content="2019-05-09T08:00:24.854Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Havatry">
+<meta name="twitter:title" content="抖音面试">
+<meta name="twitter:description" content="img{     width:650px; }   CAP理论 引入&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;CAP理论由Eric Brewer于2000年提出，被称为分布式领域重要理论。C:一致性，分布式系统中的所有数据备份在同一时刻是否同样的值。A:可用性,在集群中一部分节点出现故障后，集群整体是否还能响应客户端的读写请求。P:分区容忍性,对通信的时限要求,分布式架构P是一个必选项。">
+<meta name="twitter:image" content="http://yoursite.com/images/Java/interview/binaryFrame.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -150,64 +160,166 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-interview-bytedance" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/12/linux-bootstrap/" class="archive-article-date">
-  	<time datetime="2019-04-12T09:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/12/linux-bootstrap/">Liunx启动流程</a>
+    <h1 class="article-title" itemprop="name">
+      抖音面试
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/05/08/interview-bytedance/" class="archive-article-date">
+  	<time datetime="2019-05-08T10:19:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img{
+    width:650px;
+}
+</style>
+
+<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><ul>
+<li>引入<br>&nbsp;&nbsp;&nbsp;&nbsp;CAP理论由Eric Brewer于2000年提出，被称为分布式领域重要理论。C:一致性，分布式系统中的所有数据备份在同一时刻是否同样的值。A:可用性,在集群中一部分节点出现故障后，集群整体是否还能响应客户端的读写请求。P:分区容忍性,对通信的时限要求,分布式架构P是一个必选项。</li>
+<li>适用场景<br>&nbsp;&nbsp;&nbsp;&nbsp;CA without P:CA基本上是单机系统。2PC是实现强一致性的具体手段。CP without A:相当于每个请求都需要在Server之间强一致，而P会导致同步时间很长，如此CP可以保证，分布式数据库，分布式锁都属于这种模式。AP without C:每个节点只能用本地数据提供服务，这样会导致全局数据的不一致。比如NoSQL,DNS属于此类。</li>
+<li>新定义<br>&nbsp;&nbsp;&nbsp;&nbsp;2002年Lynch证明其正确性。反证法:如果同时满足，因为P的存在，一定存在Server之间的丢包，这样就不能保证C。<br>C：一致性被称为原子对象，任何的读写都应该看起来是“原子“的，或串行的。写后面的读一定能读到前面写的内容。所有的读写请求都好像被全局排序。<br>A：对任何非失败节点都应该在有限时间内给出请求的回应。（请求的可终止性）<br>P：允许节点之间丢失任意多的消息，当网络分区发生时，节点之间的消息可能会完全丢失<br><a id="more"></a></li>
+<li>质疑<br>&nbsp;&nbsp;&nbsp;&nbsp;概念混乱，不能作为定理。主要论点是CA中的C代表本地一致性，CP中的C代表全局一致性，而AP中没有C，所以C在不同场景有不同含义；终端用户该不该引入到CAP中,CAP是指一个终端用户的多次更新，还是多个用户的一次更新，如果没有终端用户，那么一致性无法说起；如果是水平分区（分区发生在系统内部）对终端用户没有影响，如果垂直分区（分区发生在终端用户和系统之间），这样会对银行事务架构有巨大影响，但是对DNS架构没有任何影响，也就是，可用性、分区容错是两个相关而无法独立切分的概念。<br>&nbsp;&nbsp;&nbsp;&nbsp;不适用于数据库事务架构。主要论点是，分布式事务中的分区情况，比如更新一些错误数据导致失败，由于数据发送无法修正错误，那么高可用的方案是徒劳的，也就是虽然分区发生但也无法保证高可用；同时分区容错应该去除，因为实际上发生很少。<br>&nbsp;&nbsp;&nbsp;&nbsp;应该构造不可变模型避免CAP复杂性。主要论点是CAP困境在于允许数据变更，每次变更就数据同步，保持一致性。他任认为数据客观存在，不可变，只能增查。任何变更都是增加记录，通过对所以记录的操作合并从而得到最终记录。比如Hadoop的HDFS只支持数据增加，MapReduce支持全局技术。<br>&nbsp;&nbsp;&nbsp;&nbsp;分区容错概念有误导。主要论点分区是属于网络范畴，不能在问题发生时候来决定是否选择要不要分区，而是应该在分区既定的情况下选择要一致性还是可用性。网络分区一般发生在两种情况，交换机失败导致网络被分成几个子网；机器延迟或者down,导致server失去联系。</li>
+<li>回应<br>&nbsp;&nbsp;&nbsp;&nbsp;Lynch在2012年重写了论文。主要论点是CAP理论证明局限在读写场景，并且不支持数据库事务之类的场景。一致性场景不会引入终端用户，只是发生在后台集群之内。分区容错是对网络环境的陈述，而不是一个独立的条件。引入了活性和安全属性，CAP是在活性和安全属性之间的权衡。把CAP的研究推广到更广阔的空间，网络存在同步和部分同步，一致性性的结果也从仅存在一个到存在N个（部分一致）；引入了通信周期round，并引用了其他论文，给出了为了保证N个一致性结果，至少需要通信的round数。</li>
+</ul>
+<p><br></p>
+<h2 id="Http-1-1和HTTP-2-0区别"><a href="#Http-1-1和HTTP-2-0区别" class="headerlink" title="Http 1.1和HTTP 2.0区别"></a>Http 1.1和HTTP 2.0区别</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Http2.0于2015年提出。大幅度提高了Web性能，在Http1.1完全语意兼容的基础上，进一步减少了网络的延迟。实现了低延迟高吞吐量。<br><img src="/images/Java/interview/binaryFrame.png" alt="帧"></p>
+<ul>
+<li>二进制分帧<br>&nbsp;&nbsp;&nbsp;&nbsp;在应用层Http和传输层TCP之间增加一个二进制分帧层。Http2.0会将所有传输信息分割为更小的消息和帧，并对它们采用二进制格式的编码将其封装。其中Http1.x中的首部信息header封装到Headers帧中,而request body封装到Data帧中。Http2.0在一个TCP连接上完成，这个连接可用承载任意数量的双向数据流，每个数据流以消息的形式发送，而消息由一个或多个帧组成，这些帧可以乱序发送，然后根据每个帧首部的流标识符重写组装。二进制分帧提高了基础，将一个数据划分为封装更小更便捷的数据，使报头更紧凑，更快速传输，有利于移动网络环境。在单连接多资源方式中减少了服务端的连接压力，占用内存少且连接吞吐量大（多路复用），同时TCP连接的减少改善了网络拥塞状态，<strong>同时慢启动时间减少，拥塞和丢包恢复速度更快</strong>。<br>&nbsp;&nbsp;&nbsp;&nbsp;Http2.0使用HPACK算法为首部进行压缩设计。Http1.x每次通信都会携带首部信息用于描述资源属性，而在Http2.0中客户端和服务端之间使用首部表来跟踪和存储准确发送的键值对。<br><img src="/images/Java/interview/headercomprese.png" alt="二进制分帧"></li>
+<li><p>流量控制</p>
+<ul>
+<li>基于Http连接的每一跳进行，而不是端到端的控制</li>
+<li>基于窗口更新帧进行，接收方广播自己准备接收某个数据流的多少自己，以及对整个连接要接收多少字节</li>
+<li>有方向性，接收方可以根据自己的情况为每个流乃至整个连接设置任意窗口大小</li>
+<li>可以由接收方禁用，包括单个流和整个连接</li>
+<li>只有Data帧服从流量控制，所有其他类型的帧不会消耗流量控制窗口的空间，保证重要的控制帧不会被流量控制阻塞</li>
+</ul>
+</li>
+<li><p>多路复用<br>&nbsp;&nbsp;&nbsp;&nbsp;Http1.1中浏览器客户端在同一个时间对于同一个域名下的请求有一定数量的限制，超过限制会阻塞。Http2.0使用多路复用优化了这个性能。基于二进制分帧层，Http2.0可以共享TCP链路基础上同时发出请求和响应，Http消息被分解成独立的帧，交错发出去，在另一端依据流标识符和首部将它们重组。<br>&nbsp;&nbsp;&nbsp;&nbsp;可以并行交错的发送请求和响应，这些请求和响应之间互不影响。只使用一个链接即可并行发送多个请求和响应。消除不必要的延迟，从而减少页面加载的时间。<br><img src="/images/Java/interview/shareroad.png" alt="多路复用"></p>
+</li>
+<li><p>请求优先级<br>&nbsp;&nbsp;&nbsp;&nbsp;Http消息分成独立帧之后，可以通过优化这些帧的交错和传输顺序进一步优化性能。每个流都带有一个31bit的优先级，0是最高，2^31-1是最低。客户端可以明确指定优先级，服务器依据这些优先级作为交互依据，比如指定.css&gt;.js&gt;.jpg，让服务器决定最优的响应次序<br>&nbsp;&nbsp;&nbsp;&nbsp;请求不需要排队，节省时间又<strong>最大限度利用每个连接</strong>。</p>
+</li>
+<li><p>服务器推送<br>&nbsp;&nbsp;&nbsp;&nbsp;强大功能，服务器可以对一个客户端请求发送多个响应，而无需明确请求。<br>使用PUSH_PROMISE帧来表明推送资源的信号。这个帧: 只包含预推送资源的首部，如果客户端已经缓存则不需要推送，否则再发送Data帧。必须遵循请求-响应原则，只能在请求后才响应推送资源。必须在返回响应之前发送，避免出现静态条件。客户端可以限定推送流的数量甚至禁止推送。所有推送的资源遵守同源策略，推送资源需要经过双方的确认。<br>&nbsp;&nbsp;&nbsp;&nbsp;服务器推送减轻了数据传送冗余步骤，加快了页面响应速度。</p>
+</li>
+<li><p>Http 1.0和Http 1.1区别<br>&nbsp;&nbsp;&nbsp;&nbsp;Http 1.0于1996年提出，Http于1999年提出。</p>
+<ul>
+<li>Http1.1支持长连接和请求的流水线处理。<br>&nbsp;&nbsp;&nbsp;&nbsp;Http1.0规定浏览器和服务器只保存短暂的连接，浏览器每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，服务器不跟踪每个客户的状态。Http1.1则支持长连接，在同一个tcp的连接中可以传送多个Http请求和响应，多个请求和响应可以同时进行。具体是增加新的请求头来实现，比如Connection请求头的值为Keep-Alive时候，客户端通知服务器返回本次请求结构后保持连接，Connection请求头的值为Close时候，客户端通知服务器返回本次请求结果后关闭连接。同时还支持来实现处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少建立和关闭连接的消耗和延迟，还允许客户端不用等待上一次请求结果返回，就可以发出下一次请求。</li>
+<li>Http1.1增加Host字段<br>&nbsp;&nbsp;&nbsp;&nbsp;Http1.0认为每个服务器绑定唯一IP，因此请求信息中URL中没有传递主机名称。但是随着虚拟主机技术发展，一个物理服务器可以存在多个虚拟主机，并且共享一个IP。因此Http1.1请求的信息和响应信息都应该支持HOST头域，如果没有则报错400 Bad Request。</li>
+<li>Http1.1增加新的状态码<br>&nsbp;100，客户端先发送只带头域的请求，如果返回100，客户端再继续发送带实体的完整请求，即再发送数据之前先用request header试探一下server，如果因为其他原因拒绝则不会发送后续的body,从而节省带宽。同时增加了24个错误状态响应码，比如409请求的资源和资源当前状态发生冲突，410服务器上的资源被永久删除等。</li>
+<li>缓存特性<br>&nbsp;&nbsp;&nbsp;&nbsp;Http1.0使用If-Modified-Since来判断缓存过期标准，Http1.1引入更进一步的缓存控制策略，比如Entity tag,If-Unmodified-Since,If-None-Match和If-Match来选择策略。</li>
+<li>带宽优化<br>&nbsp;&nbsp;&nbsp;&nbsp;Http1.0中，客户端只是需要某个对象一部分，而服务器将整个对象传送过滤，并且不支持断点续传功能。Http1.1引入range头域，允许只请求资源的某个部分，返回206，便于重复利用带宽和连接。</li>
+</ul>
+</li>
+<li><p>Http 0.9和Http 1.0区别<br>&nbsp;&nbsp;&nbsp;&nbsp;Http 0.9于1991年提出。是第一个版本的HTTP协议，只允许客户端发送GET请求，不支持请求头。网页只支持用HTML语言格式，无法插入图片，属于典型的无状态性。没有错误码。Http1.0相比之下特性是，请求和响应支持头域，响应对象以一个响应状态行开始，响应对象不仅仅限于超文本，支持客户端通过POST,HEAD,GET方法向WEB服务器提交数据，支持长连接（默认是短链接）、缓存机制、身份认证，</p>
+</li>
+</ul>
+<p><br></p>
+<h2 id="一致性Hash"><a href="#一致性Hash" class="headerlink" title="一致性Hash"></a>一致性Hash</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;一致性Hash于1997年Karger等人提出。算法步骤是首先计算服务器的哈希值，将其分配到0-2^32-1的圆上。然后采用统一的方法求出存储数据的键哈希值，并映射到相同的圆上，最后依据数据映射的位置开始顺时针找到第一个服务器上。</p>
+<ul>
+<li>一致性Hash的性质<ul>
+<li>平衡性<br>&nbsp;&nbsp;&nbsp;&nbsp;哈希的结果能尽可能分布到所有缓冲区中</li>
+<li>单调性<br>&nbsp;&nbsp;&nbsp;&nbsp;在添加新的缓冲区时候，那么哈希结果能保证原有已经分配的内容可以被映射到新的缓冲区中，但是不能发生全局更新hash。单调性可以避免这种缓冲区变化导致的极大计算和传输负荷</li>
+<li>分散性<br>&nbsp;&nbsp;&nbsp;&nbsp;终端可能看不到所有缓冲，而是看到其中一部分。因此不同终端所见缓冲范围不同，导致哈希的结果不一致，最终的结果是相同的内容被不同的终端映射到不同的缓冲区中。</li>
+<li>负载性<br>&nbsp;&nbsp;&nbsp;&nbsp;由于分散性，因此尽量降低缓冲的负荷，均匀分摊流量或者存储</li>
+<li>平衡性<br>&nbsp;&nbsp;&nbsp;&nbsp;服务器数目平滑改变和缓存对象的平滑改变是一致的。<br><img src="/images/Java/interview/conhash.png" alt="一致性Hash的性质"><br><br></li>
+</ul>
+</li>
+<li>数据倾斜问题<br>&nbsp;&nbsp;&nbsp;&nbsp;当圆上的服务器很少，会出现一个服务器的数据很多而另一个服务器很少。对于这种情况，可采用为每个服务器计算多个虚拟节点，分别用Node A#1,Node A#2..和Node B#1,Node B#2…来表示，当请求或者资源映射到Node A#1,Node A#2…上都归为Node A.B也类似。</li>
+</ul>
+<p><br></p>
+<h2 id="Mysql日志"><a href="#Mysql日志" class="headerlink" title="Mysql日志"></a>Mysql日志</h2><ul>
+<li>redo log<br>&nbsp;&nbsp;&nbsp;&nbsp;是InnoDB存储引擎层的日志，称为重做日志文件，记录事务操作的变化，记录的是数据修改之后的值，不管是否事务是否提交都会记录下来。在数据库断电，InnoDB存储引擎会使用redo log恢复到掉电之前的时刻，来保证数据的完整性。在更新语句执行时候，InnoDB引擎将更新记录写道redo log日志中，然后更新内存，此算执行完成语句，在空闲时候或者依据设置的更新策略将redo log中的内容更新到磁盘中，这里关键是WAL，先写日志再写磁盘。到达crash-safe。</li>
+<li>bin log<br>&nbsp;&nbsp;&nbsp;&nbsp;是Server层面的日志，称为归档日志，属于逻辑日志，以二进制形式记录原始逻辑，没有crash-safe能力。用于主从复制的搭建。</li>
+<li>undo log<br>&nbsp;&nbsp;&nbsp;&nbsp;用来回滚记录到某个版本，一般再MVCC中使用。<ul>
+<li>redo log和bin log区别</li>
+<li>redo log是属于innoDB层面，binlog属于MySQL Server层面的，这样在数据库用别的存储引擎时可以达到一致性的要求。</li>
+<li>redo log是物理日志，记录该数据页更新的内容；binlog是逻辑日志，记录的是这个更新语句的原始逻辑</li>
+<li>redo log是循环写，日志空间大小固定；binlog是追加写，是指一份写到一定大小的时候会更换下一个文件，不会覆盖。</li>
+<li>binlog可以作为恢复数据使用，主从复制搭建，redo log作为异常宕机或者介质故障后的数据恢复使用。</li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h2 id="给定字符串N，找出长度为K的最小子序列"><a href="#给定字符串N，找出长度为K的最小子序列" class="headerlink" title="给定字符串N，找出长度为K的最小子序列"></a>给定字符串N，找出长度为K的最小子序列</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;比如orange,长度为3的最小字典子序列为age<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 从字符串(小写字母)找出K最小字典序子序列</span></span><br><span class="line"><span class="comment"> * 1&lt;=N&lt;=10_000,1&lt;=K&lt;=N</span></span><br><span class="line"><span class="comment"> * 2019年5月9日 上午9:14:17</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KDictionaryOrder</span> </span>&#123;</span><br><span class="line">	<span class="comment">//时间复杂度O(N+KlogN)，空间复杂度O(N)</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">find</span><span class="params">(String str,<span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(str==<span class="keyword">null</span> || str.length()&lt;K) <span class="keyword">return</span> <span class="string">""</span>;<span class="comment">//返回空串</span></span><br><span class="line">		List&lt;List&lt;Integer&gt;&gt; list=<span class="keyword">new</span> ArrayList&lt;List&lt;Integer&gt;&gt;();<span class="comment">//记录26个字符所有出现的位置，递增序列</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)&#123;</span><br><span class="line">			list.add(<span class="keyword">new</span> ArrayList&lt;&gt;());<span class="comment">//初始化声明列表</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">char</span>[] cs=str.toCharArray();</span><br><span class="line">		<span class="comment">//遍历数组</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;cs.length;i++)&#123;</span><br><span class="line">			list.get(cs[i]-<span class="string">'a'</span>).add(i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> tmp=-<span class="number">1</span>;<span class="comment">//上次字符所在位置</span></span><br><span class="line">		StringBuilder sb=<span class="keyword">new</span> StringBuilder();</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;K;i++)&#123;</span><br><span class="line">			<span class="comment">//从a开始往后填充</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;<span class="number">26</span>;j++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(list.get(j).size()&gt;<span class="number">0</span>)&#123;<span class="comment">//存在元素</span></span><br><span class="line">					<span class="comment">////二分查找,下标为-(insertion+1)</span></span><br><span class="line">					<span class="keyword">int</span> index=Collections.binarySearch(list.get(j), tmp);<span class="comment">//找出比上次大的位置,显然这里为负数=-(val+1)</span></span><br><span class="line">					<span class="keyword">if</span>(index&lt;<span class="number">0</span>)&#123;</span><br><span class="line">						<span class="keyword">int</span> pos=-(index+<span class="number">1</span>);</span><br><span class="line">						<span class="comment">//如果符合条件</span></span><br><span class="line">						<span class="comment">//关键条件,这个字符在前一个字符后面，同时满足这个字符后面要保证还有足够字符满足K长度</span></span><br><span class="line">						<span class="keyword">if</span>(pos&lt;list.get(j).size() &amp;&amp; list.get(j).get(pos)&lt;=cs.length-K+i)&#123;</span><br><span class="line">							<span class="comment">//符合条件</span></span><br><span class="line">							sb.append(cs[list.get(j).get(pos)]);</span><br><span class="line">							tmp=list.get(j).get(pos);<span class="comment">//重新设置加入字符的下标</span></span><br><span class="line">							<span class="keyword">break</span>;<span class="comment">//下一个</span></span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> sb.toString();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">liunx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/05/03/concurrency-publish/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">共享组合</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -230,9 +342,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

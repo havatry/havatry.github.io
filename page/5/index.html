@@ -152,6 +152,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-concurrency-thread" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/19/concurrency-thread/">线程同步</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/19/concurrency-thread/" class="archive-article-date">
+  	<time datetime="2019-04-19T06:01:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width:650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>本文主要描述同步模块的构建，目录如下<br><a href="#threadsyn1">同步容器</a><br><a href="#threadsyn2">并发容器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn21">ConcurrentHashMap</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn22">CopyOnWriteArrayList</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn23">BlockingQueue</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn24">BlockingDequeue</a><br><a href="#threadsyn3">同步策略</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn31">Latch</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn32">Semaphore</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threadsyn33">Barrier</a><br><a href="#threadsyn4">缓存设计</a></p>
+</blockquote>
+<h2 id="同步容器"><a href="#同步容器" class="headerlink" title="同步容器"></a><a name="threadsyn1">同步容器</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Jdk中的同步容器有Vector,HashTable,Stack,Enumeration，还有使用Collections类包装的容器类。这些在单个操作是种线程安全的，但是复合操作时候仍然需要加锁。在ConcurrentHashMap中在多个线程并发修改容器的时候并没有考虑并发修改的问题，这种复合操作的影响使用了fast-fail机制来解决，该机制出现在迭代时候。这种机制是一种善意的捕获并发错误。借助modCount值和预期值的差别来判断，但是这样的判断在没有同步的情况下还是会出现看到已经失效的计数值，这是一种设计上的权衡。==&gt; 解决方法是在迭代过程中使用加锁机制，但是这样存在的问题是某些线程访问容器之前需要等待迭代过程的长时间，同时可能还会导致线程的死锁，也会降低程序的可伸缩性。==&gt;解决方法是在线程内克隆容器，然后在副本上进行操作，但是这种方式存在性能开销和空间开销等。<br>&nbsp;&nbsp;&nbsp;&nbsp;除了对显示迭代器加锁，同时也要注意对隐式迭代器加锁，比如toString方法会对容器进行迭代,hashCode以及equals方法也会这样。<br>
+        
+          <a class="article-more-a" href="/2019/04/19/concurrency-thread/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/19/concurrency-thread/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-linux-bootstrap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -499,99 +588,9 @@ img {
 
 
   
-    <article id="post-jdk-arraylist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/09/jdk-arraylist/">ArrayList源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/09/jdk-arraylist/" class="archive-article-date">
-  	<time datetime="2019-04-09T11:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装<br>本文目录结构如下<br><a href="#arraylist1">字段数值</a><br><a href="#arraylist2">构造函数</a><br><a href="#arraylist3">add函数</a><br><a href="#arraylist4">set和get函数</a><br><a href="#arraylist5">indexOf函数</a><br><a href="#arraylist6">remove函数</a></p>
-</blockquote>
-<p><br></p>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="arraylist1">字段数值</a></h2><p><img src="/images/源码分析/jdk/ArrayList_field.png" alt="字段数值"><br>
-        
-          <a class="article-more-a" href="/2019/04/09/jdk-arraylist/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/09/jdk-arraylist/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -718,15 +717,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

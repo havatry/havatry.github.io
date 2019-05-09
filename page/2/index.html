@@ -152,6 +152,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-springboot-web" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/01/springboot-web/">springboot-web</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/01/springboot-web/" class="archive-article-date">
+  	<time datetime="2019-05-01T02:25:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot自动配置有ServerPropertiesAutoConfiguration和ServerProperties自动配置tomcat容器,HttpEncodingAutoConfiguration和HttpEncodingProperties自动配置http编码,MultipartAutoConfiguration和MultipartProperties自动配置上传文件属性,JacksonHttpMessageConvertersConfiguration自动配置mappingJackson2HttpMessageConverter和mappingJackson2XmlHttpMessageConverter,WebMccAutoConfiguration和WebMvcProperties自动配置SpringMVC。<br>
+        
+          <a class="article-more-a" href="/2019/05/01/springboot-web/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/01/springboot-web/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-concurrency-task" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -497,89 +583,9 @@ img {
 
 
   
-    <article id="post-interview-jingdong" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/interview-jingdong/">京东一面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/interview-jingdong/" class="archive-article-date">
-  	<time datetime="2019-04-24T12:04:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="hashmap为什么不是线程安全的"><a href="#hashmap为什么不是线程安全的" class="headerlink" title="hashmap为什么不是线程安全的"></a>hashmap为什么不是线程安全的</h2><ul>
-<li><p>jdk1.7的hashmap<br>hashmap在扩容的时候，采用头插法，用于避免遍历到尾部的用时。但是这样就引起了无限循环的问题<br><img src="/images/源码分析/jdk/jdk7_hashmap_resize.png" alt="jdk1.7的hashmap"><br>当线程A在执行的时候，此时B已经完成了扩容，然后A继续执行e.next=newTab[i]的时候，会将key=3直接指向了key=7的记录，从而造成环路。<br>同时还存在更新丢失，多个线程对同一个table的元素修改时候发生后者覆盖前者。也会出现删除不可见，从而NPE异常。</p>
-</li>
-<li><p>jdk1.8的hashmap<br>借助了两个指针，分别指向链表的前后两个，每次在后面插入元素，使得一方面性能提高，同时避免了环路。使用了红黑树结构优化。</p>
-</li>
-</ul>
-<h2 id="如何找出链表的三分之一点"><a href="#如何找出链表的三分之一点" class="headerlink" title="如何找出链表的三分之一点"></a>如何找出链表的三分之一点</h2><p>借助三个指针，第一个指针每次走三步，第二个指针每次走两步，第三个指针每次走一步。当第一个指针到达尾部的时候，第二个和第三个指针的位置分别是两个三等分点。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/interview-jingdong/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -706,15 +712,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
