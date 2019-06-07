@@ -152,6 +152,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-concurrency-optimize" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/01/concurrency-optimize/">高并发锁</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/01/concurrency-optimize/" class="archive-article-date">
+  	<time datetime="2019-05-01T07:27:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="坏锁"><a href="#坏锁" class="headerlink" title="坏锁"></a>坏锁</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;关于坏锁的经典问题便是哲学家进餐。这种情况是最简单的坏锁形式，由于存储环路的锁依赖关系而一直等待下去。对于数据库系统的设计中考虑了对坏锁的检测和从坏锁中恢复的机制。但是JVM在解决坏锁方法并没有数据库那么强，当发生这种情况只能重启，并希望不要再发生同样的情况。</p>
+<ul>
+<li>锁顺序坏锁<br>&nbsp;&nbsp;&nbsp;&nbsp;两个线程试图以不太的顺序来获得相同的锁。此为一个方法中两个synchronized的方式交替锁定不同对象，而另一个方法中synchronized方式交替相反，当不同顺序执行时候发生坏锁，常见。<br>
+        
+          <a class="article-more-a" href="/2019/05/01/concurrency-optimize/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/01/concurrency-optimize/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-springboot-web" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -493,96 +575,6 @@ img {
 
 
   
-    <article id="post-jvm-compile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/jvm-compile/">jvm编译器</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/jvm-compile/" class="archive-article-date">
-  	<time datetime="2019-04-24T13:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Javac编译器"><a href="#Javac编译器" class="headerlink" title="Javac编译器"></a>Javac编译器</h2><ul>
-<li><p>解析与填充符号表</p>
-<ul>
-<li>词法、语法分析<br>将源代码的字符流转变为标记(Token)集合，标记是编译过程中最小元素，关键字、变量名、字面量、运算符等。由Scanner类实现。语法分析是语句标记序列构建抽象语法树。由Parser类实现。</li>
-<li>填充符号表<br>符号表是一组符号地址和符号信息构成的表格。其中的信息在编译的不同阶段都要用到。在语义分析中，符号表的内容将用于检查一个名字的时候和原先的说明是否一致和产生中间代码。在目标代码生成阶段，对符号名进行地址分配时候，符号表是地址分配的依据。由Enter类实现。</li>
-</ul>
-</li>
-<li><p>注解处理器<br>在运行期间发挥作用，在插件中可以读取、修改、添加抽象语法树中的任意元素。如果作了修改，编译器将回到解析以及填充符号表的过程重新处理，直到所有插入式注解处理器都没有再对语法树进行修改为止，每一次循环称为一个Round，也就是回环过程。这样可以干涉编译器的行为，完成一些创意的行为。</p>
-</li>
-<li><p>语义分析<br>对结构上正确的源程序进行上下文有关性质的审查，比如类型检查。</p>
-<ul>
-<li>标注检查<br>检查变量使用前是否被声明，变量和赋值直接的数据类型是否匹配，以及常量折叠。由Attr类和Check类实现。</li>
-<li>数据以及控制流分析<br>对程序上下文逻辑更进一步验证，检查程序局部变量使用前是否已经赋值、方法每个路径是否都有返回值、是否所有的受查异常都被正确处理等。由Flow类实现。</li>
-<li>解语法糖<br>Java属于低语法糖，比如泛型、变长参数、自动装箱/拆箱等，会在编译阶段还原为简单的基础语法结构。由TransTypes类和Lower类实现。</li>
-<li>字节码生成<br>将前面各个步骤所生成的信息转换为字节码写到磁盘中，编译器还进行少量的代码添加和转换工作。比如<init>和<clinit>方法就是在这个阶段收敛到语法树中。这里的<init>是默认构造函数。完成收敛工作，比如对语句块、变量初始化、调用父类实例构造器（因为保证先执行父类构造器）等操作收敛。添加是在填充符号表的时候完成。生成class文件。<br><br>
-        
-          <a class="article-more-a" href="/2019/04/24/jvm-compile/#more">more >></a>
-        
-      
-
-      
-    </init></clinit></init></li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/jvm-compile/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -712,15 +704,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ques</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

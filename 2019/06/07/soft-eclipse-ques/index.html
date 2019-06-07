@@ -6,31 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>LinkedHashMap源码分析 | Havatry</title>
+  <title>soft-eclipse-ques | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {     width: 650px; }   概述 LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等">
-<meta name="keywords" content="jdk,source">
+  <meta name="description" content="问题在Eclipse Import Porject的时候，报错Some projects cannot be imported because they already exist in the workspace 解决 将工程复制到Eclipse工作空间中 打开Eclipse进入该工作空间 将刚才工程删除，提示也从Eclipse中删除，确认 重复1 在Eclipse中导入该工程  备注如果5不可">
+<meta name="keywords" content="eclipse,ques">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LinkedHashMap源码分析">
-<meta property="og:url" content="http://yoursite.com/2019/04/10/jdk-linkedhashmap/index.html">
+<meta property="og:title" content="soft-eclipse-ques">
+<meta property="og:url" content="http://yoursite.com/2019/06/07/soft-eclipse-ques/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {     width: 650px; }   概述 LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等">
+<meta property="og:description" content="问题在Eclipse Import Porject的时候，报错Some projects cannot be imported because they already exist in the workspace 解决 将工程复制到Eclipse工作空间中 打开Eclipse进入该工作空间 将刚才工程删除，提示也从Eclipse中删除，确认 重复1 在Eclipse中导入该工程  备注如果5不可">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_field.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_construct1.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_construct2.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_construct3.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_newNode.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_linkNodeLast.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_afterNodeAccess.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_afterNodeInsertion.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_containsValue.png">
-<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_get.png">
-<meta property="og:updated_time" content="2019-04-10T12:39:00.880Z">
+<meta property="og:updated_time" content="2019-06-07T11:32:34.303Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LinkedHashMap源码分析">
-<meta name="twitter:description" content="img {     width: 650px; }   概述 LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等">
-<meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/LinkedHashMap_field.png">
+<meta name="twitter:title" content="soft-eclipse-ques">
+<meta name="twitter:description" content="问题在Eclipse Import Porject的时候，报错Some projects cannot be imported because they already exist in the workspace 解决 将工程复制到Eclipse工作空间中 打开Eclipse进入该工作空间 将刚才工程删除，提示也从Eclipse中删除，确认 重复1 在Eclipse中导入该工程  备注如果5不可">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -166,42 +155,35 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-jdk-linkedhashmap" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-soft-eclipse-ques" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      LinkedHashMap源码分析
+      soft-eclipse-ques
     </h1>
   
 
         
-        <a href="/2019/04/10/jdk-linkedhashmap/" class="archive-article-date">
-  	<time datetime="2019-04-10T11:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
+        <a href="/2019/06/07/soft-eclipse-ques/" class="archive-article-date">
+  	<time datetime="2019-06-07T11:29:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等。<br>本文主要目录如下<br><a href="#linkedhashmap1">字段数值</a><br><a href="#linkedhashmap2">构造函数</a><br><a href="#linkedhashmap3">newNode函数</a><br><a href="#linkedhashmap4">afterNodeAccess函数</a><br><a href="#linkedhashmap5">afterNodeInsertion函数</a><br><a href="#linkedhashmap6">containsValue函数</a><br><a href="#linkedhashmap7">get函数</a></p>
-</blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedhashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedHashMap继承自HashMap，定义的属主要有头部节点和尾部节点以及访问顺序。<br><img src="/images/源码分析/jdk/LinkedHashMap_field.png" alt="字段数值"><br><a id="more"></a></p>
-<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a><a name="linkedhashmap2">构造函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedHashMap继承了HashMap，因此构造函数很多只是简单调用下基类的方法，并且设置下accessOrder的值为false。<br><img src="/images/源码分析/jdk/LinkedHashMap_construct1.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该方法比较工程性，可以使用super(m)的方法，为什么要拆成super()和putMapEntries()两个<br><img src="/images/源码分析/jdk/LinkedHashMap_construct2.png" alt="构造函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此构造函数可以指定访问顺序，注意第二个参数需要强制转换为float<br><img src="/images/源码分析/jdk/LinkedHashMap_construct3.png" alt="构造函数"></p>
-<h2 id="newNode函数"><a href="#newNode函数" class="headerlink" title="newNode函数"></a><a name="linkedhashmap3">newNode函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是重写了HashMap中的方法使得可以自定义数据结构到桶中<br><img src="/images/源码分析/jdk/LinkedHashMap_newNode.png" alt="newNode函数"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在newNode之后还有一步操作，是将新的节点加到链表尾部，保证了顺序性质以及给before和after指针初始化<br><img src="/images/源码分析/jdk/LinkedHashMap_linkNodeLast.png" alt="newNode函数"></p>
-<h2 id="afterNodeAccess函数"><a href="#afterNodeAccess函数" class="headerlink" title="afterNodeAccess函数"></a><a name="linkedhashmap4">afterNodeAccess函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是重写了hashmap中的此方法，该方法会在基类的putVal方法中出现重复元素的时候或者在本类的get方法中被触发。会将访问的节点添加到链表尾部youngestEntry<br><img src="/images/源码分析/jdk/LinkedHashMap_afterNodeAccess.png" alt="afterNodeAccess函数"></p>
-<h2 id="afterNodeInsertion函数"><a href="#afterNodeInsertion函数" class="headerlink" title="afterNodeInsertion函数"></a><a name="linkedhashmap5">afterNodeInsertion函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是重载了hashmap中的此方法，该方法会在基类putVal方法中出现没有重复元素正常插入时候触发。该方法接收一个evict的boolean值以及需要removeEldestEntry方法来综合判断是否需要将eldestEnrty的首部元素进行删除，这样就可以实现LRU功能。其中evict是依次驱逐的意思，在基类的putVal方法中被传入，查看调用关系后看出此方法除了其类中的readObject方法时候调用putVal会传入evict=false其余时候都是传入evict=true，因此一般子类只需要重写removeEldestEntry即可完成LRU。<br><img src="/images/源码分析/jdk/LinkedHashMap_afterNodeInsertion.png" alt="afterNodeInsertion函数"></p>
-<h2 id="containsValue函数"><a href="#containsValue函数" class="headerlink" title="containsValue函数"></a><a name="linkedhashmap6">containsValue函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该方法用来判断LinkedHashMap中是否包含指定元素<br><img src="/images/源码分析/jdk/LinkedHashMap_containsValue.png" alt="containsValue函数"></p>
-<h2 id="get函数"><a href="#get函数" class="headerlink" title="get函数"></a><a name="linkedhashmap7">get函数</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该方法用来获取一个给定key对应的元素,getOrDefault可以作为一个小技巧在程序中使用<br><img src="/images/源码分析/jdk/LinkedHashMap_get.png" alt="get函数"></p>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在Eclipse Import Porject的时候，报错Some projects cannot be imported because they already exist in the workspace</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ul>
+<li>将工程复制到Eclipse工作空间中</li>
+<li>打开Eclipse进入该工作空间</li>
+<li>将刚才工程删除，提示也从Eclipse中删除，确认</li>
+<li>重复1</li>
+<li>在Eclipse中导入该工程</li>
+</ul>
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p><strong>如果5不可行，则需要将工程复制到其他目录，再到5导入进来</strong></p>
 
       
 
@@ -215,11 +197,11 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">eclipse</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ques</a>
         		</li>
       		
 		</ul>
@@ -238,18 +220,9 @@ img {
   
 <nav id="article-nav">
   
-    <a href="/2019/04/12/linux-bootstrap/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Liunx启动流程
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/10/jdk-hashmap/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HashMap源码分析</div>
+    <a href="/2019/05/08/interview-bytedance/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">抖音面试</div>
       <i class="icon-circle-right"></i>
     </a>
   
