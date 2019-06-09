@@ -152,35 +152,34 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-soft-eclipse-ques" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-math-sqrt-principle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/07/soft-eclipse-ques/">Eclipse导入工程</a>
+      <a class="article-title" href="/2019/06/09/math-sqrt-principle/">平方根数学方法</a>
     </h1>
   
 
         
-        <a href="/2019/06/07/soft-eclipse-ques/" class="archive-article-date">
-  	<time datetime="2019-06-07T11:29:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-07</time>
+        <a href="/2019/06/09/math-sqrt-principle/" class="archive-article-date">
+  	<time datetime="2019-06-09T07:26:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;在Eclipse Import Porject的时候，报错Some projects cannot be imported because they already exist in the workspace</p>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ul>
-<li>将工程复制到Eclipse工作空间中</li>
-<li>打开Eclipse进入该工作空间</li>
-<li>将刚才工程删除，提示也从Eclipse中删除，确认</li>
-<li>重复1</li>
-<li>在Eclipse中导入该工程</li>
+        <h2 id="平方根问题"><a href="#平方根问题" class="headerlink" title="平方根问题"></a>平方根问题</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;在编程语言中使用sqrt方法，可以借助牛顿迭代法来实现。其理论基础如下<br>&nbsp;&nbsp;&nbsp;&nbsp;对于f(x) = x^2 - a, 其泰勒展开级数是f(x) = f(x0) + f’(x0)(x - x0) +…。因此得到递推关系式，x_n+1 = x_n - f(x_n) / f’(x_n)</p>
+<h2 id="python实现"><a href="#python实现" class="headerlink" title="python实现"></a>python实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqrt</span><span class="params">(x)</span>:</span></span><br><span class="line">    y = <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">while</span> abs(y * y -x) &gt; <span class="number">1e-6</span>:</span><br><span class="line">        y = (y + x / y) / <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
+<h2 id="收敛性证明"><a href="#收敛性证明" class="headerlink" title="收敛性证明"></a>收敛性证明</h2><ul>
+<li><p>迭代法不动点定理<br>&nbsp;&nbsp;&nbsp;&nbsp;如果x*是faer的不动点, faer’在x*某邻域存在且连续，并且0 != |faer’(x’)| &lt; 1，则x = faer(x)在x*邻域内收敛，其中x’属于x*的某邻域</p>
+</li>
+<li><p>证明收敛性<br>&nbsp;&nbsp;&nbsp;&nbsp;由于faer(x) = x - f(x) / f’(x), 假设x<em>是f(x)的一个根,则f(x\</em>) = 0 且 f’(x*) != 0，这是因为在平方根中x^2 - a = 0,中始终存在两个根。<br>&nbsp;&nbsp;&nbsp;&nbsp;故而faer(x*) = x<em>,也就是x\</em>是faer的不动点。 faer’(x) = -f(x) <em> f’’(x) /f’(x)^2, 故而faer’(x)在x\</em>的邻域内存在且连续, 同时x*邻域内的x’满足0 != faer’(x’) &lt; 1, 故而收敛，得证</p>
+</li>
 </ul>
-<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>如果5不可行，则需要将工程复制到其他目录，再到5导入进来</strong></p>
 
       
 
@@ -194,11 +193,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">eclipse</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ques</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">function</a>
         		</li>
       		
 		</ul>
@@ -208,7 +207,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/07/soft-eclipse-ques/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/06/09/math-sqrt-principle/">展开全文 >></a>
         </p>
       
 
@@ -702,19 +701,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">math</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">eclipse</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ques</a>
               </li>
              
               <li class="article-tag-list-item">
