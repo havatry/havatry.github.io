@@ -152,6 +152,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mysql-datatype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/02/mysql-datatype/">mysql数据类型</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/02/mysql-datatype/" class="archive-article-date">
+  	<time datetime="2019-05-02T02:19:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="数据类型优化"><a href="#数据类型优化" class="headerlink" title="数据类型优化"></a>数据类型优化</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;通常更小的更好。应该尽量使用可以正确存储数据的最小数据类型，因为他们计算更快、需要的内存磁盘和CPU缓存更少，但是要确保没有低估需要存储值的范围，否则后期调整比较耗时。第二是简单就好，因为其需要更少的CPU周期，比如整数代替字符串从而避免校对规则和字符集，使用内建类型而不是字符串表示日期，使用整数表示IP地址。第三是尽量避免使用NULL。因为NULL使得索引和值比较更复杂，当NULL列被索引，每个索引需要一个额外的字节，在MyISAM中可能会导致固定大小索引变成可变大小的索引。但是InnoDB使用一个bit位来存储NULL值，因此会有空间节省。</p>
+<ul>
+<li><p>整数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;整数可以选unsigned属性，表示非负值。整数计算时候都是使用64位的bigint整数，即使在32位环境也是这样。mysql可以指定整数宽度，但是没啥用处，只是用来显示字符个数，对于存储和计算来说int(1)和int(32)是一样的。</p>
+</li>
+<li><p>实数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;CPU不支持decimal直接计算，mysql服务器自身实现了decimal的高精度计算，但是速度比原生的浮点数计算要慢。decimal可以指定小数点后所允许的最大位数，每4个字节存9个数字。比如decimal(18,9)则占用4+1+4=9个字节。decimal最多允许65个数字。float占4个字节,能表示范围[1.4e-45,3.4e38]。double占8个字节，能表示范围[4.9e-324,1.8e308]。一般来说只有需要精确计算时候才使用decimal，比如存储财务数据。否则还是考虑使用bigint来代替，进行乘除运算即可。<br>
+        
+          <a class="article-more-a" href="/2019/05/02/mysql-datatype/#more">more >></a>
+        
+      
+
+      
+    </p></li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/02/mysql-datatype/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-concurrency-optimize" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -490,91 +576,6 @@ img {
 
 
   
-    <article id="post-jvm-classload" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/jvm-classload/">jvm类加载</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/jvm-classload/" class="archive-article-date">
-  	<time datetime="2019-04-24T14:32:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>通过一个类的全限定名来获取定义此类的二进制字节流。将这个字节流代表的静态存储结构转换为方法去的运行时数据结构。在内存中生成一个代表这个类的java.lang.Class对象作为方法区这个类的各种数据的访问入口。</p>
-<ul>
-<li>从ZIP包中读取，比如JAR,EAR,WAR格式文件</li>
-<li>从网络中读取，比如Applet</li>
-<li>运行时计算生成，比如动态代理</li>
-<li>由其他文件生成，比如JSP应用</li>
-<li>从数据库中读取，比如SAP Netweaver<br>程序可以自定义的类加载器控制字节流的获取方式，比如重写loadClass方法。但是对于数组类，是通过Java虚拟机直接创建的。一个数组类的创建过程如下。</li>
-<li>如果数组是引用类型，采用上面定义的加载过程加载，在加载该组件类型的类加载器的类名称空间上被标识。</li>
-<li>如果不是引用类型，而是int[]类型，那么会把数组C标记为与引导类加载器关联。</li>
-<li>数组类的可见性和它的实际元素类型的可见性一致，如果实际元素类型是基本类型，那么可见性为public<br>加载完成后，会存储在方法区之中，然后在内存中实例化一个java.lang.Class对象，这个对象作为程序访问方法区中的这些类型数据的外部接口。<br><br>
-        
-          <a class="article-more-a" href="/2019/04/24/jvm-classload/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/jvm-classload/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -700,15 +701,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">algebra</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">group</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">

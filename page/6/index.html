@@ -152,6 +152,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jdk-hashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/10/jdk-hashmap/">HashMap源码分析</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/10/jdk-hashmap/" class="archive-article-date">
+  	<time datetime="2019-04-10T05:48:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。<br>本文主要目录如下<br><a href="#hashmap1">字段数值</a><br><a href="#hashmap2">构造函数</a><br><a href="#hashmap3">get函数</a><br><a href="#hashmap4">put函数</a></p>
+</blockquote>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="hashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段中的装载因子可以大于1，甚至可以很大比如2^27<br><img src="/images/源码分析/jdk/HashMap_field.png" alt="字段数值"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node元素数组结果如下<br><img src="/images/源码分析/jdk/HashMap_Nodeclass.png" alt="字段数值"><br>
+        
+          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-jdk-linkedlist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -502,105 +591,6 @@ img {
 
 
   
-    <article id="post-spring-source-createBean" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>1.转换name获取beanName(别名或者FactoryBean)</li>
-<li>2.依据beanName找出单例的bean，在缓存中情况 getSingleton()<ul>
-<li>2.1如果允许提前曝光，则从singleFactories(beanName-&gt;ObjectFactory)中获取ObjectFactory</li>
-<li>2.2如果获取的ObectFactroy不为空，则调用ObjectFactory的getObject方法</li>
-<li>2.3将提前曝光的beanName和ObjectFactory(产生该bean的Factory)保存到earlySingleObjects(beanName-&gt;bean)中</li>
-<li>2.4删除singletonFactories中的beanName记录(互斥，因为首先从earlySingleObjects查找)</li>
-</ul>
-</li>
-<li>3.获取对应实例 getObjectForBeanInstance()<ul>
-<li>3.1如果是name是工厂name(带&amp;)，但是该bean又不是FactoryBean实例，抛出异常</li>
-<li>3.2如果想获取工厂实例或者不是FactroyBean类型，那么直接返回</li>
-<li>3.3否则从工厂bean中获取对象(getObjectForBeanInstance)<ul>
-<li>3.3.1 权限验证</li>
-<li>3.3.2 直接调用factory的getObject方法获取bean(**)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/03/29/spring-source-createBean/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/29/spring-source-createBean/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -726,15 +716,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">algebra</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">group</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">

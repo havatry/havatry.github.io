@@ -152,6 +152,91 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-math-group-history" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/09/math-group-history/">群论发展</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/09/math-group-history/" class="archive-article-date">
+  	<time datetime="2019-06-09T14:45:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;对于一元n次方程 a_0 * x^n + a_1 * x^(n-1) + … + a_n = 0。考虑a_0 = 1的情况，否则可以作变化使得上面方程成立。==&gt; x^n + a_1 * x^(n-1) + … + a_n = 0。 令x = y + t。也就是作个平移。这样上面的方程变成 (y+t)^n + a_1 * (y+t)^(n-1) + … + a_n = 0。 ==&gt; y^n + (n*t + a_1) * y^(n-1) + … 取t = -a_1/n的时候，则能消去次高项y^(n-1) ==&gt; y^n + b_1 * y^(n-2) + … + b_n = 0。</p>
+<h2 id="一元二次方程"><a href="#一元二次方程" class="headerlink" title="一元二次方程"></a>一元二次方程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;一元二次方程x^2 + b/a * x + c/a = 0。按照引入的消去次高项x。则取t = -b/(2*a), y = x - t = x + b/(2*a) 这样一元二次方程转换为y^2 = delta/(4 * a^2), 解出y和x, x = y + t = -b/(2*a) +- sqrt(delat)/(2*a)</p>
+<h2 id="一元三次方程"><a href="#一元三次方程" class="headerlink" title="一元三次方程"></a>一元三次方程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;1545年, G.Cardano将三次方程求解写入书中。由于引入可知，可以消除次高项，因此考虑不含二次项的三次方程x^3 + p*x = q。设x = a+b, 得到(a+b)^3 + p*(a+b) = q ==&gt; a^3 + b^3 + 3*a*b(a+b) + p*(a+b) = q ==&gt; (p + 3*a*b)*(a + b) = q - a^3 - b^3 (公式1)。<br>&nbsp;&nbsp;&nbsp;&nbsp;选择a和b满足a*b = -p/3而且a^3 + b^3 = q,这样a+b就是公式1的解。由于(a^3 - b^3)^2 = (a^3 + b^3)^2 - 4*(a*b)^3 = q^2 -4*(-p/3)^3 ==&gt; a^3 - b^3 = +- sqrt(q^2 + 4/27 * p^3)。解出a^3 = q/2 +- sqrt(q^2 / 4 + p^3 / 27), b^3 = q/2 -+ sqrt(q^2 / 4 + p^3 / 27)。故而x_1 = cube(q/2 + sqrt(delta)) + cube(q/2 - sqrt(delta)), x_2 = a*w + b*w^2, x_3 = a*w^2 + b*w。其中delta = q^2 / 4 + p^3 / 27, w = (-1 + sqrt(-3)) / 2, w^2是w的共轭结果, w^2 + w = -1, w*w^2 = 1。<br>&nbsp;&nbsp;&nbsp;&nbsp;当delta &gt; 0的时候，存在一个实根，一对复根；当delta = 0的时候，有重根x_1 = 2*cube(q/2), x_2 = x_3 = -cube(q/2)；当delta &lt; 0 的时候，有三个实根</p>
+<h2 id="一元四次方程"><a href="#一元四次方程" class="headerlink" title="一元四次方程"></a>一元四次方程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;1540年G.Cardano的学生Ferrari解出一元四次方程。考虑不含三次项的四次方程x^4 + p*x^2 + q*x + r = 0。引入参数t, (x^2 + t)^2 = x^4 + 2*t*x^2 + t^2 = 2*t*x^2 + t^2 -p*x^2 - q*x - r = (2*t - p)*x^2 - q*x + (t^2 - r)。如果能选择一个t，使得等式右边的delta为0，则两边开方可解。则(-q)^2 - 4*(2*t - p)*(t^^2 -r) = 0。这是一个一元三次方程，显然可以找到t。这样就得到(x^2 + t)^2 = (2*t - p)*(x - q/(2*(2*t - p)))^2 ==&gt; x^2 + t = +-sqrt(2*t - p)(x - q/(2*(2*t - p ))), 这是关于x的两个一元二次方程，每个一元二次方程存在两个根，因此一元四次方程存在四个根。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">algebra</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">group</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/09/math-group-history/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-math-sqrt-principle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -494,92 +579,6 @@ img{
 
 
   
-    <article id="post-mysql-datatype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/02/mysql-datatype/">mysql数据类型</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/02/mysql-datatype/" class="archive-article-date">
-  	<time datetime="2019-05-02T02:19:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="数据类型优化"><a href="#数据类型优化" class="headerlink" title="数据类型优化"></a>数据类型优化</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;通常更小的更好。应该尽量使用可以正确存储数据的最小数据类型，因为他们计算更快、需要的内存磁盘和CPU缓存更少，但是要确保没有低估需要存储值的范围，否则后期调整比较耗时。第二是简单就好，因为其需要更少的CPU周期，比如整数代替字符串从而避免校对规则和字符集，使用内建类型而不是字符串表示日期，使用整数表示IP地址。第三是尽量避免使用NULL。因为NULL使得索引和值比较更复杂，当NULL列被索引，每个索引需要一个额外的字节，在MyISAM中可能会导致固定大小索引变成可变大小的索引。但是InnoDB使用一个bit位来存储NULL值，因此会有空间节省。</p>
-<ul>
-<li><p>整数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;整数可以选unsigned属性，表示非负值。整数计算时候都是使用64位的bigint整数，即使在32位环境也是这样。mysql可以指定整数宽度，但是没啥用处，只是用来显示字符个数，对于存储和计算来说int(1)和int(32)是一样的。</p>
-</li>
-<li><p>实数类型<br>&nbsp;&nbsp;&nbsp;&nbsp;CPU不支持decimal直接计算，mysql服务器自身实现了decimal的高精度计算，但是速度比原生的浮点数计算要慢。decimal可以指定小数点后所允许的最大位数，每4个字节存9个数字。比如decimal(18,9)则占用4+1+4=9个字节。decimal最多允许65个数字。float占4个字节,能表示范围[1.4e-45,3.4e38]。double占8个字节，能表示范围[4.9e-324,1.8e308]。一般来说只有需要精确计算时候才使用decimal，比如存储财务数据。否则还是考虑使用bigint来代替，进行乘除运算即可。<br>
-        
-          <a class="article-more-a" href="/2019/05/02/mysql-datatype/#more">more >></a>
-        
-      
-
-      
-    </p></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/02/mysql-datatype/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -705,15 +704,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">algebra</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">group</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
