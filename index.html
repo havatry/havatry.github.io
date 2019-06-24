@@ -152,6 +152,126 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-搭建java环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/25/搭建java环境/">搭建java环境</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/25/搭建java环境/" class="archive-article-date">
+  	<time datetime="2019-06-24T18:32:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="下载jdk8"><a href="#下载jdk8" class="headerlink" title="下载jdk8"></a>下载jdk8</h2><ul>
+<li>搜索jdk8<br>在浏览器中搜索jdk8,点击第一个链接,进入<br><img src="/images/soft/搜索jdk8.png" alt="搜索jdk8"><br><br></li>
+<li>进入下载页<br>点击进入后，下拉<br><img src="/images/soft/下载jdk8.png" alt="进入下载页"><br><br></li>
+<li>安装jdk8<br>当下载完成后，直接双击安装，一直确定即可</li>
+</ul>
+<p><br></p>
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><ul>
+<li>进入电脑属性页<br>双击开始菜单，找到此电脑，右击出现更多，然后选择属性<br><img src="/images/soft/环境变量配置.png" alt="进入属性页"><br><br></li>
+<li>高级系统设置<br>进入属性后，点击高级系统设置<br><img src="/images/soft/高级系统设置.png" alt="高级系统设置"><br><br></li>
+<li>配置环境变量<br>进入高级系统设置后，出现的页面上，点击环境变量按钮<br><img src="/images/soft/环境变量.png" alt="配置环境变量"><br><br></li>
+<li>新建JAVA_HOME环境变量<br>找到新建选项，然后按照以下输入<br><img src="/images/soft/新建选项.png" alt="新建JAVA_HOME环境变量"><br><br><br><img src="/images/soft/新建JAVA_HOME.png" alt="新建JAVA_HOME环境变量"><br><br></li>
+<li>新建PATH环境变量<br>双击PATH一栏，然后进入后，点击新建，在页面的末尾加上如下两个配置。接着点击上移，将刚配置的两个，移动最上面<br><img src="/images/soft/双击Path.png" alt="配置PATH环境变量"><br><br><br><img src="/images/soft/新建环境变量.png" alt="配置PATH环境变量"><br><br><br>点击新建后，在最后两栏输入以下内容<br><img src="/images/soft/增加两行.png" alt="配置PATH环境变量"><br><br><br>输入完成后，将这两项新加的内容，移动到最上面<br><img src="/images/soft/上移.png" alt="配置PATH环境变量"><br><br><br><img src="/images/soft/最后位置.png" alt="配置PATH环境变量"></li>
+</ul>
+<p><br></p>
+<h2 id="查看java配置"><a href="#查看java配置" class="headerlink" title="查看java配置"></a>查看java配置</h2><ul>
+<li>打开命令窗口<br>按windows + R，输入cmd，回车<br><img src="/images/soft/运行.png" alt="打开命令窗口"><br><br></li>
+<li>验证是否安装成功<br>输入java -version和javac -version，后显示如下类似即表明安装成功<br><img src="/images/soft/正确输出.png" alt="安装java"></li>
+</ul>
+<h2 id="安装eclipse"><a href="#安装eclipse" class="headerlink" title="安装eclipse"></a>安装eclipse</h2><ul>
+<li>搜索eclipse<br>eclipse是java的一个好的编辑器。首先在浏览器上搜索eclipse，点击进入<br><img src="/images/soft/搜索eclipse.png" alt="搜索eclipse"><br><br></li>
+<li>下载eclipse<br>进入后，点击download,然后进入下载详情页后，继续点击下载<br><img src="/images/soft/下载eclipse.png" alt="下载eclipse"><br><br><br><img src="/images/soft/下载到eclipse.png" alt="下载eclipse"><br><br></li>
+<li>安装eclipse<br>下载好之后，安装eclipse即可</li>
+</ul>
+<p><br></p>
+<h2 id="使用eclipse"><a href="#使用eclipse" class="headerlink" title="使用eclipse"></a>使用eclipse</h2><ul>
+<li>运行eclipse<br>在安装的位置，运行eclipse.exe,进入后，关闭欢迎页<br><img src="/images/soft/关闭导航.png" alt="关闭导航"><br><br></li>
+<li>新建工程<br>点击file -&gt; project,然后选择java工程，输入工程名称，点击完成<br><img src="/images/soft/新建工程.png" alt="新建工程"><br><br><br>选择上Java的工程<br><img src="/images/soft/选择java工程.png" alt="新建工程"><br><br><br>继续下一步<br><img src="/images/soft/下一步工程.png" alt="新建工程"><br><br><br>写个工程的名字，随便写个就行，这里写的Hello<br><img src="/images/soft/填写工程名称.png" alt="新建工程"><br><br><br>点击Finish，完成工程的创建<br><img src="/images/soft/完成工程.png" alt="新建工程"><br><br><br>这个选择No即可<br><img src="/images/soft/选择不.png" alt="新建工程"><br><br></li>
+<li>新建类<br>点击工程下面的src,右击选择class,然后输入package name和class name后，点击完成<br><img src="/images/soft/新建一个类.png" alt="新建类"><br><br><br>写上如下的项<br><img src="/images/soft/新建类.png" alt="新建类"></li>
+</ul>
+<p><br></p>
+<h2 id="配置eclipse自动提示"><a href="#配置eclipse自动提示" class="headerlink" title="配置eclipse自动提示"></a>配置eclipse自动提示</h2><p>上面的配置中，基本上完成了java的配置，这里是为代码的补全配置。<br>点击windows -&gt; preferences，然后选择java -&gt; editor下面的content assistant,进入配置，具体如下<br><img src="/images/soft/配置自动提示.png" alt="配置自动提示"><br><br><br>在输入框中输入abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<br><img src="/images/soft/自动提示.png" alt="配置自动提示"><br><br><br><img src="/images/soft/提示字符.png" alt="配置自动提示"></p>
+<p><br></p>
+<h2 id="在eclipse写java代码"><a href="#在eclipse写java代码" class="headerlink" title="在eclipse写java代码"></a>在eclipse写java代码</h2><ul>
+<li>输出日期的代码<br>main方法的快速生成<br><img src="/images/soft/main回车.png" alt="代码"><br><br><br>System.out.printlnd的快速生成<br><img src="/images/soft/sout输出.png" alt="代码"><br><br><br>最终的代码应该如下这样<br><img src="/images/soft/结果.png" alt="代码"><br><br><br>运行此代码<br><img src="/images/soft/点击运行.png" alt="代码"><br><br><br>显示的日期结果如下<br><img src="/images/soft/显示结果.png" alt="代码"></li>
+</ul>
+<p><br></p>
+<h2 id="问题联系"><a href="#问题联系" class="headerlink" title="问题联系"></a>问题联系</h2><p>存在相关配置问题，邮件联系<a href="mailto:hudedongbupt2014@163.com" target="_blank" rel="noopener">hudedongbupt2014@163.com</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">config</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/25/搭建java环境/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-math-group-history" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -495,90 +615,6 @@ img{
 
 
   
-    <article id="post-concurrency-lock" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/02/concurrency-lock/">依赖同步</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/02/concurrency-lock/" class="archive-article-date">
-  	<time datetime="2019-05-02T07:50:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock不是一种替代内置锁的方法，而是当内置锁不合适的时候，作为一种可选择的高级功能。ReentrantLock提供了和synchronized相同的互斥性和内存可见性质。在获取ReentrantLock和退出同步代码块有着和synchronized相同的内存语义。同时ReentrantLock和synchronized都是可重入的锁。另外ReentrantLock还具有以下三个特性。</p>
-<ul>
-<li>可中断<br>&nbsp;&nbsp;&nbsp;&nbsp;可轮询锁，当发生锁冲突会立即返回，并过一段时间再重试,tryLock方法。这样可以避免坏锁和活锁。定时锁锁具有定时功能tryLock(time)。可中断锁lockInterruptibly方法可以再获取锁的同时响应中断。</li>
-<li>公平性<br>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock默认是非公平策略，但是可以通过构造函数来实现公平策略。公平策略下，线程按照他们发出的请求顺序来获得锁，但是在非公平策略下，是允许插队。在大多数情况下，非公平策略比公平策略的性能更高。比如在竞争激烈下，线程A持有锁，并且B请求这个锁，因此B被挂起。当A释放锁，此时B尝试再次获取锁，如果此时C也请求这个锁，那么C很可能在B被完全唤醒之前获取以及使用这个锁，这是一种双赢的情况。当持有锁的时间相对较长，或者请求锁的平均时间间隔较长，应该使用公平锁。大多数情况下实现了统计上的公平性就可以了。</li>
-<li>多个条件<br>&nbsp;&nbsp;&nbsp;&nbsp;ReentrantLock可以new出多个条件，用来实现线程协作通信等。比如实现生产者-消费者模式。<br>
-        
-          <a class="article-more-a" href="/2019/05/02/concurrency-lock/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/02/concurrency-lock/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -704,15 +740,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">algebra</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">group</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -724,15 +760,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">config</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -152,6 +152,90 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mysql-query" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/27/mysql-query/">mysql查询</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/27/mysql-query/" class="archive-article-date">
+  	<time datetime="2019-04-27T05:38:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="查询流程"><a href="#查询流程" class="headerlink" title="查询流程"></a>查询流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;当客户端发送一条查询给服务器，服务器先检查查询缓存，如果命中缓存则立刻返回存储在缓存中的结果。否则服务器进行sql解析、预处理然后由优化器生成对应的执行计划。mysql依据优化器生成执行计划，调用存储引擎的API执行查询。最后将结果返回给客户端。<br><img src="/images/Mysql/query_process.png" alt="查询流程"><br><br></p>
+<ul>
+<li>客户端/服务器通信协议<br>&nbsp;&nbsp;&nbsp;&nbsp;通信协议是半双工的。这种协议让mysql通信简单快手，但是不能进行流量控制，也就是说一端开始发送消息，另一端要完全接收后才能响应它。服务器当接收的数据包太多的时候，会不接收并抛出异常，该值由max_allowed_packet设置，默认是67108864。mysql一般要等所有数据都发送给客户端后才能释放该查询连接所占的资源，因此mysql使用库函数来缓存到内存中，客户端只需要从该缓存中获取结果就行。这样会导致当结果集很大的时候，会花费很多时间和空间来存储所有的结果集，但是这样可以更快释放资源和锁等。如果不使用该缓存特性，则在编程中控制，比如php的mysql_unbuffered_query()函数和perl的mysql_use_result=&gt;1的属性。<br>
+        
+          <a class="article-more-a" href="/2019/04/27/mysql-query/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/27/mysql-query/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-jvm-classload" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -484,82 +568,6 @@
 
 
   
-    <article id="post-interview-tencent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/interview-tencent/">腾讯一面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/interview-tencent/" class="archive-article-date">
-  	<time datetime="2019-04-24T05:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="epoll使用阻塞还是非阻塞"><a href="#epoll使用阻塞还是非阻塞" class="headerlink" title="epoll使用阻塞还是非阻塞"></a>epoll使用阻塞还是非阻塞</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;边缘触发ET模式,EpollOut事件触发条件如下:当初次建立连接时候；某次write写满了发送缓冲区，返回错误码EEAGAIN;对方读取了一些数据，又处于重新可写阶段。也就是EpollOut事件只有socket从不可读变成可读状态时候，才会触发一次。对于EpollOut事件，必须将文件描述符缓冲区一直写满,让error返回EAGAIN为止。<br>EpollIn事件触发条件如下:当对方有数据写入的时候触发。对于该事件需要将数据全部读完。<br>&nbsp;&nbsp;&nbsp;&nbsp;如果采用阻塞socket，对于读则出现在最后一次读数据后发生阻塞，而非阻塞socket则会返回&lt;0的数字，且error返回EAGAIN。如果采用阻塞socket，对于写则socket从不可写变成可写则是没有意义的，因为阻塞sokcet在写的时候直到所有数据写完后才不阻塞。同时由于阻塞socket可能会出现死锁，也就是对方读取了一半数据的问题。因此边缘触发ET模式下，socket必须设置为非阻塞。水平触发LT模式，由于会重复检查缓冲区读取，因此阻塞IO和非阻塞IO的差别不大，不会出现死锁问题，但是为了效率问题，可能在处理某个IO的时候阻塞一段事件影响其他IO的处理。同时对于阻塞还是非阻塞也受到fd的参数影响，比如fd只有100字节，那么写200字节会阻塞。<br>&nbsp;&nbsp;&nbsp;&nbsp;对于连接的fd来说，建议使用LT模式，因为ET模式会一次性处理全部请求，如果此时还有其他客户端连接则无法响应。<br>&nbsp;&nbsp;&nbsp;&nbsp;一个线程在读取完某个socket上的数据后开始处理这些数据，而数据的处理过程中该socket又有新数据可读，此时另外一个线程被唤醒来读取这些新的数据。于是，就出现了两个线程同时操作一个socket的局面。可以使用epoll的EPOLLONESHOT事件实现一个socket连接在任一时刻都被一个线程处理。 对于注册了EPOLLONESHOT事件的文件描述符，操作系统最多触发其上注册的一个可读，可写或异常事件，且只能触发一次。注册了EPOLLONESHOT事件的socket一旦被某个线程处理完毕，该线程就应该立即重置这个socket上的EPOLLONESHOT事件，以确保这个socket下一次可读时，其EPOLLIN事件能被触发，进而让其他工作线程有机会继续处理这个sockt。 尽管一个socket在不同事件可能被不同的线程处理，但同一时刻肯定只有一个线程在为它服务，这就保证了连接的完整性，从而避免了很多可能的竞态条件。<br>
-        
-          <a class="article-more-a" href="/2019/04/24/interview-tencent/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/interview-tencent/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -685,15 +693,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">algebra</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">group</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -705,15 +713,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">config</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
