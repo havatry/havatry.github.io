@@ -172,26 +172,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、基础题"><a href="#一、基础题" class="headerlink" title="一、基础题"></a>一、基础题</h2><ul>
-<li><p>Redis的常见数据类型<br>&nbsp;&nbsp;&nbsp;&nbsp;参考<a href>Redis数据类型</a></p>
+        <style>
+    img {
+      width: 650px;
+    }
+</style>
+
+<h2 id="一、基础题"><a href="#一、基础题" class="headerlink" title="一、基础题"></a>一、基础题</h2><ul>
+<li><p>Redis的常见数据类型<br>&nbsp;&nbsp;&nbsp;&nbsp;参考<a href="https://havatry.github.io/2019/03/25/redis-datatype/" target="_blank" rel="noopener">Redis数据类型</a></p>
 </li>
 <li><p>Netty常用的IO模型</p>
 <ul>
-<li>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。</li>
-<li>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。</li>
-<li>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。</li>
-<li>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。</li>
-<li>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。</li>
-</ul>
+<li><p>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。</p>
 </li>
-</ul>
+<li><p>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3112810-92815accf2426905.png?imageMogr2/auto-orient/strip|imageView2/2/w/723/format/webp" alt="阻塞IO和非阻塞IO的模式"><br><br></p>
+</li>
+<li><p>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。</p>
+</li>
+<li><p>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-6874d41063a91df6.png?imageMogr2/auto-orient/strip|imageView2/2/w/674/format/webp" alt="IO多路复用和信号驱动IO"><br><br></p>
+</li>
+<li>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp" alt="异步IO">
         
           <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/#more">more >></a>
         
       
 
       
-    </div>
+    </li></ul></li></ul></div>
     <div class="article-info article-info-index">
       
       
@@ -285,7 +293,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">tencent</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
         		</li>
       		
 		</ul>
@@ -689,15 +697,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">qiuzhao</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jdk</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">source</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">tencent</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -721,7 +729,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -729,7 +737,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -742,10 +750,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">qiuzhao</a>
               </li>
              
               <li class="article-tag-list-item">
