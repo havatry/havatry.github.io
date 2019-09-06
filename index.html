@@ -192,7 +192,7 @@
 </li>
 <li><p>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-6874d41063a91df6.png?imageMogr2/auto-orient/strip|imageView2/2/w/674/format/webp" alt="IO多路复用和信号驱动IO"><br><br></p>
 </li>
-<li>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp" alt="异步IO">
+<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp" alt="异步IO"></p>
         
           <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/#more">more >></a>
         
@@ -725,19 +725,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

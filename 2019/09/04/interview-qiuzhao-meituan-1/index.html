@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3112810-92815accf2426905.png?imageMogr2/auto-orient/strip|imageView2/2/w/723/format/webp">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3112810-6874d41063a91df6.png?imageMogr2/auto-orient/strip|imageView2/2/w/674/format/webp">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp">
-<meta property="og:updated_time" content="2019-09-06T15:30:31.422Z">
+<meta property="og:updated_time" content="2019-09-06T15:44:54.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="美团秋招一面">
 <meta name="twitter:description" content="img {       width: 650px;     }   一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。  非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会">
@@ -199,8 +199,9 @@
 </li>
 <li><p>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-6874d41063a91df6.png?imageMogr2/auto-orient/strip|imageView2/2/w/674/format/webp" alt="IO多路复用和信号驱动IO"><br><br></p>
 </li>
-<li>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp" alt="异步IO"><a id="more"></a>
-<br></li>
+<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp" alt="异步IO"></p>
+<a id="more"></a>
+</li>
 </ul>
 </li>
 <li><p>Innodb为什么使用B+树<br>&nbsp;&nbsp;&nbsp;&nbsp;先分析下各种树的特点。B树是每个节点可以有多个孩子节点，孩子节点的值在基节点的某区间内。B-树，是数据都存在于叶子节点上，非叶子节点不会存储内容。B+树，在B-树的基础上，为每个叶子节点添加了连接的指针。B*树，在B+树基础上，为非叶子节点添加了连接的指针。<br>&nbsp;&nbsp;&nbsp;&nbsp;1. B+树的磁盘读写代价更低，因为B+树内部节点并没有执行关键字具体信息的指针，因此其内部节点相对于B树更小。默认盘块大小是16KB，可设置。一个整数id占8字节，指针在innodb中占6字节，因此一个盘块可以容纳1170个指针。三层能到达数亿记录。 2.B+树查询效率更加稳定,因为非终结节点并不是最终指向文件内容的节点，而只是叶子节点中关键字的索引。所以每次查询的路径相同，每个数据的查询效率相当。 3. B+树的数据都存储在叶子节点中，分支节点为索引，方便扫库。只需要扫描一遍叶子节点即可。如果是b+树则需要中序遍历，而B+树更加时候在区间查询的情况。这是最关键的，因为数据库中范围查询是很普遍的。<br>&nbsp;&nbsp;&nbsp;&nbsp;Mysql中MyISAM和InnoDB都是采用B+树，前者使用非聚集索引，后者使用聚集索引。聚集索引，在取区间的时候，查询速度非常快，但是插入的速度会降低。使用链表来进行存储的。</p>
@@ -447,19 +448,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
