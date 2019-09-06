@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Havatry</title>
+  <title>美团秋招一面 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。 非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。 IO">
+<meta name="keywords" content="interview,qiuzhao">
+<meta property="og:type" content="article">
+<meta property="og:title" content="美团秋招一面">
+<meta property="og:url" content="http://yoursite.com/2019/09/04/interview-qiuzhao-meituan-1/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。 非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。 IO">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-06T03:03:01.479Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Havatry">
+<meta name="twitter:title" content="美团秋招一面">
+<meta name="twitter:description" content="一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。 非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。 IO">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -150,16 +155,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-interview-qiuzhao-meituan-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-interview-qiuzhao-meituan-1" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/04/interview-qiuzhao-meituan-1/">美团秋招一面</a>
+    <h1 class="article-title" itemprop="name">
+      美团秋招一面
     </h1>
   
 
@@ -185,9 +188,45 @@
 </ul>
 </li>
 </ul>
-        
-          <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/#more">more >></a>
-        
+<a id="more"></a>
+<ul>
+<li><p>Innodb为什么使用B+树<br>&nbsp;&nbsp;&nbsp;&nbsp;先分析下各种树的特点。B树是每个节点可以有多个孩子节点，孩子节点的值在基节点的某区间内。B-树，是数据都存在于叶子节点上，非叶子节点不会存储内容。B+树，在B-树的基础上，为每个叶子节点添加了连接的指针。B*树，在B+树基础上，为非叶子节点添加了连接的指针。<br>&nbsp;&nbsp;&nbsp;&nbsp;1. B+树的磁盘读写代价更低，因为B+树内部节点并没有执行关键字具体信息的指针，因此其内部节点相对于B树更小。默认盘块大小是16KB，可设置。一个整数id占8字节，指针在innodb中占6字节，因此一个盘块可以容纳1170个指针。三层能到达数亿记录。 2.B+树查询效率更加稳定,因为非终结节点并不是最终指向文件内容的节点，而只是叶子节点中关键字的索引。所以每次查询的路径相同，每个数据的查询效率相当。 3. B+树的数据都存储在叶子节点中，分支节点为索引，方便扫库。只需要扫描一遍叶子节点即可。如果是b+树则需要中序遍历，而B+树更加时候在区间查询的情况。这是最关键的，因为数据库中范围查询是很普遍的。<br>&nbsp;&nbsp;&nbsp;&nbsp;Mysql中MyISAM和InnoDB都是采用B+树，前者使用非聚集索引，后者使用聚集索引。聚集索引，在取区间的时候，查询速度非常快，但是插入的速度会降低。使用链表来进行存储的。</p>
+</li>
+<li><p>CAS的理解<br>&nbsp;&nbsp;&nbsp;&nbsp;CAS有三个操作数，分布式内存值V，旧的预期值A，新值B。当且仅当V符合旧的预期值A的时候更新V为B，否则不执行更新，最后都会返回V的旧值。在JDK1.5之后，可以使用sun.misc.Unsafe类完成CAS操作。比如AtomicInteger中的getAndIncrement方法。通常在一个循环中不断进行CAS尝试，当设置成功后返回，否则存在其他线程竞争会继续尝试。CAS保证原子性不保证可见性。CAS只解决了比较和更新的原子性的问题，要保证可见性，需要加锁或者是用volatile修饰变量</p>
+</li>
+<li><p>ReentrantLock和Synchronization区别</p>
+<ul>
+<li>Synchronization修饰非静态方法,相当于Synchronization(this) { }。 Synchronization修饰静态方法，相当于Synchronization(Main.class) { }, Synchronization修饰变量，该变量是线程安全的。 Synchronization底层实现是在同步块的前后分别形成monitorenter和monitorexit两个字节码指令，这两个字节码都需要一个被锁的引用对象来指明加锁或者解锁的对象。在执行monitorenter指令，首先尝试获取对象的锁，如果获取到，锁的计数器+1，同样的，在执行monitorexit指令的时候会将计数器-1，当计数器为0的时候，锁被释放。</li>
+<li>关于ReentrantLock参考<a href="https://havatry.github.io/2019/05/02/concurrency-lock/" target="_blank">ReentrantLock详细介绍</a></li>
+<li>两者都是可重入的。Synchronization是通过jvm实现的, ReentrantLock是基于AQS实现的。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//获取当前线程</span></span><br><span class="line">           <span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">           <span class="comment">//通过AQS获取同步状态</span></span><br><span class="line">           <span class="keyword">int</span> c = getState();</span><br><span class="line">           <span class="comment">//同步状态为0，说明临界区处于无锁状态，</span></span><br><span class="line">           <span class="keyword">if</span> (c == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//修改同步状态，即加锁</span></span><br><span class="line">               <span class="keyword">if</span> (compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">                <span class="comment">//将当前线程设置为锁的owner</span></span><br><span class="line">                   setExclusiveOwnerThread(current);</span><br><span class="line">                   <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">		<span class="comment">// 如果是公平锁判断AQS队列中，当前线程是不是有前驱节点</span></span><br><span class="line">		<span class="keyword">if</span> (!hasQueuedPredecessors() &amp;&amp;</span><br><span class="line">			compareAndSetState(<span class="number">0</span>, acquires)) &#123;</span><br><span class="line">			setExclusiveOwnerThread(current);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">           <span class="comment">//如果临界区处于锁定状态，且上次获取锁的线程为当前线程</span></span><br><span class="line">           <span class="keyword">else</span> <span class="keyword">if</span> (current == getExclusiveOwnerThread()) &#123;</span><br><span class="line">			 <span class="comment">//则递增同步状态</span></span><br><span class="line">               <span class="keyword">int</span> nextc = c + acquires;</span><br><span class="line">               <span class="keyword">if</span> (nextc &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">                   <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">               setState(nextc);</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关于ReentrantLock的Condition实现如下</span></span><br><span class="line"><span class="comment">// 当new出一个Condition对象的时候，实际上new出了AQS的一个内部类ConditionObject。该类有两个核心方法await和notify。</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Implements interruptible condition wait.</span></span><br><span class="line"><span class="comment"> * &lt;ol&gt;</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; If current thread is interrupted, throw InterruptedException.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; Save lock state returned by &#123;<span class="doctag">@link</span> #getState&#125;.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; Invoke &#123;<span class="doctag">@link</span> #release&#125; with saved state as argument,</span></span><br><span class="line"><span class="comment"> *      throwing IllegalMonitorStateException if it fails.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; Block until signalled or interrupted.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; Reacquire by invoking specialized version of</span></span><br><span class="line"><span class="comment"> *      &#123;<span class="doctag">@link</span> #acquire&#125; with saved state as argument.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt; If interrupted while blocked in step 4, throw InterruptedException.</span></span><br><span class="line"><span class="comment"> * &lt;/ol&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (Thread.interrupted())</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">	Node node = addConditionWaiter(); <span class="comment">// 将当前线程封装成一个Node节点，并将节点状态设置为codition = -2</span></span><br><span class="line">	<span class="keyword">int</span> savedState = fullyRelease(node); <span class="comment">// 释放当前线程持有的所有锁, 调用release(int)方法释放</span></span><br><span class="line">	<span class="keyword">int</span> interruptMode = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (!isOnSyncQueue(node)) &#123; <span class="comment">// 判断当前线程释放在同步队列中，如果不在，也就是在等待队列中，阻塞当前线程</span></span><br><span class="line">		LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">		<span class="keyword">if</span> ((interruptMode = checkInterruptWhileWaiting(node)) != <span class="number">0</span>) <span class="comment">// 检测到中断</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (acquireQueued(node, savedState) &amp;&amp; interruptMode != THROW_IE) <span class="comment">// 当前线程执行signal方法会经过这个，也就是重新将当前线程加入同步队列</span></span><br><span class="line">		interruptMode = REINTERRUPT;</span><br><span class="line">	<span class="keyword">if</span> (node.nextWaiter != <span class="keyword">null</span>) <span class="comment">// clean up if cancelled</span></span><br><span class="line">		unlinkCancelledWaiters();</span><br><span class="line">	<span class="keyword">if</span> (interruptMode != <span class="number">0</span>)</span><br><span class="line">		reportInterruptAfterWait(interruptMode);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Moves the longest-waiting thread, if one exists, from the</span></span><br><span class="line"><span class="comment"> * wait queue for this condition to the wait queue for the</span></span><br><span class="line"><span class="comment"> * owning lock.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IllegalMonitorStateException if &#123;<span class="doctag">@link</span> #isHeldExclusively&#125;</span></span><br><span class="line"><span class="comment"> *         returns &#123;<span class="doctag">@code</span> false&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">signal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (!isHeldExclusively())</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line">	Node first = firstWaiter;</span><br><span class="line">	<span class="keyword">if</span> (first != <span class="keyword">null</span>)</span><br><span class="line">		doSignal(first);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Removes and transfers nodes until hit non-cancelled one or</span></span><br><span class="line"><span class="comment"> * null. Split out from signal in part to encourage compilers</span></span><br><span class="line"><span class="comment"> * to inline the case of no waiters.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> first (non-null) the first node on condition queue</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doSignal</span><span class="params">(Node first)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> ( (firstWaiter = first.nextWaiter) == <span class="keyword">null</span>)</span><br><span class="line">			lastWaiter = <span class="keyword">null</span>;</span><br><span class="line">		first.nextWaiter = <span class="keyword">null</span>;</span><br><span class="line">	&#125; <span class="keyword">while</span> (!transferForSignal(first) &amp;&amp; <span class="comment">// 将节点从等待队列中，移动到同步队列中，完成唤醒, 再这里进行unpark， unpark使得线程从队列中</span></span><br><span class="line">			 (first = firstWaiter) != <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Transfers a node from a condition queue onto sync queue.</span></span><br><span class="line"><span class="comment">    * Returns true if successful.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> node the node</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> true if successfully transferred (else the node was</span></span><br><span class="line"><span class="comment">    * cancelled before signal)</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">transferForSignal</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * If cannot change waitStatus, the node has been cancelled.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="keyword">if</span> (!compareAndSetWaitStatus(node, Node.CONDITION, <span class="number">0</span>))</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * Splice onto queue and try to set waitStatus of predecessor to</span></span><br><span class="line"><span class="comment">        * indicate that thread is (probably) waiting. If cancelled or</span></span><br><span class="line"><span class="comment">        * attempt to set waitStatus fails, wake up to resync (in which</span></span><br><span class="line"><span class="comment">        * case the waitStatus can be transiently and harmlessly wrong).</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       Node p = enq(node);</span><br><span class="line">       <span class="keyword">int</span> ws = p.waitStatus;</span><br><span class="line">       <span class="keyword">if</span> (ws &gt; <span class="number">0</span> || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))</span><br><span class="line">           LockSupport.unpark(node.thread);</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Removes and transfers all nodes.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> first (non-null) the first node on condition queue</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doSignalAll</span><span class="params">(Node first)</span> </span>&#123;</span><br><span class="line">	lastWaiter = firstWaiter = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		Node next = first.nextWaiter;</span><br><span class="line">		first.nextWaiter = <span class="keyword">null</span>;</span><br><span class="line">		transferForSignal(first); <span class="comment">// 依次通知</span></span><br><span class="line">		first = next;</span><br><span class="line">	&#125; <span class="keyword">while</span> (first != <span class="keyword">null</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>AQS理解</p>
+<ul>
+<li>AQS是AbstractQuenuedSynchronizer简称，是Java提供的底层同步工具类，有一个volatile的变量state表示同步状态，使用一系列的CAS操作管理这些同步状态。为Java中的并发同步组件提供统一的底层支持，比如ReentrantLock和CountdownLatch继承AQS实现其中模板方式的同步类。</li>
+<li>CLH同步队列是AQS最重要的数据结构，是一个FIFO的双端队列。用来存放在锁上阻塞的线程。</li>
+<li><p>tryAcquire方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Acquires in exclusive mode, ignoring interrupts.  Implemented</span></span><br><span class="line"><span class="comment">    * by invoking at least once &#123;<span class="doctag">@link</span> #tryAcquire&#125;,</span></span><br><span class="line"><span class="comment">    * returning on success.  Otherwise the thread is queued, possibly</span></span><br><span class="line"><span class="comment">    * repeatedly blocking and unblocking, invoking &#123;<span class="doctag">@link</span></span></span><br><span class="line"><span class="comment">    * #tryAcquire&#125; until success.  This method can be used</span></span><br><span class="line"><span class="comment">    * to implement method &#123;<span class="doctag">@link</span> Lock#lock&#125;.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> arg the acquire argument.  This value is conveyed to</span></span><br><span class="line"><span class="comment">    *        &#123;<span class="doctag">@link</span> #tryAcquire&#125; but is otherwise uninterpreted and</span></span><br><span class="line"><span class="comment">    *        can represent anything you like.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (!tryAcquire(arg) &amp;&amp;</span><br><span class="line">           acquireQueued(addWaiter(Node.EXCLUSIVE), arg)) <span class="comment">// addWaiter是将当前节点的thread和模式new出节点插入队列尾部</span></span><br><span class="line">           selfInterrupt(); <span class="comment">// 在队列期间发生了中断，这里进行自我中断</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">acquireQueued</span><span class="params">(<span class="keyword">final</span> Node node, <span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</span><br><span class="line">           <span class="keyword">for</span> (;;) &#123; <span class="comment">// 轮询</span></span><br><span class="line">               <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">               <span class="keyword">if</span> (p == head &amp;&amp; tryAcquire(arg)) &#123; <span class="comment">// 如果前一个节点是头节点，而且自身可以获取锁了</span></span><br><span class="line">                   setHead(node); <span class="comment">// 设置自身是头节点</span></span><br><span class="line">                   p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                   failed = <span class="keyword">false</span>;</span><br><span class="line">                   <span class="keyword">return</span> interrupted;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp; <span class="comment">// 否则需要停下来一会</span></span><br><span class="line">                   parkAndCheckInterrupt()) <span class="comment">// 在停下来的时候不响应中断，但是会检测中断。真正进入等待状态，里面调用park()让当前线程waiting,只能通过unpark()或者interrupt()进行唤醒当前线程</span></span><br><span class="line">                   interrupted = <span class="keyword">true</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (failed)</span><br><span class="line">               cancelAcquire(node); <span class="comment">// 一直没获取到锁</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>treRelease方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Releases in exclusive mode.  Implemented by unblocking one or</span></span><br><span class="line"><span class="comment">    * more threads if &#123;<span class="doctag">@link</span> #tryRelease&#125; returns true.</span></span><br><span class="line"><span class="comment">    * This method can be used to implement method &#123;<span class="doctag">@link</span> Lock#unlock&#125;.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> arg the release argument.  This value is conveyed to</span></span><br><span class="line"><span class="comment">    *        &#123;<span class="doctag">@link</span> #tryRelease&#125; but is otherwise uninterpreted and</span></span><br><span class="line"><span class="comment">    *        can represent anything you like.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the value returned from &#123;<span class="doctag">@link</span> #tryRelease&#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (tryRelease(arg)) &#123;</span><br><span class="line">           Node h = head;</span><br><span class="line">           <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">               unparkSuccessor(h); <span class="comment">// 通知后面可以可以用来唤醒的线程，不一定是next节点</span></span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>tryAcquireShared方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Acquires in shared mode, ignoring interrupts.  Implemented by</span></span><br><span class="line"><span class="comment">    * first invoking at least once &#123;<span class="doctag">@link</span> #tryAcquireShared&#125;,</span></span><br><span class="line"><span class="comment">    * returning on success.  Otherwise the thread is queued, possibly</span></span><br><span class="line"><span class="comment">    * repeatedly blocking and unblocking, invoking &#123;<span class="doctag">@link</span></span></span><br><span class="line"><span class="comment">    * #tryAcquireShared&#125; until success.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> arg the acquire argument.  This value is conveyed to</span></span><br><span class="line"><span class="comment">    *        &#123;<span class="doctag">@link</span> #tryAcquireShared&#125; but is otherwise uninterpreted</span></span><br><span class="line"><span class="comment">    *        and can represent anything you like.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</span><br><span class="line">           doAcquireShared(arg); <span class="comment">// 获取资源失败</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Acquires in shared uninterruptible mode.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> arg the acquire argument</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> Node node = addWaiter(Node.SHARED);</span><br><span class="line">       <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="keyword">boolean</span> interrupted = <span class="keyword">false</span>;</span><br><span class="line">           <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">               <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">               <span class="keyword">if</span> (p == head) &#123; <span class="comment">// 前一个是头节点</span></span><br><span class="line">                   <span class="keyword">int</span> r = tryAcquireShared(arg); <span class="comment">// 返回剩余的个数</span></span><br><span class="line">                   <span class="keyword">if</span> (r &gt;= <span class="number">0</span>) &#123; <span class="comment">// 自身满足条件</span></span><br><span class="line">                       setHeadAndPropagate(node, r); <span class="comment">// 同时唤醒其他节点</span></span><br><span class="line">                       p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                       <span class="keyword">if</span> (interrupted)</span><br><span class="line">                           selfInterrupt();</span><br><span class="line">                       failed = <span class="keyword">false</span>;</span><br><span class="line">                       <span class="keyword">return</span>;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                   parkAndCheckInterrupt())</span><br><span class="line">                   interrupted = <span class="keyword">true</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (failed)</span><br><span class="line">               cancelAcquire(node);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Sets head of queue, and checks if successor may be waiting</span></span><br><span class="line"><span class="comment">    * in shared mode, if so propagating if either propagate &gt; 0 or</span></span><br><span class="line"><span class="comment">    * PROPAGATE status was set.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> node the node</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> propagate the return value from a tryAcquireShared</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setHeadAndPropagate</span><span class="params">(Node node, <span class="keyword">int</span> propagate)</span> </span>&#123;</span><br><span class="line">       Node h = head; <span class="comment">// Record old head for check below</span></span><br><span class="line">       setHead(node);</span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * Try to signal next queued node if:</span></span><br><span class="line"><span class="comment">        *   Propagation was indicated by caller,</span></span><br><span class="line"><span class="comment">        *     or was recorded (as h.waitStatus either before</span></span><br><span class="line"><span class="comment">        *     or after setHead) by a previous operation</span></span><br><span class="line"><span class="comment">        *     (note: this uses sign-check of waitStatus because</span></span><br><span class="line"><span class="comment">        *      PROPAGATE status may transition to SIGNAL.)</span></span><br><span class="line"><span class="comment">        * and</span></span><br><span class="line"><span class="comment">        *   The next node is waiting in shared mode,</span></span><br><span class="line"><span class="comment">        *     or we don't know, because it appears null</span></span><br><span class="line"><span class="comment">        *</span></span><br><span class="line"><span class="comment">        * The conservatism in both of these checks may cause</span></span><br><span class="line"><span class="comment">        * unnecessary wake-ups, but only when there are multiple</span></span><br><span class="line"><span class="comment">        * racing acquires/releases, so most need signals now or soon</span></span><br><span class="line"><span class="comment">        * anyway.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="keyword">if</span> (propagate &gt; <span class="number">0</span> || h == <span class="keyword">null</span> || h.waitStatus &lt; <span class="number">0</span> ||</span><br><span class="line">           (h = head) == <span class="keyword">null</span> || h.waitStatus &lt; <span class="number">0</span>) &#123; <span class="comment">// 如果还有资源</span></span><br><span class="line">           Node s = node.next;</span><br><span class="line">           <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.isShared())</span><br><span class="line">               doReleaseShared(); <span class="comment">// 调用relaseShared方法唤醒其他节点</span></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ReleasesShared方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Releases in shared mode.  Implemented by unblocking one or more</span></span><br><span class="line"><span class="comment">    * threads if &#123;<span class="doctag">@link</span> #tryReleaseShared&#125; returns true.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> arg the release argument.  This value is conveyed to</span></span><br><span class="line"><span class="comment">    *        &#123;<span class="doctag">@link</span> #tryReleaseShared&#125; but is otherwise uninterpreted</span></span><br><span class="line"><span class="comment">    *        and can represent anything you like.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the value returned from &#123;<span class="doctag">@link</span> #tryReleaseShared&#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;</span><br><span class="line">           doReleaseShared();</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReleaseShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">        * Ensure that a release propagates, even if there are other</span></span><br><span class="line"><span class="comment">        * in-progress acquires/releases.  This proceeds in the usual</span></span><br><span class="line"><span class="comment">        * way of trying to unparkSuccessor of head if it needs</span></span><br><span class="line"><span class="comment">        * signal. But if it does not, status is set to PROPAGATE to</span></span><br><span class="line"><span class="comment">        * ensure that upon release, propagation continues.</span></span><br><span class="line"><span class="comment">        * Additionally, we must loop in case a new node is added</span></span><br><span class="line"><span class="comment">        * while we are doing this. Also, unlike other uses of</span></span><br><span class="line"><span class="comment">        * unparkSuccessor, we need to know if CAS to reset status</span></span><br><span class="line"><span class="comment">        * fails, if so rechecking.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           Node h = head;</span><br><span class="line">           <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h != tail) &#123;</span><br><span class="line">               <span class="keyword">int</span> ws = h.waitStatus;</span><br><span class="line">               <span class="keyword">if</span> (ws == Node.SIGNAL) &#123;</span><br><span class="line">                   <span class="keyword">if</span> (!compareAndSetWaitStatus(h, Node.SIGNAL, <span class="number">0</span>))</span><br><span class="line">                       <span class="keyword">continue</span>;            <span class="comment">// loop to recheck cases</span></span><br><span class="line">                   unparkSuccessor(h);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">else</span> <span class="keyword">if</span> (ws == <span class="number">0</span> &amp;&amp;</span><br><span class="line">                        !compareAndSetWaitStatus(h, <span class="number">0</span>, Node.PROPAGATE))</span><br><span class="line">                   <span class="keyword">continue</span>;                <span class="comment">// loop on failed CAS</span></span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">if</span> (h == head)                   <span class="comment">// loop if head changed</span></span><br><span class="line">               <span class="keyword">break</span>;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、编程题"><a href="#二、编程题" class="headerlink" title="二、编程题"></a>二、编程题</h2><ul>
+<li>随机均匀<br>&nbsp;&nbsp;&nbsp;&nbsp;从五亿个用户中随机选取10万个用户，如何做的随机均匀</li>
+</ul>
+
       
 
       
@@ -213,16 +252,24 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/02/interview-qiuzhao-tencent-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">腾讯秋招二面</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -242,348 +289,14 @@
 
 
 
-
-  
-    <article id="post-interview-qiuzhao-tencent-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/02/interview-qiuzhao-tencent-2/">腾讯秋招二面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/02/interview-qiuzhao-tencent-2/" class="archive-article-date">
-  	<time datetime="2019-09-02T15:00:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="最大连续子数组之和"><a href="#最大连续子数组之和" class="headerlink" title="最大连续子数组之和"></a>最大连续子数组之和</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;给定数组比如[1, -2, 3, 10, -4, 7, 2, -5],求出最大的连续子数组和<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> learn.algorithm.training.tencent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxContinueSubArraySum</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> max_val = Integer.MIN_VALUE;</span><br><span class="line">		<span class="keyword">int</span> current = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (current &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">				current = array[i];</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				current += array[i];</span><br><span class="line">			&#125;</span><br><span class="line">			max_val = Math.max(max_val, current);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> max_val;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] array = &#123;<span class="number">1</span>, -<span class="number">2</span>, <span class="number">3</span>, <span class="number">10</span>, -<span class="number">4</span>, <span class="number">7</span>, <span class="number">2</span>, -<span class="number">5</span>&#125;;</span><br><span class="line">		System.out.println(<span class="keyword">new</span> MaxContinueSubArraySum().sum(array));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">18</span><br></pre></td></tr></table></figure></p>
-        
-          <a class="article-more-a" href="/2019/09/02/interview-qiuzhao-tencent-2/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">tencent</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/02/interview-qiuzhao-tencent-2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-math-group-history" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/math-group-history/">群论发展</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/09/math-group-history/" class="archive-article-date">
-  	<time datetime="2019-06-09T14:45:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;对于一元n次方程 a_0 * x^n + a_1 * x^(n-1) + … + a_n = 0。考虑a_0 = 1的情况，否则可以作变化使得上面方程成立。==&gt; x^n + a_1 * x^(n-1) + … + a_n = 0。 令x = y + t。也就是作个平移。这样上面的方程变成 (y+t)^n + a_1 * (y+t)^(n-1) + … + a_n = 0。 ==&gt; y^n + (n*t + a_1) * y^(n-1) + … 取t = -a_1/n的时候，则能消去次高项y^(n-1) ==&gt; y^n + b_1 * y^(n-2) + … + b_n = 0。</p>
-<h2 id="一元二次方程"><a href="#一元二次方程" class="headerlink" title="一元二次方程"></a>一元二次方程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;一元二次方程x^2 + b/a * x + c/a = 0。按照引入的消去次高项x。则取t = -b/(2*a), y = x - t = x + b/(2*a) 这样一元二次方程转换为y^2 = delta/(4 * a^2), 解出y和x, x = y + t = -b/(2*a) +- sqrt(delat)/(2*a)</p>
-<h2 id="一元三次方程"><a href="#一元三次方程" class="headerlink" title="一元三次方程"></a>一元三次方程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;1545年, G.Cardano将三次方程求解写入书中。由于引入可知，可以消除次高项，因此考虑不含二次项的三次方程x^3 + p*x = q。设x = a+b, 得到(a+b)^3 + p*(a+b) = q ==&gt; a^3 + b^3 + 3*a*b(a+b) + p*(a+b) = q ==&gt; (p + 3*a*b)*(a + b) = q - a^3 - b^3 (公式1)。<br>&nbsp;&nbsp;&nbsp;&nbsp;选择a和b满足a*b = -p/3而且a^3 + b^3 = q,这样a+b就是公式1的解。由于(a^3 - b^3)^2 = (a^3 + b^3)^2 - 4*(a*b)^3 = q^2 -4*(-p/3)^3 ==&gt; a^3 - b^3 = +- sqrt(q^2 + 4/27 * p^3)。解出a^3 = q/2 +- sqrt(q^2 / 4 + p^3 / 27), b^3 = q/2 -+ sqrt(q^2 / 4 + p^3 / 27)。故而x_1 = cube(q/2 + sqrt(delta)) + cube(q/2 - sqrt(delta)), x_2 = a*w + b*w^2, x_3 = a*w^2 + b*w。其中delta = q^2 / 4 + p^3 / 27, w = (-1 + sqrt(-3)) / 2, w^2是w的共轭结果, w^2 + w = -1, w*w^2 = 1。<br>&nbsp;&nbsp;&nbsp;&nbsp;当delta &gt; 0的时候，存在一个实根，一对复根；当delta = 0的时候，有重根x_1 = 2*cube(q/2), x_2 = x_3 = -cube(q/2)；当delta &lt; 0 的时候，有三个实根</p>
-<h2 id="一元四次方程"><a href="#一元四次方程" class="headerlink" title="一元四次方程"></a>一元四次方程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;1540年G.Cardano的学生Ferrari解出一元四次方程。考虑不含三次项的四次方程x^4 + p*x^2 + q*x + r = 0。引入参数t, (x^2 + t)^2 = x^4 + 2*t*x^2 + t^2 = 2*t*x^2 + t^2 -p*x^2 - q*x - r = (2*t - p)*x^2 - q*x + (t^2 - r)。如果能选择一个t，使得等式右边的delta为0，则两边开方可解。则(-q)^2 - 4*(2*t - p)*(t^2 -r) = 0。这是一个一元三次方程，显然可以找到t。这样就得到(x^2 + t)^2 = (2*t - p)*(x - q/(2*(2*t - p)))^2 ==&gt; x^2 + t = +-sqrt(2*t - p)*(x - q/(2*(2*t - p ))), 这是关于x的两个一元二次方程，每个一元二次方程存在两个根，因此一元四次方程存在四个根。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">algebra</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">group</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/09/math-group-history/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-math-sqrt-principle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/math-sqrt-principle/">平方根数学方法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/09/math-sqrt-principle/" class="archive-article-date">
-  	<time datetime="2019-06-09T07:26:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="平方根问题"><a href="#平方根问题" class="headerlink" title="平方根问题"></a>平方根问题</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;在编程语言中使用sqrt方法，可以借助牛顿迭代法来实现。其理论基础如下<br>&nbsp;&nbsp;&nbsp;&nbsp;对于f(x) = x^2 - a, 其泰勒展开级数是f(x) = f(x0) + f’(x0)(x - x0) +…。因此得到递推关系式，x_n+1 = x_n - f(x_n) / f’(x_n)</p>
-<h2 id="python实现"><a href="#python实现" class="headerlink" title="python实现"></a>python实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqrt</span><span class="params">(x)</span>:</span></span><br><span class="line">    y = <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">while</span> abs(y * y -x) &gt; <span class="number">1e-6</span>:</span><br><span class="line">        y = (y + x / y) / <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
-<h2 id="收敛性证明"><a href="#收敛性证明" class="headerlink" title="收敛性证明"></a>收敛性证明</h2><ul>
-<li><p>迭代法不动点定理<br>&nbsp;&nbsp;&nbsp;&nbsp;如果x*是faer的不动点, faer’在x*某邻域存在且连续，并且0 != |faer’(x’)| &lt; 1，则x = faer(x)在x*邻域内收敛，其中x’属于x*的某邻域</p>
-</li>
-<li><p>证明收敛性<br>&nbsp;&nbsp;&nbsp;&nbsp;由于faer(x) = x - f(x) / f’(x), 假设x*是f(x)的一个根,则f(x*) = 0 且 f’(x*) != 0，这是因为在平方根中x^2 - a = 0,中始终存在两个根。<br>&nbsp;&nbsp;&nbsp;&nbsp;故而faer(x*) = x<em>,也就是x\</em>是faer的不动点。 faer’(x) = -f(x) * f’’(x) /f’(x)^2, 故而faer’(x)在x*的邻域内存在且连续, 同时x*邻域内的x’满足0 != faer’(x’) &lt; 1, 故而收敛，得证</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">function</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/09/math-sqrt-principle/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-interview-bytedance" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/interview-bytedance/">抖音面试</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/08/interview-bytedance/" class="archive-article-date">
-  	<time datetime="2019-05-08T10:19:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img{
-    width:650px;
-}
-</style>
-
-<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><ul>
-<li>引入<br>&nbsp;&nbsp;&nbsp;&nbsp;CAP理论由Eric Brewer于2000年提出，被称为分布式领域重要理论。C:一致性，分布式系统中的所有数据备份在同一时刻是否同样的值。A:可用性,在集群中一部分节点出现故障后，集群整体是否还能响应客户端的读写请求。P:分区容忍性,对通信的时限要求,分布式架构P是一个必选项。</li>
-<li>适用场景<br>&nbsp;&nbsp;&nbsp;&nbsp;CA without P:CA基本上是单机系统。2PC是实现强一致性的具体手段。CP without A:相当于每个请求都需要在Server之间强一致，而P会导致同步时间很长，如此CP可以保证，分布式数据库，分布式锁都属于这种模式。AP without C:每个节点只能用本地数据提供服务，这样会导致全局数据的不一致。比如NoSQL,DNS属于此类。</li>
-<li>新定义<br>&nbsp;&nbsp;&nbsp;&nbsp;2002年Lynch证明其正确性。反证法:如果同时满足，因为P的存在，一定存在Server之间的丢包，这样就不能保证C。<br>C：一致性被称为原子对象，任何的读写都应该看起来是“原子“的，或串行的。写后面的读一定能读到前面写的内容。所有的读写请求都好像被全局排序。<br>A：对任何非失败节点都应该在有限时间内给出请求的回应。（请求的可终止性）<br>P：允许节点之间丢失任意多的消息，当网络分区发生时，节点之间的消息可能会完全丢失<br>
-        
-          <a class="article-more-a" href="/2019/05/08/interview-bytedance/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/08/interview-bytedance/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -606,8 +319,8 @@ img{
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
