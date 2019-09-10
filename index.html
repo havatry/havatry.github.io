@@ -152,6 +152,195 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-interview-qiuzhao-meituan-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/09/interview-qiuzhao-meituan-3/">美团秋招三面</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/09/interview-qiuzhao-meituan-3/" class="archive-article-date">
+  	<time datetime="2019-09-09T08:40:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
+<li>Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办<br>&nbsp;&nbsp;&nbsp;&nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所有字符，因此发明了多字节字符集MBCS。为了解决不同字符集在机器上的通用性，出现了统一字符编码Unicode，同时减少了耦合性。Unicode不是一种具体的编码方案，只是定义了字符集合和唯一编号,Unicode是对UTF-8和UTF-16的统称。<br>&nbsp;&nbsp;&nbsp;&nbsp;对于普通的中文字是占三个字节,长度是1;emojis表情占四个字节，长度是2; 生僻中文字占四个字节,长度是2.JDK1的支持Unicode2.1, JDK4支持Unicode3.0,JDK5支持Unicode4.0。在Unicode3.0之前Java是用两个字节表示unicode字符，因为Unicode3.0最多是49259个字符,两个字节可以表示65536个字符，足够容下所有的unicode3.0字符。但是到Unicode4.0，字符扩充到了96447个字符，Unicode 11.0包含了137374个字符。<br>&nbsp;&nbsp;&nbsp;&nbsp;在Unicode中，每个字符都有一个编码点，用U+十六进制数表示，所有字符按照使用频繁度划分17个平面，其中0平面是使用最广泛的，称为BMP，基本多语言平面。因此现在的Charactor不是一个代码点，而是一个代码单元。代码点，是一个字符的数字表示，一个字符集一般可以用一张或者多张由多个行和列构成的二维表来表示。行和列的交叉点称为代码点，每个代码点分配一个唯一的编号数字。每个代码点唯一对应一个字符，从U+0000到U+10FFFF。代码单元，是一个已编码的文本中具有最短的比特组合的单元。对于UTF-8来说，代码单元式8比特；对于UTF-16来说，代码单元是16比特。Java的字符在内部以UTF-16编码方式表示，String.length()返回Code Unit的长度，而不再是Unicode字符长度。对于UTF-16编码的扩展字符，以4个字节表示，前两个字节并不会和BMP平面冲突，因为BMP平面中预留了U+D800到U+DFFF直接的码位，细分的话U+D800到U+DBFF是前导代理，后面部分是后导代理。<br>&nbsp;&nbsp;&nbsp;&nbsp;字符的值小于0x10000的用等于该值的16位整数来表示。字符的值介于0x10000和0x10FFFF之间的，用一个值介于0xD800和0xDBFF(在所谓的高8位区)的16位整数和值介于0xDC00和0xDFFF(在所谓的低8位区)的16位整数来表示。字符的值大于0x10FFFF不能按照UTF-16进行编码。<br><img src="/images/基础/unicode字符.png" alt="unicode概述"></li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/09/09/interview-qiuzhao-meituan-3/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/09/interview-qiuzhao-meituan-3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-spring-source-overview" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/09/spring-source-overview/">spring综述</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/09/spring-source-overview/" class="archive-article-date">
+  	<time datetime="2019-09-09T02:33:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h2><ul>
+<li>将name转化为beanName</li>
+<li>如果beanName在缓存中<ul>
+<li>找出单例bean</li>
+<li>依据bean获取实例</li>
+</ul>
+</li>
+<li>如果beanName不在缓存中<ul>
+<li>验证准备覆盖方法</li>
+<li>实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean)</li>
+<li>如果上一步没有生成bean,则进行常规bean的创建<ul>
+<li>使用工厂方法或者构造函数进行创建bean</li>
+<li>bean合并处理 (常用于Autowired注解)</li>
+<li>解决循环依赖问题</li>
+<li>属性注入并应用属性值</li>
+<li>初始化bean<ul>
+<li>为BeanNameAware, BeanClassLoaderAware, BeanFactoryAware的bean设置资源</li>
+<li>调用bean后处理器postProccessBeforeInitialization方法</li>
+<li>调用bean的init-method属性方法</li>
+<li>注册DisposableBean</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>进行类型转化<br><a href="https://havatry.github.io/2019/03/29/spring-source-createBean/" target="_blank" rel="noopener">详细参考Spring Bean创建</a></li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/09/09/spring-source-overview/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">overview</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/09/spring-source-overview/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-interview-qiuzhao-meituan-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -418,179 +607,9 @@
 
 
   
-    <article id="post-math-sqrt-principle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/math-sqrt-principle/">平方根数学方法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/09/math-sqrt-principle/" class="archive-article-date">
-  	<time datetime="2019-06-09T07:26:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="平方根问题"><a href="#平方根问题" class="headerlink" title="平方根问题"></a>平方根问题</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;在编程语言中使用sqrt方法，可以借助牛顿迭代法来实现。其理论基础如下<br>&nbsp;&nbsp;&nbsp;&nbsp;对于f(x) = x^2 - a, 其泰勒展开级数是f(x) = f(x0) + f’(x0)(x - x0) +…。因此得到递推关系式，x_n+1 = x_n - f(x_n) / f’(x_n)</p>
-<h2 id="python实现"><a href="#python实现" class="headerlink" title="python实现"></a>python实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqrt</span><span class="params">(x)</span>:</span></span><br><span class="line">    y = <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">while</span> abs(y * y -x) &gt; <span class="number">1e-6</span>:</span><br><span class="line">        y = (y + x / y) / <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
-<h2 id="收敛性证明"><a href="#收敛性证明" class="headerlink" title="收敛性证明"></a>收敛性证明</h2><ul>
-<li><p>迭代法不动点定理<br>&nbsp;&nbsp;&nbsp;&nbsp;如果x*是faer的不动点, faer’在x*某邻域存在且连续，并且0 != |faer’(x’)| &lt; 1，则x = faer(x)在x*邻域内收敛，其中x’属于x*的某邻域</p>
-</li>
-<li><p>证明收敛性<br>&nbsp;&nbsp;&nbsp;&nbsp;由于faer(x) = x - f(x) / f’(x), 假设x*是f(x)的一个根,则f(x*) = 0 且 f’(x*) != 0，这是因为在平方根中x^2 - a = 0,中始终存在两个根。<br>&nbsp;&nbsp;&nbsp;&nbsp;故而faer(x*) = x<em>,也就是x\</em>是faer的不动点。 faer’(x) = -f(x) * f’’(x) /f’(x)^2, 故而faer’(x)在x*的邻域内存在且连续, 同时x*邻域内的x’满足0 != faer’(x’) &lt; 1, 故而收敛，得证</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">function</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/09/math-sqrt-principle/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-interview-bytedance" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/interview-bytedance/">抖音面试</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/08/interview-bytedance/" class="archive-article-date">
-  	<time datetime="2019-05-08T10:19:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img{
-    width:650px;
-}
-</style>
-
-<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><ul>
-<li>引入<br>&nbsp;&nbsp;&nbsp;&nbsp;CAP理论由Eric Brewer于2000年提出，被称为分布式领域重要理论。C:一致性，分布式系统中的所有数据备份在同一时刻是否同样的值。A:可用性,在集群中一部分节点出现故障后，集群整体是否还能响应客户端的读写请求。P:分区容忍性,对通信的时限要求,分布式架构P是一个必选项。</li>
-<li>适用场景<br>&nbsp;&nbsp;&nbsp;&nbsp;CA without P:CA基本上是单机系统。2PC是实现强一致性的具体手段。CP without A:相当于每个请求都需要在Server之间强一致，而P会导致同步时间很长，如此CP可以保证，分布式数据库，分布式锁都属于这种模式。AP without C:每个节点只能用本地数据提供服务，这样会导致全局数据的不一致。比如NoSQL,DNS属于此类。</li>
-<li>新定义<br>&nbsp;&nbsp;&nbsp;&nbsp;2002年Lynch证明其正确性。反证法:如果同时满足，因为P的存在，一定存在Server之间的丢包，这样就不能保证C。<br>C：一致性被称为原子对象，任何的读写都应该看起来是“原子“的，或串行的。写后面的读一定能读到前面写的内容。所有的读写请求都好像被全局排序。<br>A：对任何非失败节点都应该在有限时间内给出请求的回应。（请求的可终止性）<br>P：允许节点之间丢失任意多的消息，当网络分区发生时，节点之间的消息可能会完全丢失<br>
-        
-          <a class="article-more-a" href="/2019/05/08/interview-bytedance/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/08/interview-bytedance/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -725,19 +744,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">function</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">

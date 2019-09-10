@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | Havatry</title>
+  <title>spring综述 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/archives/2019/page/4/index.html">
+  <meta name="description" content="IOC 将name转化为beanName 如果beanName在缓存中 找出单例bean 依据bean获取实例   如果beanName不在缓存中 验证准备覆盖方法 实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean) 如果上一步没有">
+<meta name="keywords" content="spring,overview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring综述">
+<meta property="og:url" content="http://yoursite.com/2019/09/09/spring-source-overview/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="IOC 将name转化为beanName 如果beanName在缓存中 找出单例bean 依据bean获取实例   如果beanName不在缓存中 验证准备覆盖方法 实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean) 如果上一步没有">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-09T04:35:54.980Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Havatry">
+<meta name="twitter:title" content="spring综述">
+<meta name="twitter:description" content="IOC 将name转化为beanName 如果beanName在缓存中 找出单例bean 依据bean获取实例   如果beanName不在缓存中 验证准备覆盖方法 实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean) 如果上一步没有">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -150,307 +155,173 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-spring-source-overview" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      spring综述
+    </h1>
+  
+
+        
+        <a href="/2019/09/09/spring-source-overview/" class="archive-article-date">
+  	<time datetime="2019-09-09T02:33:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h2><ul>
+<li>将name转化为beanName</li>
+<li>如果beanName在缓存中<ul>
+<li>找出单例bean</li>
+<li>依据bean获取实例</li>
+</ul>
+</li>
+<li>如果beanName不在缓存中<ul>
+<li>验证准备覆盖方法</li>
+<li>实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean)</li>
+<li>如果上一步没有生成bean,则进行常规bean的创建<ul>
+<li>使用工厂方法或者构造函数进行创建bean</li>
+<li>bean合并处理 (常用于Autowired注解)</li>
+<li>解决循环依赖问题</li>
+<li>属性注入并应用属性值</li>
+<li>初始化bean<ul>
+<li>为BeanNameAware, BeanClassLoaderAware, BeanFactoryAware的bean设置资源</li>
+<li>调用bean后处理器postProccessBeforeInitialization方法</li>
+<li>调用bean的init-method属性方法</li>
+<li>注册DisposableBean</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>进行类型转化<br><a href="https://havatry.github.io/2019/03/29/spring-source-createBean/" target="_blank" rel="noopener">详细参考Spring Bean创建</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><ul>
+<li>解析标签aspectj-autoproxy, 对应到AspectJAutoProxyBeanDefinitionParser类</li>
+<li>注册AnnotationAwareAspectJAutoProxyCreator, 该类实现了BeanPostProcessor接口</li>
+<li>调用postProcessAfterInitialization方法</li>
+<li>通过注解获取增强器和切点信息，依据切点信息进行增强，包括前置通知和后置通知等，通知由拦截器的invoke方法触发</li>
+<li>对获取的增强器应用匹配规则，对满足条件的增强器进行代理</li>
+<li>使用bean的时候，调用代理的invoke方法，触发执行链的proceed方法，在proceed方法中调用了拦截器的invoke方法，从而完成了增强<br><a href="https://havatry.github.io/2019/04/08/spring-aop/" target="_blank" rel="noopener">详细参考Spring AOP源码分析</a></li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
+<li>解析标签annotation-driven, 对应到AnnotationDrivenBeanDefinitionParser类</li>
+<li>注册InfrastructureAdvisorAutoProxyCreator类，并为BeanFactoryTransactionAttributeSourceAdvisor设置AnnotationTransactionAttributeSource和TransactionIntercepeter</li>
+<li>InfrastructureAdvisorAutoProxyCreator实现BeanPostProcessor接口，调用其postProcessAfterInitialization获取增强器, 由于BeanFactoryTransactionAttributeSourceAdvisor也是一个增强器会被处理</li>
+<li>处理BeanFactoryTransactionAttributeSourceAdvisor时候，首先获取AnnotationTransactionAttributeSource，调用其getTransaction方法提取事务标签属性，填充到TransactionAttribute中返回</li>
+<li>当调用BeanFactoryTransactionAttributeSourceAdvisor增强器的时候，首先触发拦截器TransactionIntercepeter的invoke方法，该方法完成了整个事务流程。</li>
+<li>声明式事务创建<ul>
+<li>基于JDBC创建事务实例，将信息记录到TransactionInfo中，用于回滚</li>
+<li>设置事务，使用DataSourceTransactionManager的doGetTransaction方法，包括设置保存点和是否是连接</li>
+<li>完善transaction, 设置隔离级别，关闭默认提交，绑定当前线程，这些是委托给底层数据库去操作</li>
+</ul>
+</li>
+<li>回滚<ul>
+<li>条件判断，运行时异常 错误回滚</li>
+<li>回滚处理<ul>
+<li>如果有保存点，则回滚到保存点</li>
+<li>如果是新事务直接回滚，否则做下标记，等提交时候回滚</li>
+<li>清理工作，释放数据库连接，恢复挂起的线程</li>
+</ul>
+</li>
+<li>提交处理<ul>
+<li>如果有保存点，则回滚到保存点</li>
+<li>如果新事务进行提交，否则设置下标记，等外层提交时候回滚处理</li>
+<li>提交操作</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://havatry.github.io/2019/04/22/spring-transaction/" target="_blank" rel="noopener">详细参考Spring事务</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/09/jdk-linkedlist/" class="archive-article-date">
-  	<time datetime="2019-04-09T14:14:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/09/jdk-linkedlist/">LinkedList源码</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/09/jdk-arraylist/" class="archive-article-date">
-  	<time datetime="2019-04-09T11:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/09/jdk-arraylist/">ArrayList源码分析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/08/spring-aop/" class="archive-article-date">
-  	<time datetime="2019-04-08T12:26:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/08/spring-aop/">Spring AOP源码分析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
         		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/31/java-network/" class="archive-article-date">
-  	<time datetime="2019-03-31T12:53:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/31/java-network/">网络</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/29/spring-source-createBean/" class="archive-article-date">
-  	<time datetime="2019-03-29T10:27:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/29/spring-source-createBean/">Spring Bean创建</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">overview</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/27/shell-sed/" class="archive-article-date">
-  	<time datetime="2019-03-27T03:18:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/09/09/interview-qiuzhao-meituan-3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          美团秋招三面
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/04/interview-qiuzhao-meituan-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">美团秋招一面</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/27/shell-sed/">sed进阶</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/25/redis-datatype/" class="archive-article-date">
-  	<time datetime="2019-03-25T04:26:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/25/redis-datatype/">redis数据类型</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><a class="page-number" href="/archives/2019/page/2/">2</a><a class="page-number" href="/archives/2019/page/3/">3</a><span class="page-number current">4</span>
-    </nav>
   
 
 
@@ -474,8 +345,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
