@@ -152,6 +152,113 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-spring-source-overview" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/09/spring-source-overview/">Spring综述</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/09/spring-source-overview/" class="archive-article-date">
+  	<time datetime="2019-09-09T02:33:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h2><ul>
+<li>将name转化为beanName</li>
+<li>如果beanName在缓存中<ul>
+<li>找出单例bean</li>
+<li>依据bean获取实例</li>
+</ul>
+</li>
+<li>如果beanName不在缓存中<ul>
+<li>验证准备覆盖方法</li>
+<li>实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean)</li>
+<li>如果上一步没有生成bean,则进行常规bean的创建<ul>
+<li>使用工厂方法或者构造函数进行创建bean</li>
+<li>bean合并处理 (常用于Autowired注解)</li>
+<li>解决循环依赖问题</li>
+<li>属性注入并应用属性值</li>
+<li>初始化bean<ul>
+<li>为BeanNameAware, BeanClassLoaderAware, BeanFactoryAware的bean设置资源</li>
+<li>调用bean后处理器postProccessBeforeInitialization方法</li>
+<li>调用bean的init-method属性方法</li>
+<li>注册DisposableBean</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>进行类型转化<br><a href="https://havatry.github.io/2019/03/29/spring-source-createBean/" target="_blank" rel="noopener">详细参考Spring Bean创建</a></li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/09/09/spring-source-overview/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">overview</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/09/spring-source-overview/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-interview-qiuzhao-meituan-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -503,94 +610,9 @@
 
 
   
-    <article id="post-interview-bytedance" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/08/interview-bytedance/">抖音面试</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/08/interview-bytedance/" class="archive-article-date">
-  	<time datetime="2019-05-08T10:19:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img{
-    width:650px;
-}
-</style>
-
-<h2 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h2><ul>
-<li>引入<br>&nbsp;&nbsp;&nbsp;&nbsp;CAP理论由Eric Brewer于2000年提出，被称为分布式领域重要理论。C:一致性，分布式系统中的所有数据备份在同一时刻是否同样的值。A:可用性,在集群中一部分节点出现故障后，集群整体是否还能响应客户端的读写请求。P:分区容忍性,对通信的时限要求,分布式架构P是一个必选项。</li>
-<li>适用场景<br>&nbsp;&nbsp;&nbsp;&nbsp;CA without P:CA基本上是单机系统。2PC是实现强一致性的具体手段。CP without A:相当于每个请求都需要在Server之间强一致，而P会导致同步时间很长，如此CP可以保证，分布式数据库，分布式锁都属于这种模式。AP without C:每个节点只能用本地数据提供服务，这样会导致全局数据的不一致。比如NoSQL,DNS属于此类。</li>
-<li>新定义<br>&nbsp;&nbsp;&nbsp;&nbsp;2002年Lynch证明其正确性。反证法:如果同时满足，因为P的存在，一定存在Server之间的丢包，这样就不能保证C。<br>C：一致性被称为原子对象，任何的读写都应该看起来是“原子“的，或串行的。写后面的读一定能读到前面写的内容。所有的读写请求都好像被全局排序。<br>A：对任何非失败节点都应该在有限时间内给出请求的回应。（请求的可终止性）<br>P：允许节点之间丢失任意多的消息，当网络分区发生时，节点之间的消息可能会完全丢失<br>
-        
-          <a class="article-more-a" href="/2019/05/08/interview-bytedance/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/08/interview-bytedance/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -725,7 +747,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">function</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -733,15 +755,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -750,6 +764,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">

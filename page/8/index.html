@@ -152,6 +152,96 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jdk-arraylist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/09/jdk-arraylist/">ArrayList源码分析</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/09/jdk-arraylist/" class="archive-article-date">
+  	<time datetime="2019-04-09T11:21:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>ArrayList是一个动态数组，灵活添加或者删除元素。jdk中ArrayList并不是线程安全的类，如需要可以使用Collections的静态方法synchronizedList进行封装<br>本文目录结构如下<br><a href="#arraylist1">字段数值</a><br><a href="#arraylist2">构造函数</a><br><a href="#arraylist3">add函数</a><br><a href="#arraylist4">set和get函数</a><br><a href="#arraylist5">indexOf函数</a><br><a href="#arraylist6">remove函数</a></p>
+</blockquote>
+<p><br></p>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="arraylist1">字段数值</a></h2><p><img src="/images/源码分析/jdk/ArrayList_field.png" alt="字段数值"><br>
+        
+          <a class="article-more-a" href="/2019/04/09/jdk-arraylist/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/09/jdk-arraylist/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-spring-aop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -528,151 +618,9 @@ table th:nth-of-type(2) {
 
 
   
-    <article id="post-redis-datatype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/25/redis-datatype/">redis数据类型</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/25/redis-datatype/" class="archive-article-date">
-  	<time datetime="2019-03-25T04:26:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-table {
-    display: block;
-    overflow-x: auto;  //显示滚动条
-    white-space: nowrap; //表格内容强制不换行
-}
-</style>
-
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>设置值</th>
-<th>获取值</th>
-<th>删除值</th>
-<th>查看值</th>
-<th>存在值</th>
-<th>运算</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>string</td>
-<td>set,mset,append</td>
-<td>get,mget</td>
-<td>setrange</td>
-<td></td>
-<td></td>
-<td>strlen</td>
-</tr>
-<tr>
-<td>list</td>
-<td>lpush,rpush,linsert</td>
-<td>lindex</td>
-<td>lpop,rpop,ltrim,brpop,blpop</td>
-<td>lrange</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>hash</td>
-<td>hset,hmset</td>
-<td>hget,hmget</td>
-<td>hdel</td>
-<td>hgetall,hscan</td>
-<td>hexists</td>
-<td></td>
-</tr>
-<tr>
-<td>set</td>
-<td>sadd</td>
-<td></td>
-<td>srem</td>
-<td>sscan,scard</td>
-<td>sismember</td>
-<td>sunion,sunionstore,sinter,sinterstore,sdiff,sdiffstore</td>
-</tr>
-<tr>
-<td>zset</td>
-<td>zadd</td>
-<td></td>
-<td>zrem</td>
-<td>zrevrange,zrevrank,zscore,zscan,zcard</td>
-<td></td>
-<td>zunionstore,zinterstore,zdiffstore</td>
-</tr>
-</tbody>
-</table>
-<p>georadius,geodist,georadiusbymemeber,zunionstore,zinterstore,zdiffstore |</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/25/redis-datatype/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 
@@ -807,7 +755,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">function</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -815,15 +763,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -832,6 +772,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
