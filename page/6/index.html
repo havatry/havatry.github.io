@@ -152,6 +152,263 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jvm-collectors" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/jvm-collectors/">GC收集器</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/jvm-collectors/" class="archive-article-date">
+  	<time datetime="2019-04-21T10:46:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="对象分析"><a href="#对象分析" class="headerlink" title="对象分析"></a>对象分析</h2><ul>
+<li>是否可达<br>&nbsp;&nbsp;&nbsp;&nbsp;给对象添加一个引用计数器，当一个地方引用的时候，计数器值加1；当引用失效时候，计数器值就减1；当且仅当计数器值为0的对象就是不可能被使用的。该算法失效简单，判断效率高。在微软COM技术和Python中使用。但是该算法存在循环引用问题。<br>&nbsp;&nbsp;&nbsp;&nbsp;Java使用可达性分析算法。通过一系列的GC-Roots作为起始点，开始往下搜索，搜索所走过的路径称为引用链，当一个对象到GC-Roots没有任何引用链相连时，证明该对象是不可用的。其中GC-Roots对象包括: 虚拟机栈中引用的对象，方法区类静态属性引用的对象，方法区常量引用的对象，本地方法栈JNI引用的对象。<br>
+        
+          <a class="article-more-a" href="/2019/04/21/jvm-collectors/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/jvm-collectors/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-jvm-layout" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/jvm-layout/">jvm内存区域</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/jvm-layout/" class="archive-article-date">
+  	<time datetime="2019-04-21T08:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="内存区域"><a href="#内存区域" class="headerlink" title="内存区域"></a>内存区域</h2><ul>
+<li>程序计数器<br>&nbsp;&nbsp;&nbsp;&nbsp;当前所执行字节码的行号指示器，字节码解释器就是改变这个计数器的值来选取下一条需要执行的字节码指令，指令包括分支、循环、跳转、异常处理、线程恢复等。为了线程切换后能恢复到正确的执行位置，每条线程有一个独立的程序计数器，各条线程的计数器互不影响，独立存储，为线程私有的内存。如果线程执行Java方法，计数器记录的是正在执行的虚拟机字节码指令地址，否则如果执行Native方法，计数器值为空。这是唯一一个没有规定任何OOM的区域。<br>
+        
+          <a class="article-more-a" href="/2019/04/21/jvm-layout/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/jvm-layout/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-mysql-index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/mysql-index/">mysql索引</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/mysql-index/" class="archive-article-date">
+  	<time datetime="2019-04-21T05:10:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:<br><a href="#mysqlindex1">索引分类</a><br>&nbsp;&nbsp;    <a href="#mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex12">哈希索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex13">聚族索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex14">覆盖索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex15">排序索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex16">其他索引</a><br><a href="#mysqlindex2">索引策略</a><br><a href="#mysqlindex3">索引优化</a></p>
+</blockquote>
+<h2 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a><a name="mysqlindex1">索引分类</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;索引优点:大大减少服务器需要扫描的数据量；帮助服务器避免排序和临时表；将随机IO变成顺序IO。索引三星标准:将相关记录放到一起；索引数据顺序和查找数据顺序一致;索引列包含了查询中全表列。</p>
+<ul>
+<li><a name="mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;每种存储引擎以不同的方式实现B-Tree索引。比如MyISAM使用前缀压缩技术使得索引更小,InnoDB按照原数据格式存储。MyISAM会将冗余重复索引优化成一个索引存储内容，InnoDB会对比如A和(A,B)两个索引分别存储对应内容。MyISAM使用B-Tree索引，而InnoDB使用其变形的B+-Tree索引。InnoDB的索引结构如下:<br><img src="/images/Mysql/innode_store.png" alt="B-Tree索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;B-Tree的查询类型有全值匹配(和索引中所有列进行匹配),最左匹配,匹配列前缀(只使用索引第一列),匹配范围(只使用索引第一列)，索引查询(也称覆盖索引),排序查询(也称排序索引,索引树种的节点是有序的),精确并范围查询(对于上面只使用索引第一列的情况，如果前面使用的是等值匹配,包括=或者in，那么索引第一列的概念泛化到已经等值匹配列的后一列)<br>
+        
+          <a class="article-more-a" href="/2019/04/21/mysql-index/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/mysql-index/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-springboot-autoconfig" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -327,264 +584,6 @@ img {
 
 
   
-    <article id="post-linux-bootstrap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/12/linux-bootstrap/">Liunx启动流程</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/12/linux-bootstrap/" class="archive-article-date">
-  	<time datetime="2019-04-12T09:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>一、介绍</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Linux启动流程如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.加载BIOS硬件信息与进行自我测试，依据设置取得第一个可启动的设备<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.读取第一个启动设备内MBR的boot loader(grub)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.依据boot loader设置加载内核，内核开始检测硬件与加载驱动程序<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.硬件驱动加载后，内核主动调用init进程，init进程取得runlevel信息<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.init执行/etc/rc.d/rc.sysinit准备操作环境<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.init执行/etc/rc.d/rc[0-6]准备各个服务启动<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.init执行/etc/rc.d/rc.local执行自定义脚本服务<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.init执行终端机模拟程序mingetty来启动login进程，进行登录<br>
-        
-          <a class="article-more-a" href="/2019/04/12/linux-bootstrap/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">liunx</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/12/linux-bootstrap/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jdk-linkedhashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/jdk-linkedhashmap/">LinkedHashMap源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/10/jdk-linkedhashmap/" class="archive-article-date">
-  	<time datetime="2019-04-10T11:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>LinkedHashMap继承自HashMap,除了节点的结构和具有访问顺序属性外，基本上和HashMap类似。LinkedHashMap具有LRU的特性，指需要重写removeEldestEntry即可。其使用了模板模式对HashMap中的关键步骤中进行重写。比如afterNodeInsertion和afterNodeAccess等。<br>本文主要目录如下<br><a href="#linkedhashmap1">字段数值</a><br><a href="#linkedhashmap2">构造函数</a><br><a href="#linkedhashmap3">newNode函数</a><br><a href="#linkedhashmap4">afterNodeAccess函数</a><br><a href="#linkedhashmap5">afterNodeInsertion函数</a><br><a href="#linkedhashmap6">containsValue函数</a><br><a href="#linkedhashmap7">get函数</a></p>
-</blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedhashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedHashMap继承自HashMap，定义的属主要有头部节点和尾部节点以及访问顺序。<br><img src="/images/源码分析/jdk/LinkedHashMap_field.png" alt="字段数值"><br>
-        
-          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/10/jdk-linkedhashmap/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jdk-hashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/jdk-hashmap/">HashMap源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/10/jdk-hashmap/" class="archive-article-date">
-  	<time datetime="2019-04-10T05:48:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。<br>本文主要目录如下<br><a href="#hashmap1">字段数值</a><br><a href="#hashmap2">构造函数</a><br><a href="#hashmap3">get函数</a><br><a href="#hashmap4">put函数</a></p>
-</blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="hashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段中的装载因子可以大于1，甚至可以很大比如2^27<br><img src="/images/源码分析/jdk/HashMap_field.png" alt="字段数值"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node元素数组结果如下<br><img src="/images/源码分析/jdk/HashMap_Nodeclass.png" alt="字段数值"><br>
-        
-          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -722,11 +721,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">function</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -735,10 +738,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">overview</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">

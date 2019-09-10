@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Havatry</title>
+  <title>阿里秋招一面 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/page/5/index.html">
+  <meta name="description" content="垃圾收集器&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考本博客的垃圾收集章节 分布式锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;介绍, 在单机应用中，如果对一个共享变量进行多线程同步访问，则使用JUC包就行，因为共享变量只是这个JVM内部的一块内存空间。但是在分布式中，变量可能存在多个JVM内存中，如果请求对不同的JVM数据进行操作，显然不存在互斥也不具有可见性。为了保证一个方法或属性">
+<meta name="keywords" content="interview,qiuzhao">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里秋招一面">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/interview-qiuzhao-ali-1/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="垃圾收集器&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考本博客的垃圾收集章节 分布式锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;介绍, 在单机应用中，如果对一个共享变量进行多线程同步访问，则使用JUC包就行，因为共享变量只是这个JVM内部的一块内存空间。但是在分布式中，变量可能存在多个JVM内存中，如果请求对不同的JVM数据进行操作，显然不存在互斥也不具有可见性。为了保证一个方法或属性">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1382592395,3985357599&fm=173&app=49&f=JPEG?w=640&h=146&s=817065324F624D200ED581DA0000C0B2">
+<meta property="og:updated_time" content="2019-09-10T14:16:42.656Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Havatry">
+<meta name="twitter:title" content="阿里秋招一面">
+<meta name="twitter:description" content="垃圾收集器&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考本博客的垃圾收集章节 分布式锁&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;介绍, 在单机应用中，如果对一个共享变量进行多线程同步访问，则使用JUC包就行，因为共享变量只是这个JVM内部的一块内存空间。但是在分布式中，变量可能存在多个JVM内存中，如果请求对不同的JVM数据进行操作，显然不存在互斥也不具有可见性。为了保证一个方法或属性">
+<meta name="twitter:image" content="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1382592395,3985357599&fm=173&app=49&f=JPEG?w=640&h=146&s=817065324F624D200ED581DA0000C0B2">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -150,33 +157,53 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-interview-baidu" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-interview-qiuzhao-ali-1" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/interview-baidu/">百度面试</a>
+    <h1 class="article-title" itemprop="name">
+      阿里秋招一面
     </h1>
   
 
         
-        <a href="/2019/04/24/interview-baidu/" class="archive-article-date">
-  	<time datetime="2019-04-24T08:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
+        <a href="/2019/09/10/interview-qiuzhao-ali-1/" class="archive-article-date">
+  	<time datetime="2019-09-10T12:43:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="JDK代理"><a href="#JDK代理" class="headerlink" title="JDK代理"></a>JDK代理</h2><p>格式 Proxy.newProxyInstance(subject.getClass().getClassLoader(),subject.getClass().getInterfaces(),new ProxyInvocationHandler(subject));<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> practice.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJdkProxy</span> </span>&#123;</span><br><span class="line">	  <span class="keyword">static</span> <span class="class"><span class="keyword">interface</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">	    <span class="function"><span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span></span>;</span><br><span class="line">	    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">	  &#125;</span><br><span class="line">	   </span><br><span class="line">	  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">final</span> Subject subject=<span class="keyword">new</span> Subject()&#123;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">				System.out.println(<span class="string">"hi"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">				System.out.println(<span class="string">"hello"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">	    &#125;;</span><br><span class="line">	    Subject subjectProxy=(Subject) Proxy.newProxyInstance(subject.getClass().getClassLoader(), </span><br><span class="line">	    		subject.getClass().getInterfaces(), <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">					</span><br><span class="line">					<span class="meta">@Override</span></span><br><span class="line">					<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">						<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">						System.out.print(<span class="string">"say: "</span>);</span><br><span class="line">						<span class="keyword">return</span> method.invoke(subject, args);</span><br><span class="line">					&#125;</span><br><span class="line">	    &#125;);</span><br><span class="line">	    subjectProxy.sayHi();</span><br><span class="line">	    subjectProxy.sayHello();</span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
-<p>测试结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">say: hi</span><br><span class="line">say: hello</span><br></pre></td></tr></table></figure></p>
-        
-          <a class="article-more-a" href="/2019/04/24/interview-baidu/#more">more >></a>
-        
+        <h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://havatry.github.io/2019/04/21/jvm-collectors/" target="_blank" rel="noopener">参考本博客的垃圾收集章节</a></p>
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;介绍, 在单机应用中，如果对一个共享变量进行多线程同步访问，则使用JUC包就行，因为共享变量只是这个JVM内部的一块内存空间。但是在分布式中，变量可能存在多个JVM内存中，如果请求对不同的JVM数据进行操作，显然不存在互斥也不具有可见性。为了保证一个方法或属性在高并发情况下的同一时间只能被一个线程执行，就需要分布式锁。<br>&nbsp;&nbsp;&nbsp;&nbsp;条件, 1.一个方法在同一时刻只能被一个机器的一个线程执行 2.高可用的获取锁和释放锁 3.高性能的获取锁和释放锁 4.具备可重入特性 5.局部锁失效机制，防止死锁  6.具备非阻塞锁特性。有对应三种实现。分布式锁和分布式事务都是为了高可用性，也就是AP</p>
+<a id="more"></a>
+<ul>
+<li>基于数据库实现分布式锁<ol>
+<li>设计一个表结构，表中有个字段是方法名，并为其设置唯一约束，如果有多个请求同时提交到数据库，数据库只会保证一个操作可以成功。<br>2和3借助数据库实现</li>
+<li>在数据库表中加个字段，记录当前获得锁的机器主机信息和线程信息，下次获取锁的时候进行判断</li>
+<li>设置一个定时任务，每隔一定时间把数据库中的超时数据清理一遍</li>
+<li>做一个while循环，直到insert成功返回</li>
+<li>为了AP，做两个数据库，数据进行双向同步，挂掉后立即切换</li>
+</ol>
+</li>
+<li>基于Redis实现<ol>
+<li>获取锁之前先查询以下以该锁为key对应的value存不存在，如果存在，说明该锁被其他客户端获取了。</li>
+<li>在获取锁的时候并不是原子操作的，因此可能一把锁被多个线程获取到。可以通过redis 的set my_key my_value NX PX miliseconds命令，当主键key不存在的时候才会设置key值。在释放锁的时候，代码执行很长时间，导致失效时间到了，这样锁被其他线程获取了，这样当前再释放锁，会释放掉别的线程锁。解决方法是为key设置一个随机值，在删除key的时候，判断value值是否和当前值一样，如果不一样，则不会删除别的线程锁了。同样在释放锁中，该操作不是原子性的，因此其他线程可以执行其他命令，即使判等成功了。解决方法是使用Lua脚本来完成释放锁的原子性</li>
+<li>为了解决服务器突然停机，这样锁就无法释放，需要设置合理的过期时间<br><img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1382592395,3985357599&amp;fm=173&amp;app=49&amp;f=JPEG?w=640&amp;h=146&amp;s=817065324F624D200ED581DA0000C0B2" alt="lua脚本的书写"></li>
+</ol>
+</li>
+<li>Zookeeper分布式锁<ol>
+<li>在Zookeeper中创建一个持久节点ParentLock，每次客户端连接，则会在下面创建临时顺序节点Lock1，只有查找所有临时节点顺序并排序后，发现当前节点是最靠前的就可以</li>
+<li>如果当前临时顺序节点排在最前面获取锁，否则向其前面一个锁注册一个Watcher,用于监听前面节点释放还存在，意味着抢锁失败，进入等待状态。这样相当于第一个有锁，后面所有的都在监听前面一个节点。释放锁，当任务完成后，客户端会调用删除当前节点的指令，将节点删除。或者在任务执行过程中，客户端崩溃了，也会删除。当删除节点后，触发其上面注册的监听器，注册在上面的节点会立刻收到通知，这些节点或再次查询ParentLock下面的所有节点，确认自己创建的节点是否是最小的节点，如果是，则获取锁，否则还是监听前面的处于等待状态。<br>345 可以使用github上的Curator框架进行实现<br>&nbsp;&nbsp;&nbsp;&nbsp;综合比较下，Zoopker有封装好的框架，实现起来容易，而且有等待锁的队列，大大提升了抢锁的概率，缺点是添加和删除节点性能低，因为临时顺序节点创建和遍历，还有只有Leader服务器才能添加删除，还需要将数据同步到所有Follower机器上；Redis的Set和Del指令性能很高，但是实现起来复杂，还要考虑超时，原子性，误删等情形；数据库理解起来简单。</li>
+</ol>
+</li>
+</ul>
+<h2 id="XXS攻击"><a href="#XXS攻击" class="headerlink" title="XXS攻击"></a>XXS攻击</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;XSS(Cross Site Scripting)是一种Web应用中的计算机安全漏洞，允许恶意web用户将代码植入到其他用户使用的页面中，包括HTML代码和客户端脚本。<br>&nbsp;&nbsp;&nbsp;&nbsp;方式分为三种。反射型: 也称非持久型XSS，是指发生请求时，XSS代码出现在请求URL中，作为参数提交到服务器，服务器解析并响应，响应结构中包含XSS代码，在浏览器中解析并执行。存储型: 也称持久型XSS，主要是讲XSS代码发送到服务器的内存或者文件系统或者数据库中，下次请求页面的时候不用带上XSS代码，比如用户提交记录到数据库中包含XSS攻击代码，这样之后返回该数据库会出现攻击。<br>&nbsp;&nbsp;&nbsp;&nbsp;防范措施，1.入参字符过滤，把输入的一些不合法的东西都过滤掉，比如&lt;iframe> &lt;script> &lt;a>节点。 2. 出参编码,讲&lt;>和”等用”&amp;lt” “&amp;gt”等解析掉 3.xss攻击的字符串往往比较长，限制长度 4.设置cookie httponly为true,这样js脚本和Applet是无法读取到cookie信息</p>
+<h2 id="Spring实现"><a href="#Spring实现" class="headerlink" title="Spring实现"></a>Spring实现</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://havatry.github.io/2019/09/09/spring-source-overview/" target="_blank" rel="noopener">参考Spring概述</a></p>
+
       
 
       
@@ -190,343 +217,10 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/interview-baidu/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-interview-tencent" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/interview-tencent/">腾讯一面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/24/interview-tencent/" class="archive-article-date">
-  	<time datetime="2019-04-24T05:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="epoll使用阻塞还是非阻塞"><a href="#epoll使用阻塞还是非阻塞" class="headerlink" title="epoll使用阻塞还是非阻塞"></a>epoll使用阻塞还是非阻塞</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;边缘触发ET模式,EpollOut事件触发条件如下:当初次建立连接时候；某次write写满了发送缓冲区，返回错误码EEAGAIN;对方读取了一些数据，又处于重新可写阶段。也就是EpollOut事件只有socket从不可读变成可读状态时候，才会触发一次。对于EpollOut事件，必须将文件描述符缓冲区一直写满,让error返回EAGAIN为止。<br>EpollIn事件触发条件如下:当对方有数据写入的时候触发。对于该事件需要将数据全部读完。<br>&nbsp;&nbsp;&nbsp;&nbsp;如果采用阻塞socket，对于读则出现在最后一次读数据后发生阻塞，而非阻塞socket则会返回&lt;0的数字，且error返回EAGAIN。如果采用阻塞socket，对于写则socket从不可写变成可写则是没有意义的，因为阻塞sokcet在写的时候直到所有数据写完后才不阻塞。同时由于阻塞socket可能会出现死锁，也就是对方读取了一半数据的问题。因此边缘触发ET模式下，socket必须设置为非阻塞。水平触发LT模式，由于会重复检查缓冲区读取，因此阻塞IO和非阻塞IO的差别不大，不会出现死锁问题，但是为了效率问题，可能在处理某个IO的时候阻塞一段事件影响其他IO的处理。同时对于阻塞还是非阻塞也受到fd的参数影响，比如fd只有100字节，那么写200字节会阻塞。<br>&nbsp;&nbsp;&nbsp;&nbsp;对于连接的fd来说，建议使用LT模式，因为ET模式会一次性处理全部请求，如果此时还有其他客户端连接则无法响应。<br>&nbsp;&nbsp;&nbsp;&nbsp;一个线程在读取完某个socket上的数据后开始处理这些数据，而数据的处理过程中该socket又有新数据可读，此时另外一个线程被唤醒来读取这些新的数据。于是，就出现了两个线程同时操作一个socket的局面。可以使用epoll的EPOLLONESHOT事件实现一个socket连接在任一时刻都被一个线程处理。 对于注册了EPOLLONESHOT事件的文件描述符，操作系统最多触发其上注册的一个可读，可写或异常事件，且只能触发一次。注册了EPOLLONESHOT事件的socket一旦被某个线程处理完毕，该线程就应该立即重置这个socket上的EPOLLONESHOT事件，以确保这个socket下一次可读时，其EPOLLIN事件能被触发，进而让其他工作线程有机会继续处理这个sockt。 尽管一个socket在不同事件可能被不同的线程处理，但同一时刻肯定只有一个线程在为它服务，这就保证了连接的完整性，从而避免了很多可能的竞态条件。<br>
-        
-          <a class="article-more-a" href="/2019/04/24/interview-tencent/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/interview-tencent/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jvm-thread" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/22/jvm-thread/">jvm锁</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/22/jvm-thread/" class="archive-article-date">
-  	<time datetime="2019-04-22T08:51:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;定义：当多个线程访问一个对象时候，如果不用考虑这些线程在运行环境下的调度和交替执行，也不需要额外的同步，或者在调用方法进行任何其他的协调操作，调用这个对象的行为都能获得正确的结果，那么这个对象是线程安全的。</p>
-<ul>
-<li><p>不可变<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java中如果共享对象是基本数据类型，那么只要定义的时候使用final来修饰，就可以保证其是不可变的。如果共享数据是一个对象，则需要保证对象的行为不会对其状态产生任何影响才可以。比如String，Long,Dobule,BigInteger,BigDecimal,Integer等</p>
-</li>
-<li><p>绝对线程安全<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上面的定义是满足绝对线程安全的条件，Java Api中的类大多数不是绝对线程安全的。</p>
-</li>
-<li><p>相对线程安全<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将定义的调用这个对象的行为限定为单次调用，满足这个条件的称为相对线程安全。Java中绝大多数的线程安全的类是这个级别。比如Vector,HashTable和synchronizedCollection()包装的集合等。</p>
-</li>
-<li><p>线程兼容<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对象本身不是线程安全的，但是可以通过在调用段的正确同步措施来保证对象在并发环境下可以安全使用。比如ArrayList和HashMap等。</p>
-</li>
-<li><p>线程对立<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无论调用端是否采用了同步措施，都无法再多线程环境下并发使用。比如Thread的suspend和resume方法，在多线程环境下存在死锁的风险。</p>
-        
-          <a class="article-more-a" href="/2019/04/22/jvm-thread/#more">more >></a>
-        
-      
-
-      
-    </li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/22/jvm-thread/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jvm-memory" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/22/jvm-memory/">jvm内存模型</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/22/jvm-memory/" class="archive-article-date">
-  	<time datetime="2019-04-22T07:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="主内存和工作内存"><a href="#主内存和工作内存" class="headerlink" title="主内存和工作内存"></a>主内存和工作内存</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。</p>
-<ul>
-<li>内存交互<br>&nbsp;&nbsp;&nbsp;&nbsp;Java定义了8种操作来完成。<ul>
-<li>lock 作用于主内存的变量，把变量标识为一条线程独占的状态</li>
-<li>unlock 作用于主内存的变量，把一个处于锁定状态的变量释放处理</li>
-<li>read 作用于主内存变量，把一个变量的值从主内存传输到线程的工作内存中</li>
-<li>load 作用于工作内存的变量，把read操作从主内存中得到的变量放入工作内存的变量副本中</li>
-<li>use 作用于工作内存的变量，把工作内存中一个变量的值传递给执行引擎</li>
-<li>assign 作用于工作内存的变量，把从一个执行引擎接收到的值赋给工作内存的变量</li>
-<li>store 作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中</li>
-<li>write 作用于主内存的变量，把工作内存得到的变量的值写回主内存<br>综上，如果要在主内存和工作内存之间复制值的话，需要顺序地执行read &amp; load和store &amp; write指令，只需要顺序不一定连续
-        
-          <a class="article-more-a" href="/2019/04/22/jvm-memory/#more">more >></a>
-        
-      
-
-      
-    </li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/22/jvm-memory/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring-transaction" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/22/spring-transaction/">Spring事务</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/22/spring-transaction/" class="archive-article-date">
-  	<time datetime="2019-04-22T02:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>Spring声明式事务抽象了底层的连接创建事务、回滚提交事务等操作。本文目录<br><a href="#springtransaction1">注册InfrastructureAdvisorAutoProxyCreator</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction11">获取增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction111">寻找候选的增强器</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction112">寻找匹配项</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction113">提取事务标签</a><br><a href="#springtransaction2">TransactionInterceptor事务增强</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction21">创建事务</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction211">获取事务</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction212">嵌套事务</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction213">完善transaction</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction22">回滚</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction221">回滚条件判断</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction222">回滚处理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction223">回滚后处理</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#springtransaction22">提交</a></p>
-</blockquote>
-<h2 id="注册InfrastructureAdvisorAutoProxyCreator"><a href="#注册InfrastructureAdvisorAutoProxyCreator" class="headerlink" title="注册InfrastructureAdvisorAutoProxyCreator"></a><a name="springtransaction1">注册InfrastructureAdvisorAutoProxyCreator</a></h2><p>事务开启配置”tx:annotation-driven”其对应的解析器为AnnotationDrivenBeanDefinitionParser<br><img src="/images/源码分析/spring/TxNamespaceHandler_class.png" alt="注册InfrastructureAdvisorAutoProxyCreator"><br>
-        
-          <a class="article-more-a" href="/2019/04/22/spring-transaction/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
         		</li>
       		
 		</ul>
@@ -535,16 +229,24 @@ img {
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/22/spring-transaction/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/10/interview-qiuzhao-tencent-5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">腾讯秋招五面</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -564,12 +266,14 @@ img {
 
 
 
+  
+  
+  
 
   
+
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
-    </nav>
+
   
 
 
@@ -592,8 +296,8 @@ img {
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

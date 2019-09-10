@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>美团秋招三面 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="基础 Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所有字符，因此发明了多字节字符集MBCS。为了解决不同字符集在机器上的通用性，出现了">
+  <meta name="description" content="img {         width: 650px;     }   基础 Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所">
 <meta name="keywords" content="interview,qiuzhao">
 <meta property="og:type" content="article">
 <meta property="og:title" content="美团秋招三面">
 <meta property="og:url" content="http://yoursite.com/2019/09/09/interview-qiuzhao-meituan-3/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="基础 Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所有字符，因此发明了多字节字符集MBCS。为了解决不同字符集在机器上的通用性，出现了">
+<meta property="og:description" content="img {         width: 650px;     }   基础 Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/images/基础/unicode字符.png">
 <meta property="og:image" content="https://img-blog.csdn.net/20180830111258836?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x2eWliaW44OTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
 <meta property="og:image" content="https://img-blog.csdn.net/20180830114901391?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x2eWliaW44OTA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-09-10T08:45:44.855Z">
+<meta property="og:updated_time" content="2019-09-10T12:38:57.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="美团秋招三面">
-<meta name="twitter:description" content="基础 Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所有字符，因此发明了多字节字符集MBCS。为了解决不同字符集在机器上的通用性，出现了">
+<meta name="twitter:description" content="img {         width: 650px;     }   基础 Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所">
 <meta name="twitter:image" content="http://yoursite.com/images/基础/unicode字符.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
@@ -179,7 +179,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
+        <style>
+    img {
+        width: 650px;
+    }
+</style>
+
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
 <li>Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办<br>&nbsp;&nbsp;&nbsp;&nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所有字符，因此发明了多字节字符集MBCS。为了解决不同字符集在机器上的通用性，出现了统一字符编码Unicode，同时减少了耦合性。Unicode不是一种具体的编码方案，只是定义了字符集合和唯一编号,Unicode是对UTF-8和UTF-16的统称。<br>&nbsp;&nbsp;&nbsp;&nbsp;对于普通的中文字是占三个字节,长度是1;emojis表情占四个字节，长度是2; 生僻中文字占四个字节,长度是2.JDK1的支持Unicode2.1, JDK4支持Unicode3.0,JDK5支持Unicode4.0。在Unicode3.0之前Java是用两个字节表示unicode字符，因为Unicode3.0最多是49259个字符,两个字节可以表示65536个字符，足够容下所有的unicode3.0字符。但是到Unicode4.0，字符扩充到了96447个字符，Unicode 11.0包含了137374个字符。<br>&nbsp;&nbsp;&nbsp;&nbsp;在Unicode中，每个字符都有一个编码点，用U+十六进制数表示，所有字符按照使用频繁度划分17个平面，其中0平面是使用最广泛的，称为BMP，基本多语言平面。因此现在的Charactor不是一个代码点，而是一个代码单元。代码点，是一个字符的数字表示，一个字符集一般可以用一张或者多张由多个行和列构成的二维表来表示。行和列的交叉点称为代码点，每个代码点分配一个唯一的编号数字。每个代码点唯一对应一个字符，从U+0000到U+10FFFF。代码单元，是一个已编码的文本中具有最短的比特组合的单元。对于UTF-8来说，代码单元式8比特；对于UTF-16来说，代码单元是16比特。Java的字符在内部以UTF-16编码方式表示，String.length()返回Code Unit的长度，而不再是Unicode字符长度。对于UTF-16编码的扩展字符，以4个字节表示，前两个字节并不会和BMP平面冲突，因为BMP平面中预留了U+D800到U+DFFF直接的码位，细分的话U+D800到U+DBFF是前导代理，后面部分是后导代理。<br>&nbsp;&nbsp;&nbsp;&nbsp;字符的值小于0x10000的用等于该值的16位整数来表示。字符的值介于0x10000和0x10FFFF之间的，用一个值介于0xD800和0xDBFF(在所谓的高8位区)的16位整数和值介于0xDC00和0xDFFF(在所谓的低8位区)的16位整数来表示。字符的值大于0x10FFFF不能按照UTF-16进行编码。<br><img src="/images/基础/unicode字符.png" alt="unicode概述"></li>
 </ul>
 <a id="more"></a>
@@ -282,9 +288,18 @@
   
 <nav id="article-nav">
   
+    <a href="/2019/09/10/interview-qiuzhao-yuanfudao-0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          猿辅导预面
+        
+      </div>
+    </a>
+  
   
     <a href="/2019/09/09/spring-source-overview/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">spring综述</div>
+      <div class="article-nav-title">Spring综述</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -450,11 +465,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">function</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">function</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -463,10 +482,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">overview</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
