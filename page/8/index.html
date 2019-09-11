@@ -152,6 +152,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jdk-linkedlist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/09/jdk-linkedlist/">LinkedList源码</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/09/jdk-linkedlist/" class="archive-article-date">
+  	<time datetime="2019-04-09T14:14:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>LinkedList实现了Dequeue接口,内部采用双向链表结构具有头尾两个指针操作的数据结构。一般可以用LinkedList来实现队列和双端队列的api。<br>本文主要结构如下<br><a href="#linkedlist1">字段数值</a><br><a href="#linkedlist2">构造函数</a><br><a href="#linkedlist3">add函数</a><br><a href="#linkedlist4">remove函数</a></p>
+</blockquote>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="linkedlist1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList实现的类或者接口中比较关键的时候Dequeue，这是可以在两端进行添加或者删除元素的数据结构。<br><img src="/images/源码分析/jdk/Linkedlist_field.png" alt="字段数值"><br>
+        
+          <a class="article-more-a" href="/2019/04/09/jdk-linkedlist/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/09/jdk-linkedlist/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-jdk-arraylist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -512,112 +601,6 @@ img {
 
 
   
-    <article id="post-shell-sed" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/27/shell-sed/">sed进阶</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/27/shell-sed/" class="archive-article-date">
-  	<time datetime="2019-03-27T03:18:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-table th:nth-of-type(1) {
-    width: 400px;
-}
-table th:nth-of-type(2) {
-    width: 600px;
-}
-</style>
-
-<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>sed编辑器的基本功能是处理数据流中的文不，下面介绍下关于sed编辑器的高级特性。</p>
-<blockquote>
-<p><a href="#1">多行命令</a><br><a href="#2">保持空间</a><br><a href="#3">排除命令</a><br><a href="#4">改变流</a><br><a href="#5">模式替换</a><br><a href="#6">其他技巧</a></p>
-</blockquote>
-<h4 id="多行命令"><a href="#多行命令" class="headerlink" title="多行命令"></a><a name="1">多行命令</a></h4><ul>
-<li><p>next命令<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;告诉sed编辑器移动到数据流的下一个文本行中，不用重新回到命令的最开始再执行一遍。next命令改变了在移动到下一行文本前执行完所有定义的命令，而是联合下一行处理。</p>
-<ul>
-<li><p>单行n</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/header/&#123;n ; d&#125;'</span> data1.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先匹配到/header/行，然后执行{}中的命令列表。n表示将下一行移动到模式空间中,d是用来删除模式空间内容。</p>
-</li>
-<li><p>合并N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrator group meeting will be held.</span><br><span class="line">All System Administrators should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'N ; s/System Administrator/Desktop User/'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">Administrators group meeting will be held.</span><br><span class="line">All Desktop Users should attend.</span><br><span class="line">Thank you <span class="keyword">for</span> your attendance.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先查找含有first的那行文不，然后N将下一行合并到那行，使用s进行替换。N表示将下一行追加到模式空间中,s是用来替换模式空间的内容。适合用来查找分散在两行中的文不短语等。<br><strong>注意:</strong>当匹配行在数据流的最后一行，N会错过，因为没有其他行可以读入模式空间中。这样需要将该命令放到N的前面处理。</p>
-</li>
-<li><p>删除N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ cat data5.txt</span><br><span class="line"></span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line"></span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br><span class="line">$ sed <span class="string">'/^$/&#123;N ; /header/D&#125;'</span> data5.txt</span><br><span class="line">This is the header line.</span><br><span class="line">This is a data line.</span><br><span class="line">This is the last line.</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先找到空行,然后将下一行合并到模式空间后，匹配以header开头的模式空间内容，匹配到则删除模式空间中的第一行。D是删除空间中的第一行，d是删除空间中的所有行。</p>
-</li>
-<li><p>打印N</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">'N ; /System\nAdministrator/P'</span> data3.txt</span><br><span class="line">On Tuesday, the Linux System</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<p>首先将下一追加到模式空间，然后进行匹配模式打印，将打印空间中的第一行内容。</p>
-        
-          <a class="article-more-a" href="/2019/03/27/shell-sed/#more">more >></a>
-        
-      
-
-      
-    </li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/27/shell-sed/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
@@ -755,10 +738,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
@@ -767,11 +746,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -784,6 +759,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">

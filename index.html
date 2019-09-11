@@ -152,6 +152,111 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-interview-qiuzhao-meituan-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/11/interview-qiuzhao-meituan-2/">美团秋招二面</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/11/interview-qiuzhao-meituan-2/" class="archive-article-date">
+  	<time datetime="2019-09-11T04:06:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+    img {
+        width: 650px;
+    }
+</style>
+
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
+<li><p>如何判断一个网段下面有多少个主机<br>&nbsp;&nbsp;&nbsp;&nbsp;使用ICMP协议和广播来实现，也就是ping一个广播地址。默认是不进行回复，需要设置echo 0 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts， 也就是说发出一个广播，局域网内的主机需要进行回复。</p>
+</li>
+<li><p>jvm中四种引用的区别<br><img src="/images/interview/引用.png" alt="引用"></p>
+</li>
+<li><p>LRU底层怎么实现的<br>&nbsp;&nbsp;&nbsp;&nbsp;使用方式有数组方法，每个数字带有一个标记，每次添加新数字的时候，将其余所有不同的数字标记自增。并把该数字的标记置为0.当删除的时候，删除最大的那个。其次还可以使用链表，每次插入的时候，在链表尾部插入，访问的时候，将该节点移动到链表头部，删除的时候则删除链表尾部。还要在操作系统中，使用的是一种特殊的栈实现的。当然最好的方法是使用LinkedHashMap,需要设置访问顺序是True,同时重写其中的removeeldest方法，并且在方法上添加synchorized的同步。</p>
+</li>
+<li><p>阻塞、非阻塞、异步、同步概念区别<br>&nbsp;&nbsp;&nbsp;&nbsp;阻塞是io操作block直到进程完成操作, 非阻塞是在内核准备数据情况下立刻返回，不会阻塞到进程。同步是会引起请求进程阻塞直到io操作完成。因此前四种IO都是同步IO。注意non-blocking IO仍然是同步IO，因为当内核准备好数据的时候，recvfrom会将数据从内核拷贝到用户内存，这时候进程阻塞了。只有asynchronous IO是异步IO，因为整个过程，内核将数据直接复制到用户空间，进程完全没有被阻塞。</p>
+</li>
+<li><p>hashmap的初始容量如何设置<br>&nbsp;&nbsp;&nbsp;&nbsp;如果是put操作，而且是知道最终要put的数据总量，初始容量设置为 (int) ((float) expectedSize / 0.75F + 1.0F)。否则，就设置16。</p>
+</li>
+<li><p>selector, channel, buffer的理解</p>
+<ul>
+<li>Channel<br>&nbsp;&nbsp;&nbsp;&nbsp;和传统的流的最大区别，channel提供了map()方法，可以直接把一块数据映射到内存中。 同时channel是面向块处理的，传统的是面向流处理的。</li>
+<li>Buffer<br>&nbsp;&nbsp;&nbsp;&nbsp; 本质上是一个数组，发送到channel中的所有数据必须先放到buffer中，从channel中读取数据的时候也是把数据放到Buffer中，然后从Buffer中读取，比如ByteBuffer。buffer有容量：缓冲区最大的数据容量, 界限: 不应该被读出灱写入的缓冲区位置（后面的不可读写）, 位置:下一个被读出或者写入缓冲区的位置所有。访问数据的时候可以按照绝对位置，也可以按照相对位置进行。</li>
+<li>Selector<br>&nbsp;&nbsp;&nbsp;&nbsp;是NIO中能够检测一到多个NIO通道，并能获取通道的事件。使用一个单独线程可以管理多个channel,从而管理多个网络连接。只需要更少的线程来处理通道。<br><a href="https://havatry.github.io/2019/03/31/java-network/" target="_blank" rel="noopener">参考网络部分</a></li>
+</ul>
+</li>
+<li><p>java UDP编程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> learn.algorithm.rest.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.DatagramPacket;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.SocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.SocketException;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="comment">//服务端</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UdpServer</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4096</span>];</span><br><span class="line">	<span class="keyword">private</span> DatagramPacket datagramPacket_in = <span class="keyword">new</span> DatagramPacket(buff, buff.length);</span><br><span class="line">	<span class="keyword">private</span> DatagramPacket datagramPacket_out;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> SocketException </span>&#123;</span><br><span class="line">		DatagramSocket datagramSocket = <span class="keyword">new</span> DatagramSocket(<span class="number">5002</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">				<span class="comment">// 将scoket中数据读取到datagramPacket_in中</span></span><br><span class="line">				datagramSocket.receive(datagramPacket_in);</span><br><span class="line">				<span class="comment">// 显示内容</span></span><br><span class="line">				String s = <span class="keyword">new</span> String(buff, <span class="number">0</span>, datagramPacket_in.getLength());</span><br><span class="line">				System.out.println(<span class="string">"Server: &gt; "</span> + s);</span><br><span class="line">				<span class="keyword">if</span> (<span class="string">"shutdown"</span>.equals(s)) &#123;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				<span class="comment">// 发送数据</span></span><br><span class="line">				<span class="keyword">byte</span>[] sent = (<span class="string">"Server has received: "</span> + s).getBytes();</span><br><span class="line">				SocketAddress socketAddress = datagramPacket_in.getSocketAddress();</span><br><span class="line">				datagramPacket_out = <span class="keyword">new</span> DatagramPacket(sent, sent.length, socketAddress);</span><br><span class="line">				datagramSocket.send(datagramPacket_out);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception exception) &#123;</span><br><span class="line">			<span class="comment">// pass</span></span><br><span class="line">			System.out.println(exception);</span><br><span class="line">			datagramSocket.close();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SocketException </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Server run: "</span> + <span class="keyword">new</span> Date().toLocaleString());</span><br><span class="line">		<span class="keyword">new</span> UdpServer().run();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> learn.algorithm.rest.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.DatagramPacket;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.SocketException;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UdpClient</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">byte</span>[] inBuff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4096</span>];</span><br><span class="line">	<span class="keyword">private</span> DatagramPacket datagramPacket_in = <span class="keyword">new</span> DatagramPacket(inBuff, inBuff.length);</span><br><span class="line">	<span class="keyword">private</span> DatagramPacket datagramPacket_out;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> SocketException </span>&#123;</span><br><span class="line">		DatagramSocket socket = <span class="keyword">new</span> DatagramSocket();</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			datagramPacket_out = <span class="keyword">new</span> DatagramPacket(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>], <span class="number">0</span>, InetAddress.getByName(<span class="string">"127.0.0.1"</span>), <span class="number">5002</span>);</span><br><span class="line">			Scanner in = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">			System.out.print(<span class="string">"&gt;&gt; "</span>);</span><br><span class="line">			<span class="keyword">while</span> (in.hasNextLine()) &#123;</span><br><span class="line">				String line = in.nextLine();</span><br><span class="line">				<span class="keyword">if</span> (<span class="string">"exit"</span>.equals(line)) &#123;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">byte</span>[] buff = line.getBytes();</span><br><span class="line">				datagramPacket_out.setData(buff);</span><br><span class="line">				socket.send(datagramPacket_out);<span class="comment">// 发送报文</span></span><br><span class="line">				<span class="comment">// 接收</span></span><br><span class="line">				socket.receive(datagramPacket_in);</span><br><span class="line">				System.out.println(<span class="keyword">new</span> String(inBuff, <span class="number">0</span>, datagramPacket_in.getLength()));</span><br><span class="line">				System.out.print(<span class="string">"&gt;&gt; "</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			in.close();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="comment">// THIS_<span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">			System.out.println(e);</span><br><span class="line">			socket.close();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SocketException </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Client Reuqest at "</span> + <span class="keyword">new</span> Date().toLocaleString());</span><br><span class="line">		<span class="keyword">new</span> UdpClient().run();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/11/interview-qiuzhao-meituan-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-interview-qiuzhao-yuanfudao-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -479,94 +584,6 @@
 
 
   
-    <article id="post-interview-qiuzhao-meituan-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/09/interview-qiuzhao-meituan-3/">美团秋招三面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/09/interview-qiuzhao-meituan-3/" class="archive-article-date">
-  	<time datetime="2019-09-09T08:40:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-    img {
-        width: 650px;
-    }
-</style>
-
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
-<li>Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办<br>&nbsp;&nbsp;&nbsp;&nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所有字符，因此发明了多字节字符集MBCS。为了解决不同字符集在机器上的通用性，出现了统一字符编码Unicode，同时减少了耦合性。Unicode不是一种具体的编码方案，只是定义了字符集合和唯一编号,Unicode是对UTF-8和UTF-16的统称。<br>&nbsp;&nbsp;&nbsp;&nbsp;对于普通的中文字是占三个字节,长度是1;emojis表情占四个字节，长度是2; 生僻中文字占四个字节,长度是2.JDK1的支持Unicode2.1, JDK4支持Unicode3.0,JDK5支持Unicode4.0。在Unicode3.0之前Java是用两个字节表示unicode字符，因为Unicode3.0最多是49259个字符,两个字节可以表示65536个字符，足够容下所有的unicode3.0字符。但是到Unicode4.0，字符扩充到了96447个字符，Unicode 11.0包含了137374个字符。<br>&nbsp;&nbsp;&nbsp;&nbsp;在Unicode中，每个字符都有一个编码点，用U+十六进制数表示，所有字符按照使用频繁度划分17个平面，其中0平面是使用最广泛的，称为BMP，基本多语言平面。因此现在的Charactor不是一个代码点，而是一个代码单元。代码点，是一个字符的数字表示，一个字符集一般可以用一张或者多张由多个行和列构成的二维表来表示。行和列的交叉点称为代码点，每个代码点分配一个唯一的编号数字。每个代码点唯一对应一个字符，从U+0000到U+10FFFF。代码单元，是一个已编码的文本中具有最短的比特组合的单元。对于UTF-8来说，代码单元式8比特；对于UTF-16来说，代码单元是16比特。Java的字符在内部以UTF-16编码方式表示，String.length()返回Code Unit的长度，而不再是Unicode字符长度。对于UTF-16编码的扩展字符，以4个字节表示，前两个字节并不会和BMP平面冲突，因为BMP平面中预留了U+D800到U+DFFF直接的码位，细分的话U+D800到U+DBFF是前导代理，后面部分是后导代理。<br>&nbsp;&nbsp;&nbsp;&nbsp;字符的值小于0x10000的用等于该值的16位整数来表示。字符的值介于0x10000和0x10FFFF之间的，用一个值介于0xD800和0xDBFF(在所谓的高8位区)的16位整数和值介于0xDC00和0xDFFF(在所谓的低8位区)的16位整数来表示。字符的值大于0x10FFFF不能按照UTF-16进行编码。<br><img src="/images/interview/unicode字符.png" alt="unicode概述"></li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/09/09/interview-qiuzhao-meituan-3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/09/interview-qiuzhao-meituan-3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -704,10 +721,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
@@ -716,11 +729,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -733,6 +742,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">

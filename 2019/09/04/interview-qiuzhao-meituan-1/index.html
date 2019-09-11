@@ -8,22 +8,24 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>美团秋招一面 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="img {       width: 650px;     }   一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。  非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会">
+  <meta name="description" content="img {       width: 650px;     }   一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。 非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去">
 <meta name="keywords" content="interview,qiuzhao">
 <meta property="og:type" content="article">
 <meta property="og:title" content="美团秋招一面">
 <meta property="og:url" content="http://yoursite.com/2019/09/04/interview-qiuzhao-meituan-1/index.html">
 <meta property="og:site_name" content="Havatry">
-<meta property="og:description" content="img {       width: 650px;     }   一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。  非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会">
+<meta property="og:description" content="img {       width: 650px;     }   一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。 非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3112810-92815accf2426905.png?imageMogr2/auto-orient/strip|imageView2/2/w/723/format/webp">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3112810-6874d41063a91df6.png?imageMogr2/auto-orient/strip|imageView2/2/w/674/format/webp">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp">
-<meta property="og:updated_time" content="2019-09-06T15:48:01.588Z">
+<meta property="og:image" content="http://yoursite.com/images/interview/BIO.gif">
+<meta property="og:image" content="http://yoursite.com/images/interview/NIO.gif">
+<meta property="og:image" content="http://yoursite.com/images/interview/IO多路复用.gif">
+<meta property="og:image" content="http://yoursite.com/images/interview/信号驱动IO.gif">
+<meta property="og:image" content="http://yoursite.com/images/interview/AIO.gif">
+<meta property="og:updated_time" content="2019-09-11T05:58:29.557Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="美团秋招一面">
-<meta name="twitter:description" content="img {       width: 650px;     }   一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。  非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/3112810-92815accf2426905.png?imageMogr2/auto-orient/strip|imageView2/2/w/723/format/webp">
+<meta name="twitter:description" content="img {       width: 650px;     }   一、基础题 Redis的常见数据类型&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;参考Redis数据类型  Netty常用的IO模型  阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。 非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去">
+<meta name="twitter:image" content="http://yoursite.com/images/interview/BIO.gif">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -190,16 +192,11 @@
 </li>
 <li><p>Netty常用的IO模型</p>
 <ul>
-<li><p>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。</p>
-</li>
-<li><p>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3112810-92815accf2426905.png?imageMogr2/auto-orient/strip|imageView2/2/w/723/format/webp" alt="阻塞IO和非阻塞IO的模式"><br><br></p>
-</li>
-<li><p>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。</p>
-</li>
-<li><p>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-6874d41063a91df6.png?imageMogr2/auto-orient/strip|imageView2/2/w/674/format/webp" alt="IO多路复用和信号驱动IO"><br><br></p>
-</li>
-<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp" alt="异步IO"></p>
+<li>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。<br><img src="/images/interview/BIO.gif" alt="阻塞IO"><br></li>
+<li>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。<br><img src="/images/interview/NIO.gif" alt="非阻塞IO"><br><br></li>
+<li>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。<br><img src="/images/interview/IO多路复用.gif" alt="IO多路复用"><br><br></li>
+<li>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="/images/interview/信号驱动IO.gif" alt="信号驱动IO"><br><br></li>
+<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="/images/interview/AIO.gif" alt="异步IO"></p>
 <a id="more"></a>
 </li>
 </ul>
@@ -457,10 +454,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
@@ -469,11 +462,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -486,6 +475,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">

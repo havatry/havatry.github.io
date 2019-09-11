@@ -152,6 +152,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jvm-memory" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/22/jvm-memory/">jvm内存模型</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/22/jvm-memory/" class="archive-article-date">
+  	<time datetime="2019-04-22T07:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="主内存和工作内存"><a href="#主内存和工作内存" class="headerlink" title="主内存和工作内存"></a>主内存和工作内存</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。</p>
+<ul>
+<li>内存交互<br>&nbsp;&nbsp;&nbsp;&nbsp;Java定义了8种操作来完成。<ul>
+<li>lock 作用于主内存的变量，把变量标识为一条线程独占的状态</li>
+<li>unlock 作用于主内存的变量，把一个处于锁定状态的变量释放处理</li>
+<li>read 作用于主内存变量，把一个变量的值从主内存传输到线程的工作内存中</li>
+<li>load 作用于工作内存的变量，把read操作从主内存中得到的变量放入工作内存的变量副本中</li>
+<li>use 作用于工作内存的变量，把工作内存中一个变量的值传递给执行引擎</li>
+<li>assign 作用于工作内存的变量，把从一个执行引擎接收到的值赋给工作内存的变量</li>
+<li>store 作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中</li>
+<li>write 作用于主内存的变量，把工作内存得到的变量的值写回主内存<br>综上，如果要在主内存和工作内存之间复制值的话，需要顺序地执行read &amp; load和store &amp; write指令，只需要顺序不一定连续
+        
+          <a class="article-more-a" href="/2019/04/22/jvm-memory/#more">more >></a>
+        
+      
+
+      
+    </li></ul></li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/22/jvm-memory/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-spring-transaction" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -454,11 +540,11 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
         		</li>
       		
 		</ul>
@@ -469,92 +555,6 @@ img {
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/04/21/mysql-index/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-springboot-autoconfig" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/20/springboot-autoconfig/">springboot自动配置</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/20/springboot-autoconfig/" class="archive-article-date">
-  	<time datetime="2019-04-20T06:32:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width:650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;SpringBoot使用@EnableAutoConfiguration来让SpringBoot根据类路径中的jar包依赖来为当前项目进行自动配置。使用@SpringBootApplication的exclude属性来排除某些类的自动配置。<br>&nbsp;&nbsp;&nbsp;&nbsp;层次关系如下<br>&nbsp;&nbsp;&nbsp;&nbsp;SpringBootApplication注解中包含@EnableAutoConfiguration注解<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/SpringBootApplication_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;@EnableAutoConfiguration注解包含一个关键的AutoConfigurationImportSelector类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_class.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;AutoConfigurationImportSelector类中会进行加载spring.factories文件中的自动配置类<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/AutoConfigurationImportSelector_getCandidateConfigurations.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;spring.factories文件可以在META-INF/目录下，也可以在autoconfigure的jar包中，引入jar包<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/autoconfigure_pom.png" alt="概述"><br>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;其jar包中配置文件内容<br>&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/源码分析/springboot/EnableAutoConfiguration_springfactories.png" alt="概述"><br>
-        
-          <a class="article-more-a" href="/2019/04/20/springboot-autoconfig/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/20/springboot-autoconfig/">展开全文 >></a>
         </p>
       
 
@@ -721,10 +721,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
@@ -733,11 +729,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -750,6 +742,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">

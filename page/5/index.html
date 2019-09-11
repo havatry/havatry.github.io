@@ -152,6 +152,96 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jvm-compile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/24/jvm-compile/">jvm编译器</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/24/jvm-compile/" class="archive-article-date">
+  	<time datetime="2019-04-24T13:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Javac编译器"><a href="#Javac编译器" class="headerlink" title="Javac编译器"></a>Javac编译器</h2><ul>
+<li><p>解析与填充符号表</p>
+<ul>
+<li>词法、语法分析<br>将源代码的字符流转变为标记(Token)集合，标记是编译过程中最小元素，关键字、变量名、字面量、运算符等。由Scanner类实现。语法分析是语句标记序列构建抽象语法树。由Parser类实现。</li>
+<li>填充符号表<br>符号表是一组符号地址和符号信息构成的表格。其中的信息在编译的不同阶段都要用到。在语义分析中，符号表的内容将用于检查一个名字的时候和原先的说明是否一致和产生中间代码。在目标代码生成阶段，对符号名进行地址分配时候，符号表是地址分配的依据。由Enter类实现。</li>
+</ul>
+</li>
+<li><p>注解处理器<br>在运行期间发挥作用，在插件中可以读取、修改、添加抽象语法树中的任意元素。如果作了修改，编译器将回到解析以及填充符号表的过程重新处理，直到所有插入式注解处理器都没有再对语法树进行修改为止，每一次循环称为一个Round，也就是回环过程。这样可以干涉编译器的行为，完成一些创意的行为。</p>
+</li>
+<li><p>语义分析<br>对结构上正确的源程序进行上下文有关性质的审查，比如类型检查。</p>
+<ul>
+<li>标注检查<br>检查变量使用前是否被声明，变量和赋值直接的数据类型是否匹配，以及常量折叠。由Attr类和Check类实现。</li>
+<li>数据以及控制流分析<br>对程序上下文逻辑更进一步验证，检查程序局部变量使用前是否已经赋值、方法每个路径是否都有返回值、是否所有的受查异常都被正确处理等。由Flow类实现。</li>
+<li>解语法糖<br>Java属于低语法糖，比如泛型、变长参数、自动装箱/拆箱等，会在编译阶段还原为简单的基础语法结构。由TransTypes类和Lower类实现。</li>
+<li>字节码生成<br>将前面各个步骤所生成的信息转换为字节码写到磁盘中，编译器还进行少量的代码添加和转换工作。比如<init>和<clinit>方法就是在这个阶段收敛到语法树中。这里的<init>是默认构造函数。完成收敛工作，比如对语句块、变量初始化、调用父类实例构造器（因为保证先执行父类构造器）等操作收敛。添加是在填充符号表的时候完成。生成class文件。<br><br>
+        
+          <a class="article-more-a" href="/2019/04/24/jvm-compile/#more">more >></a>
+        
+      
+
+      
+    </init></clinit></init></li></ul></li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/24/jvm-compile/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-interview-jingdong" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -471,92 +561,6 @@
 
 
   
-    <article id="post-jvm-memory" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/22/jvm-memory/">jvm内存模型</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/22/jvm-memory/" class="archive-article-date">
-  	<time datetime="2019-04-22T07:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="主内存和工作内存"><a href="#主内存和工作内存" class="headerlink" title="主内存和工作内存"></a>主内存和工作内存</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;Java内存模型的目标是定义程序中各个变量的访问规则（这里变量不包括局部变量和方法参数）。其规定所有变量都存储在主内存中，每个线程还有自己的工作内存，线程的工作内存保存了被该线程使用到的变量的主内存副本拷贝。</p>
-<ul>
-<li>内存交互<br>&nbsp;&nbsp;&nbsp;&nbsp;Java定义了8种操作来完成。<ul>
-<li>lock 作用于主内存的变量，把变量标识为一条线程独占的状态</li>
-<li>unlock 作用于主内存的变量，把一个处于锁定状态的变量释放处理</li>
-<li>read 作用于主内存变量，把一个变量的值从主内存传输到线程的工作内存中</li>
-<li>load 作用于工作内存的变量，把read操作从主内存中得到的变量放入工作内存的变量副本中</li>
-<li>use 作用于工作内存的变量，把工作内存中一个变量的值传递给执行引擎</li>
-<li>assign 作用于工作内存的变量，把从一个执行引擎接收到的值赋给工作内存的变量</li>
-<li>store 作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中</li>
-<li>write 作用于主内存的变量，把工作内存得到的变量的值写回主内存<br>综上，如果要在主内存和工作内存之间复制值的话，需要顺序地执行read &amp; load和store &amp; write指令，只需要顺序不一定连续
-        
-          <a class="article-more-a" href="/2019/04/22/jvm-memory/#more">more >></a>
-        
-      
-
-      
-    </li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/22/jvm-memory/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -694,10 +698,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
@@ -706,11 +706,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -723,6 +719,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">

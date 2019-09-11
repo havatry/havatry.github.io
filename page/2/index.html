@@ -152,6 +152,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-interview-qiuzhao-meituan-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/09/interview-qiuzhao-meituan-3/">美团秋招三面</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/09/interview-qiuzhao-meituan-3/" class="archive-article-date">
+  	<time datetime="2019-09-09T08:40:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+    img {
+        width: 650px;
+    }
+</style>
+
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
+<li>Java内存中字符编码是什么，最多表示多少个字符，如果不够怎么办<br>&nbsp;&nbsp;&nbsp;&nbsp;起初美国国家标准协会ANSI编码是ASCII，但是表示的字符有限，于是想利用后面的一个bit，但是每个国家有不同想法，因此出现不同的OEM字符集。这样不够通用。除此之外，一个字节并不能表示一些国家的所有字符，因此发明了多字节字符集MBCS。为了解决不同字符集在机器上的通用性，出现了统一字符编码Unicode，同时减少了耦合性。Unicode不是一种具体的编码方案，只是定义了字符集合和唯一编号,Unicode是对UTF-8和UTF-16的统称。<br>&nbsp;&nbsp;&nbsp;&nbsp;对于普通的中文字是占三个字节,长度是1;emojis表情占四个字节，长度是2; 生僻中文字占四个字节,长度是2.JDK1的支持Unicode2.1, JDK4支持Unicode3.0,JDK5支持Unicode4.0。在Unicode3.0之前Java是用两个字节表示unicode字符，因为Unicode3.0最多是49259个字符,两个字节可以表示65536个字符，足够容下所有的unicode3.0字符。但是到Unicode4.0，字符扩充到了96447个字符，Unicode 11.0包含了137374个字符。<br>&nbsp;&nbsp;&nbsp;&nbsp;在Unicode中，每个字符都有一个编码点，用U+十六进制数表示，所有字符按照使用频繁度划分17个平面，其中0平面是使用最广泛的，称为BMP，基本多语言平面。因此现在的Charactor不是一个代码点，而是一个代码单元。代码点，是一个字符的数字表示，一个字符集一般可以用一张或者多张由多个行和列构成的二维表来表示。行和列的交叉点称为代码点，每个代码点分配一个唯一的编号数字。每个代码点唯一对应一个字符，从U+0000到U+10FFFF。代码单元，是一个已编码的文本中具有最短的比特组合的单元。对于UTF-8来说，代码单元式8比特；对于UTF-16来说，代码单元是16比特。Java的字符在内部以UTF-16编码方式表示，String.length()返回Code Unit的长度，而不再是Unicode字符长度。对于UTF-16编码的扩展字符，以4个字节表示，前两个字节并不会和BMP平面冲突，因为BMP平面中预留了U+D800到U+DFFF直接的码位，细分的话U+D800到U+DBFF是前导代理，后面部分是后导代理。<br>&nbsp;&nbsp;&nbsp;&nbsp;字符的值小于0x10000的用等于该值的16位整数来表示。字符的值介于0x10000和0x10FFFF之间的，用一个值介于0xD800和0xDBFF(在所谓的高8位区)的16位整数和值介于0xDC00和0xDFFF(在所谓的低8位区)的16位整数来表示。字符的值大于0x10FFFF不能按照UTF-16进行编码。<br><img src="/images/interview/unicode字符.png" alt="unicode概述"></li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/09/09/interview-qiuzhao-meituan-3/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/09/interview-qiuzhao-meituan-3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-spring-source-overview" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -290,16 +378,11 @@
 </li>
 <li><p>Netty常用的IO模型</p>
 <ul>
-<li><p>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。</p>
-</li>
-<li><p>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3112810-92815accf2426905.png?imageMogr2/auto-orient/strip|imageView2/2/w/723/format/webp" alt="阻塞IO和非阻塞IO的模式"><br><br></p>
-</li>
-<li><p>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。</p>
-</li>
-<li><p>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-6874d41063a91df6.png?imageMogr2/auto-orient/strip|imageView2/2/w/674/format/webp" alt="IO多路复用和信号驱动IO"><br><br></p>
-</li>
-<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="https://upload-images.jianshu.io/upload_images/3112810-ad46a3be2c10385f.png?imageMogr2/auto-orient/strip|imageView2/2/w/610/format/webp" alt="异步IO"></p>
+<li>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。<br><img src="/images/interview/BIO.gif" alt="阻塞IO"><br></li>
+<li>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。<br><img src="/images/interview/NIO.gif" alt="非阻塞IO"><br><br></li>
+<li>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。<br><img src="/images/interview/IO多路复用.gif" alt="IO多路复用"><br><br></li>
+<li>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="/images/interview/信号驱动IO.gif" alt="信号驱动IO"><br><br></li>
+<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="/images/interview/AIO.gif" alt="异步IO"></p>
         
           <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/#more">more >></a>
         
@@ -525,91 +608,6 @@
 
 
   
-    <article id="post-math-sqrt-principle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/math-sqrt-principle/">平方根数学方法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/09/math-sqrt-principle/" class="archive-article-date">
-  	<time datetime="2019-06-09T07:26:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="平方根问题"><a href="#平方根问题" class="headerlink" title="平方根问题"></a>平方根问题</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;在编程语言中使用sqrt方法，可以借助牛顿迭代法来实现。其理论基础如下<br>&nbsp;&nbsp;&nbsp;&nbsp;对于f(x) = x^2 - a, 其泰勒展开级数是f(x) = f(x0) + f’(x0)(x - x0) +…。因此得到递推关系式，x_n+1 = x_n - f(x_n) / f’(x_n)</p>
-<h2 id="python实现"><a href="#python实现" class="headerlink" title="python实现"></a>python实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sqrt</span><span class="params">(x)</span>:</span></span><br><span class="line">    y = <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">while</span> abs(y * y -x) &gt; <span class="number">1e-6</span>:</span><br><span class="line">        y = (y + x / y) / <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
-<h2 id="收敛性证明"><a href="#收敛性证明" class="headerlink" title="收敛性证明"></a>收敛性证明</h2><ul>
-<li><p>迭代法不动点定理<br>&nbsp;&nbsp;&nbsp;&nbsp;如果x*是faer的不动点, faer’在x*某邻域存在且连续，并且0 != |faer’(x’)| &lt; 1，则x = faer(x)在x*邻域内收敛，其中x’属于x*的某邻域</p>
-</li>
-<li><p>证明收敛性<br>&nbsp;&nbsp;&nbsp;&nbsp;由于faer(x) = x - f(x) / f’(x), 假设x*是f(x)的一个根,则f(x*) = 0 且 f’(x*) != 0，这是因为在平方根中x^2 - a = 0,中始终存在两个根。<br>&nbsp;&nbsp;&nbsp;&nbsp;故而faer(x*) = x<em>,也就是x\</em>是faer的不动点。 faer’(x) = -f(x) * f’’(x) /f’(x)^2, 故而faer’(x)在x*的邻域内存在且连续, 同时x*邻域内的x’满足0 != faer’(x’) &lt; 1, 故而收敛，得证</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">math</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">function</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/09/math-sqrt-principle/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -747,10 +745,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
@@ -759,11 +753,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -776,6 +766,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
