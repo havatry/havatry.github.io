@@ -152,6 +152,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mysql-index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/mysql-index/">mysql索引</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/mysql-index/" class="archive-article-date">
+  	<time datetime="2019-04-21T05:10:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+img {
+    width: 650px;
+}
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>索引是存储引擎快速找到记录的一种数据结构，通过索引优化是查询性能优化的最有效手段。本文目录如下:<br><a href="#mysqlindex1">索引分类</a><br>&nbsp;&nbsp;    <a href="#mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex12">哈希索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex13">聚族索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex14">覆盖索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex15">排序索引</a><br>&nbsp;&nbsp;    <a href="#mysqlindex16">其他索引</a><br><a href="#mysqlindex2">索引策略</a><br><a href="#mysqlindex3">索引优化</a></p>
+</blockquote>
+<h2 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a><a name="mysqlindex1">索引分类</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;索引优点:大大减少服务器需要扫描的数据量；帮助服务器避免排序和临时表；将随机IO变成顺序IO。索引三星标准:将相关记录放到一起；索引数据顺序和查找数据顺序一致;索引列包含了查询中全表列。</p>
+<ul>
+<li><a name="mysqlindex11">B-Tree索引</a><br>&nbsp;&nbsp;&nbsp;&nbsp;每种存储引擎以不同的方式实现B-Tree索引。比如MyISAM使用前缀压缩技术使得索引更小,InnoDB按照原数据格式存储。MyISAM会将冗余重复索引优化成一个索引存储内容，InnoDB会对比如A和(A,B)两个索引分别存储对应内容。MyISAM使用B-Tree索引，而InnoDB使用其变形的B+-Tree索引。InnoDB的索引结构如下:<br><img src="/images/Mysql/innode_store.png" alt="B-Tree索引"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;B-Tree的查询类型有全值匹配(和索引中所有列进行匹配),最左匹配,匹配列前缀(只使用索引第一列),匹配范围(只使用索引第一列)，索引查询(也称覆盖索引),排序查询(也称排序索引,索引树种的节点是有序的),精确并范围查询(对于上面只使用索引第一列的情况，如果前面使用的是等值匹配,包括=或者in，那么索引第一列的概念泛化到已经等值匹配列的后一列)<br>
+        
+          <a class="article-more-a" href="/2019/04/21/mysql-index/#more">more >></a>
+        
+      
+
+      
+    </li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/mysql-index/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-springboot-autoconfig" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -194,11 +285,11 @@ img {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
         		</li>
       		
 		</ul>
@@ -496,95 +587,6 @@ img {
 
 
   
-    <article id="post-jdk-hashmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/jdk-hashmap/">HashMap源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/10/jdk-hashmap/" class="archive-article-date">
-  	<time datetime="2019-04-10T05:48:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>HashMap使用散列技术将元素分布到关联数组中，使用链地址法来解决冲突。在jdk1.8之后，借助红黑树来优化性能。HashMap是线程兼容的，可以借助Collectios的synchronizedMap静态方法将其转换为线程安全的类。是空间换时间的一种经典数据结构。<br>本文主要目录如下<br><a href="#hashmap1">字段数值</a><br><a href="#hashmap2">构造函数</a><br><a href="#hashmap3">get函数</a><br><a href="#hashmap4">put函数</a></p>
-</blockquote>
-<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="hashmap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字段中的装载因子可以大于1，甚至可以很大比如2^27<br><img src="/images/源码分析/jdk/HashMap_field.png" alt="字段数值"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node元素数组结果如下<br><img src="/images/源码分析/jdk/HashMap_Nodeclass.png" alt="字段数值"><br>
-        
-          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/10/jdk-hashmap/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
@@ -722,15 +724,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">function</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -738,11 +732,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -750,7 +740,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">

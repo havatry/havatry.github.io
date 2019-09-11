@@ -16,12 +16,12 @@
 <meta property="og:site_name" content="Havatry">
 <meta property="og:description" content="img {         width: 650px;     }   基础 如何判断一个网段下面有多少个主机&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;使用ICMP协议和广播来实现，也就是ping一个广播地址。默认是不进行回复，需要设置echo 0 &amp;gt; /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts， 也就是说发出一个广播，局域网">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/images/interview/引用.png">
-<meta property="og:updated_time" content="2019-09-11T06:56:30.976Z">
+<meta property="og:image" content="http://yoursite.com/images/interview/jvm引用.png">
+<meta property="og:updated_time" content="2019-09-11T06:59:09.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="美团秋招二面">
 <meta name="twitter:description" content="img {         width: 650px;     }   基础 如何判断一个网段下面有多少个主机&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;使用ICMP协议和广播来实现，也就是ping一个广播地址。默认是不进行回复，需要设置echo 0 &amp;gt; /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts， 也就是说发出一个广播，局域网">
-<meta name="twitter:image" content="http://yoursite.com/images/interview/引用.png">
+<meta name="twitter:image" content="http://yoursite.com/images/interview/jvm引用.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -186,7 +186,8 @@
 <h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ul>
 <li><p>如何判断一个网段下面有多少个主机<br>&nbsp;&nbsp;&nbsp;&nbsp;使用ICMP协议和广播来实现，也就是ping一个广播地址。默认是不进行回复，需要设置echo 0 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts， 也就是说发出一个广播，局域网内的主机需要进行回复。</p>
 </li>
-<li><p>jvm中四种引用的区别<br><img src="/images/interview/引用.png" alt="引用"></p>
+<li><p>jvm中四种引用的区别<br><img src="/images/interview/jvm引用.png" alt="引用"></p>
+<a id="more"></a>
 </li>
 <li><p>LRU底层怎么实现的<br>&nbsp;&nbsp;&nbsp;&nbsp;使用方式有数组方法，每个数字带有一个标记，每次添加新数字的时候，将其余所有不同的数字标记自增。并把该数字的标记置为0.当删除的时候，删除最大的那个。其次还可以使用链表，每次插入的时候，在链表尾部插入，访问的时候，将该节点移动到链表头部，删除的时候则删除链表尾部。还要在操作系统中，使用的是一种特殊的栈实现的。当然最好的方法是使用LinkedHashMap,需要设置访问顺序是True,同时重写其中的removeeldest方法，并且在方法上添加synchorized的同步。</p>
 </li>
@@ -240,6 +241,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/09/11/interview-qiuzhao-xiaohongshu-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          interview-qiuzhao-xiaohongshu-1
+        
+      </div>
+    </a>
   
   
     <a href="/2019/09/10/interview-qiuzhao-yuanfudao-1/" id="article-nav-older" class="article-nav-link-wrap">
@@ -409,15 +419,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">function</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -425,11 +427,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -437,7 +435,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
