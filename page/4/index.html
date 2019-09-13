@@ -152,6 +152,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-concurrency-publish" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/03/concurrency-publish/">共享组合</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/03/concurrency-publish/" class="archive-article-date">
+  	<time datetime="2019-05-03T07:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安全发布"><a href="#安全发布" class="headerlink" title="安全发布"></a>安全发布</h2><ul>
+<li>对象逃逸<br>&nbsp;&nbsp;&nbsp;&nbsp;如果在构造函数没有完成之前，将this对象发布出去，并且被外部调用了this的方法，此为this逃逸。比如在构造函数中使用线程允许本类方法等，解决方式可以在构造函数中声明，具体调用在构造函数完成之后。</li>
+<li>线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;这是实现线程安全最简单的方式之一。比如Swing中将可视化组件、数据模型都封闭到事件分发线程中来实现线程安全性，使得在事件线程之外的其他线程无法访问这些对象。还要JDBC的Connectiin对象，在实现上由单个线程采用同步方式来处理，在Connection对象用完返回之前，连接此不会再将它分给其他线程。这样特殊管理模式实现线程封闭。<ul>
+<li>Ad-hoc线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;维护线程封闭性的职责完全由程序实现来承担，其是很脆弱的实现方式。一般可以由Volatile变量实现，只有单个线程对共享的volatile变量作修改才行。</li>
+<li>栈封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;使用局部变量才能访问对象，因此会封闭再执行线程中。但是要确保共享对象不会逃逸出去。</li>
+<li>ThreadLocal<br>&nbsp;&nbsp;&nbsp;&nbsp;为每个使用该变量的线程都存有一份独立的副本。比如将JDBC的Connection对象保存到ThreadLocal中。在频繁执行操作需要缓冲区的时候，同时避免每次执行时都重新分配该临时对象，而ThreadLocal在开始阶段已经全部分配好了。EJB框架中将事务上下文和某线程关联，需要使用ThreadLocal对象。但是滥用ThreadLocal会降低代码的可重用性质，并且增加了该机制代码和框架之间隐含的耦合性。</li>
+</ul>
+</li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/05/03/concurrency-publish/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/03/concurrency-publish/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-concurrency-lock" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -490,92 +578,6 @@ img {
 
 
   
-    <article id="post-concurrency-task" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/concurrency-task/">线程池</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/28/concurrency-task/" class="archive-article-date">
-  	<time datetime="2019-04-28T05:14:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-img {
-    width: 650px;
-}
-</style>
-
-<h2 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;任务是一些抽象的且离散的工作单元。这是大多数并发应用程序的围绕的方向。第一步是找出清晰的任务边界，理想情况下任务不依赖于其他任务的状态、结果或者边界效应。大多数服务器应用程序提供一种自然的任务边界选择方式:以独立的客户请求为边界，比如Web服务器、邮件服务器、文件服务器、EJB服务器以及数据库服务器。这样既可以实现任务的独立性也可以实现合理的任务规模。<br>&nbsp;&nbsp;&nbsp;&nbsp;实现任务的策略大致有两种。一是串行执行任务，另一个是显示为任务创建线程。后者的优势在于任务过程和主线程分离开来，任务可以并行处理，任务代码必须是线程安全的。但是后者的劣势是线程声明周期的开销非常高，因为线程的创建和销毁的性能销毁，尤其是大多数轻量级的处理过程；资源消耗，线程太多超出处理器数量的，会被闲置在内存中，不好回收同时也占用大量内存；创建的线程数量受限制于操作系统；不能实现高可用性，会受到恶意共计以及高负载情况下的性能问题。<br>
-        
-          <a class="article-more-a" href="/2019/04/28/concurrency-task/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/concurrency-task/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -721,15 +723,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -741,7 +735,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">

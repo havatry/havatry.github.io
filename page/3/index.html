@@ -152,6 +152,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-interview-qiuzhao-meituan-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/04/interview-qiuzhao-meituan-1/">美团秋招一面</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/04/interview-qiuzhao-meituan-1/" class="archive-article-date">
+  	<time datetime="2019-09-04T14:29:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+    img {
+      width: 650px;
+    }
+</style>
+
+<h2 id="一、基础题"><a href="#一、基础题" class="headerlink" title="一、基础题"></a>一、基础题</h2><ul>
+<li><p>Redis的常见数据类型<br>&nbsp;&nbsp;&nbsp;&nbsp;参考<a href="https://havatry.github.io/2019/03/25/redis-datatype/" target="_blank" rel="noopener">Redis数据类型</a></p>
+</li>
+<li><p>Netty常用的IO模型</p>
+<ul>
+<li>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。<br><img src="/images/interview/BIO.gif" alt="阻塞IO"><br></li>
+<li>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。<br><img src="/images/interview/NIO.gif" alt="非阻塞IO"><br><br></li>
+<li>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。<br><img src="/images/interview/IO多路复用.gif" alt="IO多路复用"><br><br></li>
+<li>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="/images/interview/信号驱动IO.gif" alt="信号驱动IO"><br><br></li>
+<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="/images/interview/AIO.gif" alt="异步IO"></p>
+        
+          <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/#more">more >></a>
+        
+      
+
+      
+    </li></ul></li></ul></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-interview-qiuzhao-tencent-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -488,94 +583,6 @@ img{
 
 
   
-    <article id="post-concurrency-publish" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/03/concurrency-publish/">共享组合</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/03/concurrency-publish/" class="archive-article-date">
-  	<time datetime="2019-05-03T07:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="安全发布"><a href="#安全发布" class="headerlink" title="安全发布"></a>安全发布</h2><ul>
-<li>对象逃逸<br>&nbsp;&nbsp;&nbsp;&nbsp;如果在构造函数没有完成之前，将this对象发布出去，并且被外部调用了this的方法，此为this逃逸。比如在构造函数中使用线程允许本类方法等，解决方式可以在构造函数中声明，具体调用在构造函数完成之后。</li>
-<li>线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;这是实现线程安全最简单的方式之一。比如Swing中将可视化组件、数据模型都封闭到事件分发线程中来实现线程安全性，使得在事件线程之外的其他线程无法访问这些对象。还要JDBC的Connectiin对象，在实现上由单个线程采用同步方式来处理，在Connection对象用完返回之前，连接此不会再将它分给其他线程。这样特殊管理模式实现线程封闭。<ul>
-<li>Ad-hoc线程封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;维护线程封闭性的职责完全由程序实现来承担，其是很脆弱的实现方式。一般可以由Volatile变量实现，只有单个线程对共享的volatile变量作修改才行。</li>
-<li>栈封闭<br>&nbsp;&nbsp;&nbsp;&nbsp;使用局部变量才能访问对象，因此会封闭再执行线程中。但是要确保共享对象不会逃逸出去。</li>
-<li>ThreadLocal<br>&nbsp;&nbsp;&nbsp;&nbsp;为每个使用该变量的线程都存有一份独立的副本。比如将JDBC的Connection对象保存到ThreadLocal中。在频繁执行操作需要缓冲区的时候，同时避免每次执行时都重新分配该临时对象，而ThreadLocal在开始阶段已经全部分配好了。EJB框架中将事务上下文和某线程关联，需要使用ThreadLocal对象。但是滥用ThreadLocal会降低代码的可重用性质，并且增加了该机制代码和框架之间隐含的耦合性。</li>
-</ul>
-</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/05/03/concurrency-publish/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/03/concurrency-publish/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -721,15 +728,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -741,7 +740,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">

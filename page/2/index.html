@@ -152,6 +152,87 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-interview-qiuzhao-ali-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/10/interview-qiuzhao-ali-1/">阿里秋招一面</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/10/interview-qiuzhao-ali-1/" class="archive-article-date">
+  	<time datetime="2019-09-10T12:43:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://havatry.github.io/2019/04/21/jvm-collectors/" target="_blank" rel="noopener">参考本博客的垃圾收集章节</a></p>
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;介绍, 在单机应用中，如果对一个共享变量进行多线程同步访问，则使用JUC包就行，因为共享变量只是这个JVM内部的一块内存空间。但是在分布式中，变量可能存在多个JVM内存中，如果请求对不同的JVM数据进行操作，显然不存在互斥也不具有可见性。为了保证一个方法或属性在高并发情况下的同一时间只能被一个线程执行，就需要分布式锁。<br>&nbsp;&nbsp;&nbsp;&nbsp;条件, 1.一个方法在同一时刻只能被一个机器的一个线程执行 2.高可用的获取锁和释放锁 3.高性能的获取锁和释放锁 4.具备可重入特性 5.局部锁失效机制，防止死锁  6.具备非阻塞锁特性。有对应三种实现。分布式锁和分布式事务都是为了高可用性，也就是AP</p>
+        
+          <a class="article-more-a" href="/2019/09/10/interview-qiuzhao-ali-1/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/10/interview-qiuzhao-ali-1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-interview-qiuzhao-tencent-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -507,101 +588,6 @@
 
 
   
-    <article id="post-interview-qiuzhao-meituan-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/04/interview-qiuzhao-meituan-1/">美团秋招一面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/04/interview-qiuzhao-meituan-1/" class="archive-article-date">
-  	<time datetime="2019-09-04T14:29:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <style>
-    img {
-      width: 650px;
-    }
-</style>
-
-<h2 id="一、基础题"><a href="#一、基础题" class="headerlink" title="一、基础题"></a>一、基础题</h2><ul>
-<li><p>Redis的常见数据类型<br>&nbsp;&nbsp;&nbsp;&nbsp;参考<a href="https://havatry.github.io/2019/03/25/redis-datatype/" target="_blank" rel="noopener">Redis数据类型</a></p>
-</li>
-<li><p>Netty常用的IO模型</p>
-<ul>
-<li>阻塞IO: 当一个线程去读取某个缓冲区时，如果缓冲区没有数据，那么这个线程会一直等待下去。<br><img src="/images/interview/BIO.gif" alt="阻塞IO"><br></li>
-<li>非阻塞IO: 用户线程不断发起IO请求，数据没有到达时系统返回一个状态值，当数据到达时候会去读取数据。每次请求IO都会立即返回，为此需要不断轮询，会消耗很多CPU。<br><img src="/images/interview/NIO.gif" alt="非阻塞IO"><br><br></li>
-<li>IO多路复用: 建立在内核提供的阻塞函数select上，用户先将需要进行IO操作的socket添加到select中，然后等待阻塞函数select返回。当时数据到了的时候,socket被触发，select返回,用户线程能接着发起read请求。但是其会向select注册多个socket, 读取被激活的sockets。<br><img src="/images/interview/IO多路复用.gif" alt="IO多路复用"><br><br></li>
-<li>信号驱动IO: 线程执行一次系统调用，直接返回。当数据准备好之后，线程会收到一个SIGIO信息，然后去读取数据。<br><img src="/images/interview/信号驱动IO.gif" alt="信号驱动IO"><br><br></li>
-<li><p>异步IO: 需要操作系统的支持，当用户线程收到通知时候，数据已经被操作系统从内核拷贝到用户指定的缓冲区中，用户线程直接使用即可。JDK1.7支持了AIO，netty中并没有采用，因为IO多路复用基本够用。而且AIO并没有IO多路复用好用。<br><img src="/images/interview/AIO.gif" alt="异步IO"></p>
-        
-          <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/#more">more >></a>
-        
-      
-
-      
-    </li></ul></li></ul></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/04/interview-qiuzhao-meituan-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -747,15 +733,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -767,7 +745,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
