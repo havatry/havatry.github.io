@@ -152,6 +152,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jdk-threadlocal" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/13/jdk-threadlocal/">ThreadLocal源码分析</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/13/jdk-threadlocal/" class="archive-article-date">
+  	<time datetime="2019-09-13T02:24:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+    img {
+        width: 650px;
+    }
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>多个线程需要共享同一个非线程安全对象，往往需要借助锁来保障线程安全。事实上，还有一种方式，每个线程都创建一个该对象的实例，各个线程仅访问各自创建的实例，且一个线程不能访问其他线程创建的实例。这样的实例，称为TSO(Thread Specific Object)线程特有对象，相应的线程为持有线程。这样的好处有1. 保证了对非线程安全对象访问的线程安全 2.避免了锁开销 3. 实例可以被该线程多个方法（包括不同类中的方法）共享，有利于减少对象创建次数 4.线程特有对象是有状态的，不会被多个线程共享，因此该线程特有对象是固有线程安全性。ThreadLocal相当于代理，线程通过ThreadLocal来创建并访问各自线程的线程特有对象。<strong>ThreadLocal通过当前线程id获取其对应的ThreadLocalMap属性，该map使用开放定址法将所有ThreadLocal对象填到ThreadLocalMap中</strong><br>本文主要目录如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal1">字段数值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal2">设置默认值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal3">get方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal4">set方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal5">remove方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal6">存在的问题</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal7">应用场景</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal8">InheritableThreadLocal相关</a></p>
+</blockquote>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="ThreadLocal1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;ThreadLocalHashCode每次实例化的时候都在递增，这是为每个ThreadLocal对象在hashmap中定位到一个位置。这个定位用到了HASH_INCREMENT, 该值是黄金比例*2^32 转化为int后取绝对值。该数能够实现完美散列。<br><img src="/images/源码分析/jdk/ThreadLocal_field.png" alt="字段数值"><br><br><br>
+        
+          <a class="article-more-a" href="/2019/09/13/jdk-threadlocal/#more">more >></a>
+        
+      
+
+      
+    </p></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/13/jdk-threadlocal/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-interview-qiuzhao-xiaohongshu-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -464,84 +553,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/09/10/interview-qiuzhao-ali-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-interview-qiuzhao-tencent-5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/10/interview-qiuzhao-tencent-5/">腾讯秋招五面</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/10/interview-qiuzhao-tencent-5/" class="archive-article-date">
-  	<time datetime="2019-09-10T12:39:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/whitenigt/article/details/100546994" target="_blank" rel="noopener">参考CSND博客面试题总结</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qiuzhao</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/10/interview-qiuzhao-tencent-5/">展开全文 >></a>
         </p>
       
 

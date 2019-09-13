@@ -152,6 +152,85 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java-network" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/31/java-network/">网络</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/31/java-network/" class="archive-article-date">
+  	<time datetime="2019-03-31T12:53:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><ul>
+<li>网络ip地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.获取主机的一个ip(二进制)</span><br><span class="line">InetAddress address=InetAddress.getByName(&quot;host&quot;)</span><br><span class="line">byte[] addressBytes=address.getAddress()</span><br><span class="line"></span><br><span class="line">2.获取本地主机ip</span><br><span class="line">InetAddress address=InetAddress.getLocalHost() //获取本机ip类似ipconfig</span><br><span class="line"></span><br><span class="line">3.获取主机所有地址</span><br><span class="line">InetAddress[] addresses=InetAddress.getAllByName(&quot;host&quot;)</span><br><span class="line"></span><br><span class="line">4.获取主机名</span><br><span class="line">String host=address.getHostName()</span><br><span class="line"></span><br><span class="line">5.获取十进制ip</span><br><span class="line">String ip=address.getHostAddress()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/03/31/java-network/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/31/java-network/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-spring-source-createBean" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

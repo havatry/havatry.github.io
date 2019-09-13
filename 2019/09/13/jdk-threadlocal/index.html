@@ -6,15 +6,43 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Havatry</title>
+  <title>ThreadLocal源码分析 | Havatry</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Havatry">
-<meta property="og:url" content="http://yoursite.com/archives/page/3/index.html">
+  <meta name="description" content="img {         width: 650px;     }   概述 多个线程需要共享同一个非线程安全对象，往往需要借助锁来保障线程安全。事实上，还有一种方式，每个线程都创建一个该对象的实例，各个线程仅访问各自创建的实例，且一个线程不能访问其他线程创建的实例。这样的实例，称为TSO(Thread Specific Object)线程特有对象，相应的线程为持有线程。这样的好处有1.">
+<meta name="keywords" content="jdk,source">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThreadLocal源码分析">
+<meta property="og:url" content="http://yoursite.com/2019/09/13/jdk-threadlocal/index.html">
 <meta property="og:site_name" content="Havatry">
+<meta property="og:description" content="img {         width: 650px;     }   概述 多个线程需要共享同一个非线程安全对象，往往需要借助锁来保障线程安全。事实上，还有一种方式，每个线程都创建一个该对象的实例，各个线程仅访问各自创建的实例，且一个线程不能访问其他线程创建的实例。这样的实例，称为TSO(Thread Specific Object)线程特有对象，相应的线程为持有线程。这样的好处有1.">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_field.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_initialValue.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_get.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_getMap.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_setInitialValue.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_createMap.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_set.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_set_inner.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_replaceStaleEntry.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_replaceStaleEntry2.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_cleanSomeSlots.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_rehash.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_resize.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_remove.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_remove_inner.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_clear.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_expungeStaleEntry.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/Thread_init_part.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_createInheritedMap.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_ThreadLocalMap_constructor.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_childValue.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/InheritableThreadLocal_childValue.png">
+<meta property="og:updated_time" content="2019-09-13T05:40:52.073Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Havatry">
+<meta name="twitter:title" content="ThreadLocal源码分析">
+<meta name="twitter:description" content="img {         width: 650px;     }   概述 多个线程需要共享同一个非线程安全对象，往往需要借助锁来保障线程安全。事实上，还有一种方式，每个线程都创建一个该对象的实例，各个线程仅访问各自创建的实例，且一个线程不能访问其他线程创建的实例。这样的实例，称为TSO(Thread Specific Object)线程特有对象，相应的线程为持有线程。这样的好处有1.">
+<meta name="twitter:image" content="http://yoursite.com/images/源码分析/jdk/ThreadLocal_field.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -150,409 +178,124 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-jdk-threadlocal" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ThreadLocal源码分析
+    </h1>
+  
+
+        
+        <a href="/2019/09/13/jdk-threadlocal/" class="archive-article-date">
+  	<time datetime="2019-09-13T02:24:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-13</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <style>
+    img {
+        width: 650px;
+    }
+</style>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>多个线程需要共享同一个非线程安全对象，往往需要借助锁来保障线程安全。事实上，还有一种方式，每个线程都创建一个该对象的实例，各个线程仅访问各自创建的实例，且一个线程不能访问其他线程创建的实例。这样的实例，称为TSO(Thread Specific Object)线程特有对象，相应的线程为持有线程。这样的好处有1. 保证了对非线程安全对象访问的线程安全 2.避免了锁开销 3. 实例可以被该线程多个方法（包括不同类中的方法）共享，有利于减少对象创建次数 4.线程特有对象是有状态的，不会被多个线程共享，因此该线程特有对象是固有线程安全性。ThreadLocal相当于代理，线程通过ThreadLocal来创建并访问各自线程的线程特有对象。<strong>ThreadLocal通过当前线程id获取其对应的ThreadLocalMap属性，该map使用开放定址法将所有ThreadLocal对象填到ThreadLocalMap中</strong><br>本文主要目录如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal1">字段数值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal2">设置默认值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal3">get方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal4">set方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal5">remove方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal6">存在的问题</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal7">应用场景</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ThreadLocal8">InheritableThreadLocal相关</a></p>
+</blockquote>
+<h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="ThreadLocal1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;ThreadLocalHashCode每次实例化的时候都在递增，这是为每个ThreadLocal对象在hashmap中定位到一个位置。这个定位用到了HASH_INCREMENT, 该值是黄金比例*2^32 转化为int后取绝对值。该数能够实现完美散列。<br><img src="/images/源码分析/jdk/ThreadLocal_field.png" alt="字段数值"><br><br><br><a id="more"></a></p>
+<h2 id="设置默认值"><a href="#设置默认值" class="headerlink" title="设置默认值"></a><a name="ThreadLocal2">设置默认值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;默认initialValue是返回null, 一般构造ThreadLocal对象的时候，重写该方法。这是为其设置一个初始值。在get方法时候会触发。除此之外，在jdk1.8中可以使用lambda表达式创建ThreadLocal<t> t = ThreadLocal.withInitial(() -&gt; new Date())。<br><img src="/images/源码分析/jdk/ThreadLocal_initialValue.png" alt="设置默认值"><br><br></t></p>
+<h2 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a><a name="ThreadLocal3">get方法</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;首先依据当前线程获取当前线程的属性ThreadLocalMaps，如果该map不为空，则在map中找到该ThreadLocal对应的值。否则map为空或者对应的ThreadLocal对象不在map中，则调用setInitialValue方法，该方法使用initialValue来取得初始值，参考前一节。如果map不为空直接添加新的ThreadLocal对象，否则进行当前线程ThreadLocalMaps属性的创建添加元素。<br><img src="/images/源码分析/jdk/ThreadLocal_get.png" alt="get方法"><br><img src="/images/源码分析/jdk/ThreadLocal_getMap.png" alt="get方法"><br><img src="/images/源码分析/jdk/ThreadLocal_setInitialValue.png" alt="get方法"><br><img src="/images/源码分析/jdk/ThreadLocal_createMap.png" alt="get方法"><br><br></p>
+<h2 id="set方法"><a href="#set方法" class="headerlink" title="set方法"></a><a name="ThreadLocal4">set方法</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;和上一节中设置类似。首先判断当前线程的map属性，是否已经创建了，如果已经创建则直接添加。否则初始化创建。添加的逻辑委托给ThreadLocalMap中的set方法，该方法在对应线程的map中从前往后查找，如果当前槽不是空，并且有一个key和当前要加入的一样，则覆盖返回。否则发现key是空，说明这是个无效Entry,进行replaceStaleEntry处理。在replaceStaleEntry中会向前找到最左边（环形）无效Entry的下标i,然后再向后找到（环形）无效Entry的下标j, 将当前Entry设置进去，如果没找到对应key则创建，会将一些无效Entry进行清除。再清理之后，如果大小超过总量的0.75,则进行扩容。这里0.75，避免滞后。扩容的时候，进行两倍扩容，将元素重新散列。<br><img src="/images/源码分析/jdk/ThreadLocal_set.png" alt="set方法"><br><img src="/images/源码分析/jdk/ThreadLocal_set_inner.png" alt="set方法"><br><img src="/images/源码分析/jdk/ThreadLocal_replaceStaleEntry.png" alt="set方法"><br><img src="/images/源码分析/jdk/ThreadLocal_replaceStaleEntry2.png" alt="set方法"><br><img src="/images/源码分析/jdk/ThreadLocal_cleanSomeSlots.png" alt="set方法"><br><img src="/images/源码分析/jdk/ThreadLocal_rehash.png" alt="set方法"><br><img src="/images/源码分析/jdk/ThreadLocal_resize.png" alt="set方法"><br><br></p>
+<h2 id="remove方法"><a href="#remove方法" class="headerlink" title="remove方法"></a><a name="ThreadLocal5">remove方法</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;当调用ThreadLocal的remove方法，会触发ThreadLocalMap的remove方法。该方法首先找到该key, 将entry清除掉,因为清除后会影响到其他key的hash值，因此需要重新hash后面的key，直到遇到null。<br><img src="/images/源码分析/jdk/ThreadLocal_remove.png" alt="remove方法"><br><img src="/images/源码分析/jdk/ThreadLocal_remove_inner.png" alt="remove方法"><br><img src="/images/源码分析/jdk/ThreadLocal_clear.png" alt="remove方法"><br><img src="/images/源码分析/jdk/ThreadLocal_expungeStaleEntry.png" alt="remove方法"><br><br></p>
+<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a><a name="ThreadLocal6">存在的问题</a></h2><ul>
+<li><p>数据错乱和退化<br>&nbsp;&nbsp;&nbsp;&nbsp;因为线程和任务是一对多的关系，因此线程特有对象相当于一个线程所指向的多个任务之间共享对象。那么这个线程所执行下一个任务可能看到来自前一个任务的数据，而这个数据可能与该任务不匹配，比如在生产者消费者的模式下。解决方法是每次执行完成任务后，调用set方法进行重置。这样会出现线程特有对象退化成了任务特有对象。</p>
+</li>
+<li><p>内存泄漏或者伪内存泄漏<br>&nbsp;&nbsp;&nbsp;&nbsp;内存泄漏是由于对象永远无法被垃圾回收导致其Java虚拟机内存无法被释放。会导致Java虚拟机可用内存减少，并最终导致OOM，直到虚拟机宕机。 伪内存泄漏是对象所占内存在其不再被使用后的相当长时间仍然无法被回收，甚至可能永远无法被回收。<br>Thread -&gt; (threadLocals) -&gt; ThreadLocalMap -&gt; (entries) -&gt; Entry (–&gt;(Key) –&gt; ThreadLocal) (-&gt; (Value) -&gt; TSO)<br>由于Entry对ThreadLocal的引用是弱引用，当其不可达的时候，会被垃圾回收掉，这样Entry就是一个无效Entry。当Entry对TSO有个强引用，这样无论如何Entry都不会被清理掉。在ThreadLocal中，当添加新的条目或者清理条目的时候，会主动将无效Entry的TSO置为null，并重新hash后面的Entry。这样会打破了无效条目对线程特有对象的强引用。但是这个处理有个缺点，就是线程长时间处于非运行状态，那么无效Entry不会及时处理，这样无效Entry所引用的TSO都无法被垃圾回收，导致了伪内存泄漏。一般在Web应用中出现的较多。</p>
+</li>
+</ul>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><a name="ThreadLocal7">应用场景</a></h2><ul>
+<li>需要使用非线程安全对象，但是又不希望引入锁</li>
+<li>使用线程安全对象，但是希望避免使用锁的开销和相关问题（比如锁的开销或者死锁问题）</li>
+<li>隐式传递参数，因为线程特有对象对本类或者其他类的所有方法都是可见的</li>
+<li>用于单例模式，对于某个类希望有且仅有该类的一个实例</li>
+</ul>
+<h2 id="InheritableThreadLocal相关"><a href="#InheritableThreadLocal相关" class="headerlink" title="InheritableThreadLocal相关"></a><a name="ThreadLocal8">InheritableThreadLocal相关</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;如果使用一些可以被子类继承的threadlocal变量，则可以使用InheritableThreadLocal,该类继承了ThreadLocal。其在Thread初始化init的时候，将父类的threadlocal属性加入到子类的map中。当然默认式直接使用父类map的值，可以重写childValue函数来进行自定义初始化。<br><img src="/images/源码分析/jdk/Thread_init_part.png" alt="InheritableThreadLocal相关"><br><img src="/images/源码分析/jdk/ThreadLocal_createInheritedMap.png" alt="InheritableThreadLocal相关"><br><img src="/images/源码分析/jdk/ThreadLocal_ThreadLocalMap_constructor.png" alt="InheritableThreadLocal相关"><br><img src="/images/源码分析/jdk/ThreadLocal_childValue.png" alt="InheritableThreadLocal相关"><br><img src="/images/源码分析/jdk/InheritableThreadLocal_childValue.png" alt="InheritableThreadLocal相关"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/27/mysql-query/" class="archive-article-date">
-  	<time datetime="2019-04-27T05:38:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/27/mysql-query/">mysql查询</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/24/jvm-classload/" class="archive-article-date">
-  	<time datetime="2019-04-24T14:32:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/24/jvm-classload/">jvm类加载</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/24/jvm-compile/" class="archive-article-date">
-  	<time datetime="2019-04-24T13:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/24/jvm-compile/">jvm编译器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/24/interview-jingdong/" class="archive-article-date">
-  	<time datetime="2019-04-24T12:04:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/24/interview-jingdong/">京东一面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/24/interview-baidu/" class="archive-article-date">
-  	<time datetime="2019-04-24T08:28:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/24/interview-baidu/">百度面试</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/24/interview-tencent/" class="archive-article-date">
-  	<time datetime="2019-04-24T05:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/24/interview-tencent/">腾讯一面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">interview</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/22/jvm-thread/" class="archive-article-date">
-  	<time datetime="2019-04-22T08:51:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/22/jvm-thread/">jvm锁</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/22/jvm-memory/" class="archive-article-date">
-  	<time datetime="2019-04-22T07:18:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/22/jvm-memory/">jvm内存模型</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/22/spring-transaction/" class="archive-article-date">
-  	<time datetime="2019-04-22T02:31:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/22/spring-transaction/">Spring事务</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jdk</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/21/jvm-collectors/" class="archive-article-date">
-  	<time datetime="2019-04-21T10:46:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/11/interview-qiuzhao-xiaohongshu-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">小红书秋招一面</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/21/jvm-collectors/">GC收集器</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
+  
+
   
 
 
@@ -576,8 +319,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
