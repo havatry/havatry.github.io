@@ -179,7 +179,7 @@
 </style>
 
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>ConcurrentHashMap是Map接口的一个线程安全实现类，相当于HashMap的线程安全版本。其内部使用了粒度极小的锁来保证线程安全。具体实现是内部会创建N（默认是16）个锁实例。当线程执行put的时候，将提供的key进行运算，返回介于0-(N-1)的一个数，确定要使用锁实例。这样一个锁保护了部分桶，减少了竞争。但是这样会使对整个对象进行加锁变得困难，甚至不可能。由于Java本身并不支持申请多个数量可变的锁，只能通过递归算法才能实现。可以通过调整concurrencyLevel来调整并发数。同时ConcurrentHashMap中关于统计数值是准实时的。<br>本文主要目录如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap1">字段数值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap2">构造函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap3">get方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">put方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">扩容方法</a></p>
+<p>ConcurrentHashMap是Map接口的一个线程安全实现类，相当于HashMap的线程安全版本。其内部使用了粒度极小的锁来保证线程安全。是volatile和CAS进行并发控制，理论上使得锁缩小到行级别，比分段锁还要小。但是这样会使对整个对象进行加锁变得困难，甚至不可能。由于Java本身并不支持申请多个数量可变的锁，只能通过递归算法才能实现。可以通过调整concurrencyLevel来调整并发数。同时ConcurrentHashMap中关于统计数值是准实时的。<br>本文主要目录如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap1">字段数值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap2">构造函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap3">get方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">put方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">扩容方法</a><a href="https://www.cnblogs.com/huangjuncong/p/9196240.html" target="_blank" rel="noopener">https://www.cnblogs.com/huangjuncong/p/9196240.html</a></p>
 </blockquote>
         
           <a class="article-more-a" href="/2019/09/13/jdk-concurrenthashmap/#more">more >></a>
@@ -714,6 +714,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">math</a>
               </li>
              
@@ -730,11 +734,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -746,15 +750,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
