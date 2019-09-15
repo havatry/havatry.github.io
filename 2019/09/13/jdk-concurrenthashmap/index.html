@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ConcurrentHashMap_transfer1.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ConcurrentHashMap_transfer2.png">
 <meta property="og:image" content="http://yoursite.com/images/源码分析/jdk/ConcurrentHashMap_transfer3.png">
-<meta property="og:updated_time" content="2019-09-13T11:06:45.741Z">
+<meta property="og:updated_time" content="2019-09-14T15:41:49.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Concurrenthashmap源码分析">
 <meta name="twitter:description" content="img {         width: 650px;     }   概述 ConcurrentHashMap是Map接口的一个线程安全实现类，相当于HashMap的线程安全版本。其内部使用了粒度极小的锁来保证线程安全。是volatile和CAS进行并发控制，理论上使得锁缩小到行级别，比分段锁还要小。但是这样会使对整个对象进行加锁变得困难，甚至不可能。由于Java本身并不支持申请多个数">
@@ -205,7 +205,7 @@
 </style>
 
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
-<p>ConcurrentHashMap是Map接口的一个线程安全实现类，相当于HashMap的线程安全版本。其内部使用了粒度极小的锁来保证线程安全。是volatile和CAS进行并发控制，理论上使得锁缩小到行级别，比分段锁还要小。但是这样会使对整个对象进行加锁变得困难，甚至不可能。由于Java本身并不支持申请多个数量可变的锁，只能通过递归算法才能实现。可以通过调整concurrencyLevel来调整并发数。同时ConcurrentHashMap中关于统计数值是准实时的。<br>本文主要目录如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap1">字段数值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap2">构造函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap3">get方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">put方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">扩容方法</a><a href="https://www.cnblogs.com/huangjuncong/p/9196240.html" target="_blank" rel="noopener">https://www.cnblogs.com/huangjuncong/p/9196240.html</a></p>
+<p>ConcurrentHashMap是Map接口的一个线程安全实现类，相当于HashMap的线程安全版本。其内部使用了粒度极小的锁来保证线程安全。是volatile和CAS进行并发控制，理论上使得锁缩小到行级别，比分段锁还要小。但是这样会使对整个对象进行加锁变得困难，甚至不可能。由于Java本身并不支持申请多个数量可变的锁，只能通过递归算法才能实现。可以通过调整concurrencyLevel来调整并发数。同时ConcurrentHashMap中关于统计数值是准实时的。<br>本文主要目录如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap1">字段数值</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap2">构造函数</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap3">get方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">put方法</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ConcurrentHashMap4">扩容方法</a></p>
 </blockquote>
 <a id="more"></a>
 <h2 id="字段数值"><a href="#字段数值" class="headerlink" title="字段数值"></a><a name="ConcurrentHashMap1">字段数值</a></h2><p>&nbsp;&nbsp;&nbsp;&nbsp;一些节点的标识, MOVED标识节点正在转移，TREEBIN标识已经转化成树了,nextTable表示转移时候用的数组, sizeCtl是控制表初始化和扩容的，默认是0.可在初始化时候指定大小，大小为数组长度*0.75，当为负数的时候，说明正在初始化或者扩张。值为-1表示在初始化， -(1 + n) 表示扩展线程数为n。<br><img src="/images/源码分析/jdk/ConcurrentHashMap_field1.png" alt="字段数值"><br><img src="/images/源码分析/jdk/ConcurrentHashMap_field2.png" alt="字段数值"><br><img src="/images/源码分析/jdk/ConcurrentHashMap_field3.png" alt="字段数值"><br><img src="/images/源码分析/jdk/ConcurrentHashMap_field4.png" alt="字段数值"><br><img src="/images/源码分析/jdk/ConcurrentHashMap_field5.png" alt="字段数值"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;一些常用的类，Node类和TreeNode类是主要的数据结构。还有TreeBin,该类不用保存key和value作为树的根节点, ForwardingNode在转移的时候，放在头部的一个空节点。<br><img src="/images/源码分析/jdk/ConcurrentHashMap_Node_constructor.png" alt="字段数值"><br><img src="/images/源码分析/jdk/ConcurrentHashMap_TreeNode_constructor.png" alt="字段数值"><br><img src="/images/源码分析/jdk/ConcurrentHashMap_TreeBin_constructor.png" alt="字段数值"><br><img src="/images/源码分析/jdk/ConcurrentHashMap_ForwardingNode_constructor.png" alt="字段数值"><br><br></p>
@@ -405,10 +405,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">math</a>
               </li>
              
@@ -425,11 +421,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -438,10 +442,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">

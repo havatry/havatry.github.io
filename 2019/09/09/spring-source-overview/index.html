@@ -16,10 +16,13 @@
 <meta property="og:site_name" content="Havatry">
 <meta property="og:description" content="IOC 将name转化为beanName 如果beanName在缓存中 找出单例bean 依据bean获取实例   如果beanName不在缓存中 验证准备覆盖方法 实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean) 如果上一步没有">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-10T14:09:15.542Z">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/springmvc_process.png">
+<meta property="og:image" content="http://yoursite.com/images/源码分析/spring/MyBatis.png">
+<meta property="og:updated_time" content="2019-09-14T15:45:07.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring综述">
 <meta name="twitter:description" content="IOC 将name转化为beanName 如果beanName在缓存中 找出单例bean 依据bean获取实例   如果beanName不在缓存中 验证准备覆盖方法 实例处理,遍历前置和后置处理器调用postProcessBeforeInstantiation和postProcessAfterInitialization方法。如果在此已有创建的实例，则返回(一般是代理生成bean) 如果上一步没有">
+<meta name="twitter:image" content="http://yoursite.com/images/源码分析/spring/springmvc_process.png">
   
     <link rel="alternative" href="/atom.xml" title="Havatry" type="application/atom+xml">
   
@@ -242,6 +245,10 @@
 </li>
 </ul>
 <p><a href="https://havatry.github.io/2019/04/22/spring-transaction/" target="_blank" rel="noopener">详细参考Spring事务</a></p>
+<hr>
+<p>SpringMVC流程<br>&nbsp;当用户请求的时候，首先调用DispatchServlet的doDispatch方法。具体执行流程如下<br><img src="/images/源码分析/spring/springmvc_process.png" alt="SpringMVC流程"><br><br></p>
+<hr>
+<p>MyBatis流程<br>&nbsp;MyBatis的架构有接口层（SqlSession), 核心处理层(配置解析，参数映射，SQL解析，SQL执行，结果集映射，插件）,基础支持层(数据源模块，事务管理模块，缓存模块，Binding模板，反射模板，类型转化，日志模块，资源加载，解析器模块）<br>具体流程如下<br><img src="/images/源码分析/spring/MyBatis.png" alt="mybatis流程"><br><br><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 1.获取sqlSessioFactory对象</span></span><br><span class="line"><span class="comment">	 * 		解析文件的每一个信息保存在Configuration中，返回包含Configuration的DefaultSqlSessionFactory</span></span><br><span class="line"><span class="comment">	 * 		注意:MappedStatement,代表一个增删改查的详细信息</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * 2.获取sqlSession对象</span></span><br><span class="line"><span class="comment">	 * 		返回DefaultSqlSession对象，包含Executor和Configuration</span></span><br><span class="line"><span class="comment">	 * 		创建Executor对象（包装缓存和执行链）</span></span><br><span class="line"><span class="comment">	 * 3.获取接口的代理对象(MapperProxy)</span></span><br><span class="line"><span class="comment">	 * 		getMapper,使用MapperProxyFactory创建一个MapperProxy的代理对象</span></span><br><span class="line"><span class="comment">	 * 		代理对象里面包含了 DefaultSqlSession(Executor)</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * 4.执行增删改查方法</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * 总结:</span></span><br><span class="line"><span class="comment">	 * 	1.根据配置文件(全局，sql映射）初始化出Configuration对象</span></span><br><span class="line"><span class="comment">	 * 	2.创建一个DefaultSqlSession对象。</span></span><br><span class="line"><span class="comment">	 * 		它里面包含Configuration以及</span></span><br><span class="line"><span class="comment">	 * 		Executor(根据全局配置文件的defaultExecutorType创建出对象的Executor)</span></span><br><span class="line"><span class="comment">	 * 	3.DefaultSqlSession.getMapper(),拿到Mapper接口对应的MapperProxy</span></span><br><span class="line"><span class="comment">	 * 	4.MapperProxy里面有DefaultSqlSession</span></span><br><span class="line"><span class="comment">	 * 	5.执行增删改查方法</span></span><br><span class="line"><span class="comment">	 * 		调用DefaultSqlSession增删改查(Executor1)</span></span><br><span class="line"><span class="comment">	 * 		会创建一个Statement对象,同时也会创建ParameterHandler(设值参数)和ResultSetHandler(封装处理结果)</span></span><br><span class="line"><span class="comment">	 * 		调用StatementHandler2的预编译参数以及设置参数值</span></span><br><span class="line"><span class="comment">	 * 			使用ParameterHandler3给sql设置参数</span></span><br><span class="line"><span class="comment">	 * 		调用StatementHandler的增删改查方法</span></span><br><span class="line"><span class="comment">	 * 		使用ResultSetHandler4封装结果</span></span><br><span class="line"><span class="comment">	 * 注意:</span></span><br><span class="line"><span class="comment">	 * 		四大对象在创建的时候都有插件配置</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment">	 */</span></span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -443,10 +450,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">shell</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">math</a>
               </li>
              
@@ -463,11 +466,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -476,10 +487,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">overview</a>
               </li>
              
               <li class="article-tag-list-item">
